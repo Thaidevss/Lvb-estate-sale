@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&display=swap');
+
+
+/* :root {
+  font-family: "Noto Sans Lao Looped", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+} */
+
+:root {
+  --font-lao: "Noto Sans Lao Looped", sans-serif;
+  --font-english: "Times New Roman", serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+/* ใช้ font Lao เป็นค่าเริ่มต้น */
+body {
+  font-family: var(--font-lao);
+}
+
+/* กำหนด class สำหรับภาษาอังกฤษ */
+.font-english {
+  font-family: var(--font-english);
+}
+
+.font-lao {
+  font-family: var(--font-lao);
+}
+
+/* หรือใช้ attribute selector สำหรับภาษา */
+[lang="en"] {
+  font-family: var(--font-english);
+}
+
+[lang="lo"] {
+  font-family: var(--font-lao);
+}
