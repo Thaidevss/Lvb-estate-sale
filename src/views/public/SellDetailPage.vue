@@ -1,19 +1,19 @@
 <template>
-  <div class="container mx-auto p-4 min-h-screen bg-gray-50 ">
+  <div class="container mx-auto p-4 min-h-screen ">
     <div class="flex justify-between mb-8">
       <div
-        class="flex items-center border border-blue-900 w-20 rounded px-2 py-0.5 text-blue-900 text-sm hover:cursor-pointer"
+        class="flex items-center border border-blue-900 w-25 rounded px-2 py-1 text-blue-900 text-sm hover:cursor-pointer"
       >
-        <ArrowLeftCircleIcon class="w-5 h-5" />
-        <button class="text-sm">
-          <router-link to="/"> ກັບຄືນ </router-link>
+        <ArrowLeftCircleIcon class="w-5 h-5 me-1" />
+        <button class="text-sm cursor-pointer">
+          <router-link :to="{name: 'land_webint'}"> {{ $t('common.back') }} </router-link>
         </button>
       </div>
 
       <div>
         <h2 class="text-md font-bold text-blue-900 text-center flex items-center">
           <ChartBarSquareIcon class="h-8 w-8 me-1"/>
-          ລາຍລະອຽດຂອງຊັບສິນ
+          {{ $t('app.property_details') }}
         </h2>
       </div>
       <div></div>
@@ -26,7 +26,7 @@
       <div v-if="property" class="lg:col-span-2 space-y-4">
         <div class="bg-white rounded-lg shadow-md p-6">
          <div class="flex justify-center">
-           <h2 class="text-md text-center font-bold text-blue-900 mb-4 flex items-center"><NewspaperIcon class="h-7 w-7 me-1"/>ຂໍ້ມູນຊັບສິນ</h2>
+           <h2 class="text-md text-center font-bold text-blue-900 mb-4 flex items-center"><NewspaperIcon class="h-7 w-7 me-1"/>{{ $t('app.property_info') }}</h2>
          </div>
           <div class="mb-4">
             <p class="font-bold text-lg text-blue-800 flex items-center mb-1 font-english">
@@ -35,32 +35,32 @@
                 >{{ property.PRICE }} {{ property.CURRENCY }}</span
               >
             </p>
-            <p class="text-sm text-gray-600 ms-9">(ມູນຄ່າທັງໝົດ)</p>
+            <p class="text-sm text-gray-600 ms-9">({{ $t('property.total_value') }})</p>
           </div>
 
           <div class="border-t border-gray-200 pt-4 mt-4">
             <p class="text-sm text-gray-700 flex items-center mb-2">
               <CurrencyDollarIcon class="w-5 h-5 me-2 flex-shrink-0 " />
-              ລາຄາຕໍ່ຕາແມັດ:
+              {{ $t('property.price_per_sqm') }}:
               <span class="font-semibold ms-2 font-english"
-                >{{ property.PRICE_PER_SQM || "Null" }} / m²</span
+                >{{ pricePerSqm  || "Null" }} / m²</span
               >
             </p>
             <p class="text-sm text-gray-700 flex items-center mb-2">
               <Square3Stack3DIcon class="h-5 w-5 me-2 flex-shrink-0" />
-              ເນື້ອທີ່:
+              {{ $t('property.area') }}:
               <span class="font-semibold ms-2 font-english">{{ property.AREA }} <span>m²</span></span>
             </p>
             <p class="text-sm text-gray-700 flex items-center">
               <MapPinIcon class="h-5 w-5 me-2 flex-shrink-0" />
               <span class="truncate">
-                ບ້ານ {{ property.VILLAGE }}, ເມືອງ {{ property.DISTRICT }}, ແຂວງ
+                {{ $t('modal.village') }}: {{ property.VILLAGE }}, {{ $t('modal.district') }}: {{ property.DISTRICT }}, {{ $t('modal.province') }}:
                 {{ property.PROVINCE }}
               </span>
             </p>
           </div>
           <p class="text-xs text-gray-500 mt-4 text-end">
-            ອັບເດດຫຼ້າສຸດ: {{ formatDate(property?.UPDATED_AT) }}
+            {{ $t('common.latest_update') }}: {{ formatDate(property?.UPDATED_AT) }}
           </p>
         </div>
 
@@ -71,13 +71,13 @@
             <InformationCircleIcon
               class="h-7 w-7 me-1 text-blue-900 flex-shrink-0"
             />
-            ລາຍລະອຽດ
+            {{ $t('property.description') }}:
           </h3>
           <p class="text-sm text-gray-700 leading-relaxed">
             {{ property.DESCRIPTION || "ບໍ່ມີລາຍລະອຽດເພີ່ມເຕີມ." }}
           </p>
           <p class="text-xs text-gray-500 mt-4 text-end">
-            ອັບເດດຫຼ້າສຸດ: {{ formatDate(property?.UPDATED_AT) }}
+            {{ $t('common.latest_update') }}: {{ formatDate(property?.UPDATED_AT) }}
           </p>
         </div>
 
@@ -91,7 +91,7 @@
         <div
           class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-900"
         ></div>
-        <p class="ms-4 text-gray-600">ກຳລັງໂຫຼດຂໍ້ມູນ...</p>
+        <p class="ms-4 text-gray-600"> {{ $t('common.loading') }}...</p>
       </div>
     </div>
 
@@ -102,18 +102,18 @@
         <div class="bg-white rounded-lg shadow-md px-6 py-4 mb-5">
           <h3 class="text-sm font-semibold text-blue-900 mb-3 flex items-center">
             <ChatBubbleOvalLeftEllipsisIcon class="w-7 h-7 me-1"/>
-            ຕິດຕໍ່ພະນັກງານຮັບຜິດຊອບ
+            {{ $t('common.contact_officer') }}
           </h3>
           <div v-if="property && property.CONTACT" class="font-english">
-            <p class="flex text-sm my-3 ms-3"><PhoneIcon class="w-6 h-6 me-2 text-green-600 flex-shrink-0" /> {{ property.CONTACT.TEL }}</p>
-            <p class="flex text-sm ms-3"><EnvelopeIcon class="w-6 h-6 me-2 text-red-600 flex-shrink-0" /> {{ property.CONTACT.EMAIL }}</p>
+            <p class="flex text-md my-3 ms-3"><PhoneIcon class="w-6 h-6 me-2 text-blue-900 flex-shrink-0" /> {{ property.CONTACT.TEL }}</p>
+            <p class="flex text-md ms-3"><EnvelopeIcon class="w-6 h-6 me-2 text-blue-900 flex-shrink-0" /> {{ property.CONTACT.EMAIL }}</p>
           </div>
           <p class="text-xs text-gray-500 mt-4 text-end">
-            ອັບເດດຫຼ້າສຸດ: {{ formatDate(property?.UPDATED_AT) }}
+            {{ $t('common.latest_update') }}: {{ formatDate(property?.UPDATED_AT) }}
           </p>
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h3 class="text-blue-900 font-semibold text-sm mb-2 flex items-center"><FlagIcon class="w-8 h-8 me-1"/>ຄຳຄິດເຫັນ</h3>
+            <h3 class="text-blue-900 font-semibold text-sm mb-2 flex items-center"><FlagIcon class="w-8 h-8 me-1"/>{{ $t('common.comments') }}</h3>
             <textarea
               rows="4"
               placeholder="ຄໍາຄິດເຫັນຂອງທ່ານ..."
@@ -122,7 +122,7 @@
             <button
               class="bg-blue-600 text-white text-xs px-4 py-2 rounded hover:bg-blue-700 transition"
             >
-              ເພີ່ມຄຳຄິດເຫັນ
+              {{ $t('common.add_comment') }}
             </button>
         </div>
         
@@ -130,7 +130,7 @@
 
       <!-- Google Maps: 2 columns -->
       <div class="lg:col-span-2 bg-white rounded-lg shadow p-4">
-        <h3 class="text-blue-900 font-semibold text-sm mb-2 flex items-center"><MapIcon class="w-7 h-7 me-1"/>Google Maps</h3>
+        <h3 class="text-blue-900 font-semibold text-sm mb-2 flex items-center"><MapIcon class="w-7 h-7 me-1"/>{{ $t('property.map') }}</h3>
         <div
           class="h-72 mb-2 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center"
         >
@@ -146,7 +146,7 @@
           </template>
           <template v-else>
             <div class="text-center p-4 text-gray-500">
-              <p>ບໍ່ມີຂໍ້ມູນແຜນທີ່</p>
+              <p>{{ $t('common.no_map_data') }}</p>
               <p class="text-xs mt-2">No map data available</p>
             </div>
           </template>
@@ -156,7 +156,7 @@
           class="flex justify-between items-center text-sm text-blue-600"
         >
           <a :href="property.MAP_LOCATION" target="_blank" class="underline"
-            >ເບິ່ງແຜນທີ່</a
+            >{{ $t('common.view_map') }}</a
           >
           <!-- <button @click="copyMapUrl" class="hover:underline flex items-center underline">
             <ClipboardDocumentIcon class="w-5 h-5 me-1"/>
@@ -164,7 +164,7 @@
           </button> -->
         </div>
           <p class="text-xs text-gray-500 mt-4 text-start">
-            ອັບເດດຫຼ້າສຸດ: {{ formatDate(property?.UPDATED_AT) }}
+            {{ $t('common.latest_update') }}: {{ formatDate(property?.UPDATED_AT) }}
           </p>
       </div>
     </div>
@@ -192,10 +192,34 @@ import ImageGallery from "../../components/ImageGallery.vue";
 import { getDetailImages } from "../../utils/getImage";
 import LoadingSpinner from "../../components/common/Loading.vue";
 
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
+
 const postStore = usePostStore();
 const route = useRoute();
 
 const property = ref(null);
+
+// Calculate price per square meter - FIXED VERSION
+const pricePerSqm = computed(() => {
+  if (!property.value || property.value.PRICE === null || property.value.PRICE === undefined || 
+      property.value.AREA === null || property.value.AREA === undefined) {
+    return null;
+  }
+  
+  // Convert to number safely
+  const priceNum = typeof property.value.PRICE === 'string' 
+    ? Number(property.value.PRICE.replace(/[^\d.]/g, '')) 
+    : Number(property.value.PRICE);
+  
+  const areaNum = Number(property.value.AREA);
+  
+  if (isNaN(priceNum) || isNaN(areaNum) || areaNum === 0) return null;
+  
+  const pricePerSqm = Math.round(priceNum / areaNum);
+  return pricePerSqm.toLocaleString() + ' ' + (property.value.CURRENCY || '');
+});
 
 onMounted(async () => {
   try {

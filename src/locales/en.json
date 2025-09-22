@@ -1,0 +1,182 @@
+{
+  "en": {
+    "app": {
+      "title": "Asset Management System",
+      "manage_property": "Manage Property",
+      "property_auction": "Property for Auction",
+      "property_details": "Property Details",
+      "property_info": "Property Information",
+      "property_search": "Search Property for Sale"
+    },
+    "common": {
+      "search": "Search",
+      "add_new": "Add New",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "close": "Close",
+      "save": "Save",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "loading": "Loading...",
+      "login": "Login",
+      "back": "Back",
+      "back_to_home": "Back to Home",
+      "clear": "Clear",
+      "apply": "Apply",
+      "details": "Details ▶",
+      "view_count": "{count} views",
+      "no_data": "Data is Empty.",
+      "latest_update": "Latest Update",
+      "contact_officer": "Contact Responsible Officer",
+      "comments": "Comments",
+      "add_comment": "Add Comment",
+      "view_map": "View on Map",
+      "no_map_data": "No Map Data",
+      "select_property_type": "Select Property Type",
+      "selected_property_type": "Selected Property Type",
+      "action": "Action"
+    },
+    "login": {
+      "title": "LaoVietBank Real Estate for Sale.",
+      "username": "Username",
+      "password": "Password",
+      "placeholder_username": "Enter your username",
+      "placeholder_password": "Enter your password",
+      "button": "Login",
+      "loading": "Logging in...",
+      "failed": "Login failed",
+      "unknown_error": "An unknown error occurred"
+    },
+    "property": {
+      "type": "Type",
+      "price": "Price",
+      "area": "Area",
+      "location": "Location",
+      "status": "Status",
+      "visibility": "Visibility",
+      "total_value": "Total Value",
+      "price_per_sqm": "Price per sqm",
+      "description": "Description",
+      "no_description": "No additional description available.",
+      "contact": "Contact",
+      "map": "Map",
+      "main_image": "Cover Image",
+      "sub_image" : "Additional Images",
+      "select_image": "Click to select image",
+      "paste_image": "Or drag and drop image here",
+      "limit_image": "You can select multiple images (up to 6 images)",
+      "current_image": "Current Image"
+    },
+    "modal": {
+      "added_by": "Added by",
+      "date": "Date",
+      "views": "Views",
+      "village": "Village",
+      "district": "District",
+      "province": "Province",
+      "area": "Area",
+      "price": "Price",
+      "currency": "Currency",
+      "type": "Type",
+      "status": "Status",
+      "authorization_pending": "Pending Authorization",
+      "authorization_approved": "Ready for Sale",
+      "authorization_closed": "Closed Sale",
+      "authorization_unknown": "Unknown Status",
+      "visibility_private": "Private",
+      "visibility_public": "Public",
+      "visibility_unknown": "N/A",
+      "map_location": "Property Location",
+      "map_not_available": "Map Not Available",
+      "description": "Description",
+      "contact": "Contact",
+      "contact_tel": "Phone",
+      "contact_email": "Email",
+      "updated_at": "Updated At",
+      "updated_by": "Updated By",
+      "approved_by": "Approved By",
+      "auth": "Auth"
+    },
+    "filters": {
+      "all": "All",
+      "province": "Province",
+      "district": "District",
+      "village": "Village",
+      "area_range": "Property Area (sqm)",
+      "price_range": "Property Price ($)",
+      "all_types": "All Types",
+      "price_per_sqm": "Selling Price per sqm ($):"
+    },
+    "placeholders": {
+      "search": "Search listings...",
+      "comment": "Your comment..."
+    },
+    "area_ranges": {
+      "all": "All",
+      "below_50": "Below 50 sqm",
+      "50_100": "50 - 100 sqm",
+      "100_200": "100 - 200 sqm",
+      "200_500": "200 - 500 sqm",
+      "above_500": "500 sqm and above"
+    },
+    "price_ranges": {
+      "all": "All",
+      "below_50k": "Below 50,000",
+      "50k_100k": "50,000 - 100,000",
+      "100k_500k": "100,000 - 500,000",
+      "500k_1m": "500,000 - 1,000,000",
+      "above_1m": "1,000,000 and above"
+    },
+    "admin": {
+      "system_manage": "System Management",
+      "property_manage": "Property Management",
+      "admin_page_title": "Property Auction System Admin Page",
+      "department_contact": "Department of Debt Resolution and Collateral Management",
+      "contact_number": "021 251418-666",
+      "notifications": "Notifications",
+      "profile": "Profile",
+      "department": "Department",
+      "branch": "Branch",
+      "branch_code": "Branch Code",
+      "role_code": "Role Code (ROLE_CODE)"
+    },
+    "auth": {
+      "logout": "Logout",
+      "logout_confirm_title": "Logout",
+      "logout_confirm_message": "Are you sure you want to log out?",
+      "logout_success": "Logged out successfully",
+      "logout_failed": "Failed to log out",
+      "logout_cancel": "ຍົກເລີກ"
+    },
+    "common1": {
+      "error": "Error",
+      "success": "Success",
+      "ok": "OK"
+    },
+    "navbar": {
+        "bank_name": "Lao-Viet Joint Venture Bank",
+        "tagline": "The Bridge to Success",
+        "change_language": "Change language",
+        "notifications": "Notifications",
+        "user_menu": "User menu",
+        "login": "Login",
+        "register": "Register",
+        "open_menu": "Open menu",
+        "close_menu": "Close menu"
+    },
+    "languages": {
+        "english": "English",
+        "vietnamese": "Vietnamese",
+        "lao": "Lao"
+    },
+    "menu": {
+        "vacant_land": "Vacant Land for Construction",
+        "agriculture": "Agricultural Land",
+        "residential": "Residential Land & Buildings",
+        "car": "Car",
+        "machinery": "Machinery & Heavy Equipment",
+        "commercial_land": "Land with Hotels, Guesthouses, Factories"
+    }
+  }
+}

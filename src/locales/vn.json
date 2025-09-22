@@ -1,0 +1,182 @@
+{
+  "vn": {
+    "app": {
+      "title": "Hệ thống Quản lý Tài sản",
+      "manage_property": "Quản lý Tài sản",
+      "property_auction": "Tài sản đấu giá",
+      "property_details": "Chi tiết tài sản",
+      "property_info": "Thông tin tài sản",
+      "property_search": "Tìm kiếm tài sản đang rao bán"
+    },
+    "common": {
+      "search": "Tìm kiếm",
+      "add_new": "Thêm mới",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "view": "Xem",
+      "close": "Đóng",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "confirm": "Xác nhận",
+      "loading": "Đang tải...",
+      "login": "Đăng nhập",
+      "back": "Quay lại",
+      "back_to_home": "Về trang chủ",
+      "clear": "Xóa",
+      "apply": "Áp dụng",
+      "details": "Chi tiết ▶",
+      "view_count": "{count} lượt xem",
+      "no_data": "Không có dữ liệu.",
+      "latest_update": "Cập nhật mới nhất",
+      "contact_officer": "Liên hệ nhân viên",
+      "comments": "Bình luận",
+      "add_comment": "Thêm bình luận",
+      "view_map": "Xem bản đồ",
+      "no_map_data": "Không có dữ liệu bản đồ",
+      "select_property_type": "Chọn loại tài sản",
+      "selected_property_type": "Loại tài sản đã chọn",
+      "action": "Quản lý"
+    },
+    "login": {
+      "title": "Bất động sản rao bán của LaoVietBank.",
+      "username": "Tên người dùng",
+      "password": "Mật khẩu",
+      "placeholder_username": "Nhập tên người dùng của bạn",
+      "placeholder_password": "Nhập mật khẩu của bạn",
+      "button": "Đăng nhập",
+      "loading": "Đang đăng nhập...",
+      "failed": "Đăng nhập thất bại",
+      "unknown_error": "Có lỗi không xác định"
+    },
+    "property": {
+      "type": "Loại",
+      "price": "Giá",
+      "area": "Diện tích",
+      "location": "Vị trí",
+      "status": "Trạng thái",
+      "visibility": "Hiển thị",
+      "total_value": "Tổng giá trị",
+      "price_per_sqm": "Giá mỗi mét vuông",
+      "description": "Mô tả",
+      "no_description": "Không có mô tả chi tiết.",
+      "contact": "Liên hệ",
+      "map": "Bản đồ",
+      "main_image": "Hình ảnh bìa",
+      "sub_image" : "Hình ảnh bổ sung",
+      "select_image": "Nhấn để chọn hình ảnh",
+      "paste_image": "Hoặc kéo và thả hình ảnh vào đây",
+      "limit_image": "Có thể chọn nhiều hình ảnh (tối đa 6 hình)",
+      "current_image": "Hình ảnh hiện tại"
+    },
+    "modal": {
+      "added_by": "Người thêm",
+      "date": "Ngày",
+      "views": "Lượt xem",
+      "village": "Làng/Xã",
+      "district": "Quận/Huyện",
+      "province": "Tỉnh/Thành phố",
+      "area": "Diện tích",
+      "price": "Giá",
+      "currency": "Tiền tệ",
+      "type": "Loại",
+      "status": "Trạng thái",
+      "authorization_pending": "Đang chờ phê duyệt",
+      "authorization_approved": "Sẵn sàng để bán",
+      "authorization_closed": "Đã bán",
+      "authorization_unknown": "Không xác định",
+      "visibility_private": "Riêng tư",
+      "visibility_public": "Công khai",
+      "visibility_unknown": "N/A",
+      "map_location": "Vị trí tài sản",
+      "map_not_available": "Không có bản đồ",
+      "description": "Mô tả",
+      "contact": "Liên hệ",
+      "contact_tel": "Điện thoại",
+      "contact_email": "Email",
+      "updated_at": "Ngày cập nhật",
+      "updated_by": "Người chỉnh sửa",
+      "approved_by": "Người phê duyệt",
+      "auth": "Phê duyệt"
+    },
+    "filters": {
+      "all": "Tất cả",
+      "province": "Tỉnh/Thành phố",
+      "district": "Quận/Huyện",
+      "village": "Làng/Xã",
+      "area_range": "Diện tích tài sản (m2)",
+      "price_range": "Giá tài sản ($)",
+      "all_types": "Tất cả các loại",
+      "price_per_sqm": "Giá bán theo m² ($)"
+    },
+    "placeholders": {
+      "search": "Tìm kiếm tin đăng...",
+      "comment": "Bình luận của bạn..."
+    },
+    "area_ranges": {
+      "all": "Tất cả",
+      "below_50": "Dưới 50m²",
+      "50_100": "50 - 100m²",
+      "100_200": "100 - 200m²",
+      "200_500": "200 - 500m²",
+      "above_500": "Trên 500m²"
+    },
+    "price_ranges": {
+      "all": "Tất cả",
+      "below_50k": "Dưới 50,000",
+      "50k_100k": "50,000 - 100,000",
+      "100k_500k": "100,000 - 500,000",
+      "500k_1m": "500,000 - 1,000,000",
+      "above_1m": "Trên 1,000,000"
+    },
+    "admin": {
+      "system_manage": "Quản lý hệ thống",
+      "property_manage": "Quản lý tài sản",
+      "admin_page_title": "Trang quản trị hệ thống đấu giá tài sản",
+      "department_contact": "Bộ phận Xử lý Nợ và Quản lý Tài sản Đảm bảo",
+      "contact_number": "021 251418-666",
+      "notifications": "Thông báo",
+      "profile": "Hồ sơ",
+      "department": "Bộ phận",
+      "branch": "Chi nhánh",
+      "branch_code": "Mã chi nhánh",
+      "role_code": "Mã vai trò (ROLE_CODE)"
+    },
+    "auth": {
+      "logout": "Đăng xuất",
+      "logout_confirm_title": "Đăng xuất",
+      "logout_confirm_message": "Bạn có chắc chắn muốn đăng xuất?",
+      "logout_success": "Đăng xuất thành công",
+      "logout_failed": "Không thể đăng xuất",
+      "logout_cancel": "ຍົກເລີກ"
+    },
+    "common1": {
+      "error": "Lỗi",
+      "success": "Thành công",
+      "ok": "Đồng ý"
+    },
+    "navbar": {
+        "bank_name": "Ngân hàng Liên doanh Lào - Việt",
+        "tagline": "Cầu nối thành công",
+        "change_language": "Thay đổi ngôn ngữ",
+        "notifications": "Thông báo",
+        "user_menu": "Menu người dùng",
+        "login": "Đăng nhập",
+        "register": "Đăng ký",
+        "open_menu": "Mở menu",
+        "close_menu": "Đóng menu"
+    },
+    "languages": {
+        "english": "English",
+        "vietnamese": "Tiếng Việt",
+        "lao": "Lào"
+    },
+    "menu":{
+        "vacant_land": "Đất xây dựng trống",
+        "agriculture": "Đất nông nghiệp",
+        "residential": "Đất và công trình nhà ở",
+        "car": "Xe ô tô",
+        "machinery": "Máy móc và thiết bị hạng nặng",
+        "commercial_land": "Đất và khách sạn, nhà nghỉ, nhà máy"
+    }
+  }
+}

@@ -1,7 +1,9 @@
 <template>
   <div class="admin-layout min-h-screen bg-gray-100">
+    <div>
+    </div>
     <!-- Sidebar -->
-    <div class="sidebar bg-blue-900 text-white w-54 fixed h-full">
+    <!-- <div class="sidebar bg-blue-900 text-white w-54 fixed h-full">
       <div class="p-4 border-b border-blue-800">
         <img src="../assets/images/LVB-logo.png" class="h-16 mx-auto" alt="">
         <p class="text-sm text-center text-white font-bold">ຈັດການລະບົບ</p>
@@ -16,23 +18,33 @@
           ຈັດການຂໍ້​ມູນຊັບສິນ
         </router-link>
       </nav>
-    </div>
+    </div> -->
 
     <!-- Main Content -->
-    <div class="main-content ml-54 mb-10">
+    <div class="main-content mb-10">
       <!-- Header -->
-      <header class="bg-blue-900 shadow py-3 px-6 mb-6 flex justify-between items-center">
-        <h2 class="text-sm font-semibold flex items-center text-white"><HomeIcon class="w-8 h-8 me-2 text-white"/>ຊັບສິນຕ້ອງການປະມູນຂາຍ</h2>
+      <header class="bg-blue-900 shadow py-3 px-6 mb-6 grid grid-cols-3 items-center">
+  <!-- ซ้าย -->
+        <h2 class="text-sm font-semibold flex items-center text-white">
+          <Square3Stack3DIcon class="w-8 h-8 me-2 text-white"/>
+          <!-- ໜ້າຈັດການຂໍ້ມູນໃນລະບົບການປະມູນຂາຍຊັບສິນ -->
+          {{ $t('admin.admin_page_title') }}
+        </h2>
 
+        <!-- กลาง -->
         <div class="text-center text-white font-bold text-sm">
-          <p>ພະແນກແກ້ໄຂໜີ້ ແລະ ຄຸ້ມຄອງຫຼັກຊັບຄໍ້າປະກັນ</p>
-          <p>021 251418-666</p>
+          <!-- <p>ພະແນກແກ້ໄຂໜີ້ ແລະ ຄຸ້ມຄອງຫຼັກຊັບຄໍ້າປະກັນ</p> -->
+          <p>{{ $t('admin.department_contact') }}</p>
+          <!-- <p>021 251418-666</p> -->
+          <p>{{ $t('admin.contact_number') }}</p>
         </div>
-        <div class="flex items-center space-x-4">
-          <button class="p-2 rounded-full text-whiet hover:bg-gray-100">
+
+        <!-- ขวา -->
+        <div class="flex items-center justify-end space-x-4">
+          <button class="p-2 rounded-full hover:bg-gray-100">
             <BellIcon class="w-5 h-5 text-white"/>
           </button>
-          
+
           <!-- Profile Dropdown -->
           <div class="flex items-center">
             <div class="relative">
@@ -71,12 +83,22 @@
                 <!-- Card Body -->
                 <div class="py-6 px-4"> 
                   <div class="mb-2"> 
-                    <p class="text-xs text-blue-900 flex items-center leading-tight"> <BriefcaseIcon class="h-5 w-5 me-2 text-blue-900 flex-shrink-0" /> {{ userDep }}</p>
+                    <p class="text-xs text-blue-900 flex items-center leading-tight"> 
+                      <BriefcaseIcon class="h-5 w-5 me-2 text-blue-900 flex-shrink-0" /> {{ userDep }}
+                    </p>
+                  </div>
+                  <div class="mb-2"> 
+                    <p class="text-xs text-blue-900 flex items-center leading-tight"> 
+                      <BuildingOffice2Icon class="h-5 w-5 me-2 text-blue-900 flex-shrink-0" /> {{ userBranch }} - {{ userCode }}
+                    </p>
                   </div>
                   <div> 
-                    <p class="text-xs text-blue-900 flex items-center leading-tight"> <BuildingOffice2Icon class="h-5 w-5 me-2 text-blue-900 flex-shrink-0" /> {{ userBranch }} - {{ userCode }}</p>
+                    <p class="text-xs text-blue-900 flex items-center leading-tight"> 
+                      <CheckBadgeIcon class="h-5 w-5 me-2 text-blue-900 flex-shrink-0" /> {{ userRoleCode }}
+                    </p>
                   </div>
                 </div>
+
                 <!-- Card Footer -->
                 <div class="py-1 border-t border-gray-200 bg-blue-800 px-30">
                   <button 
@@ -86,7 +108,8 @@
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                     </svg>
-                    ອອກຈາກລະບົບ
+                    <!-- ອອກຈາກລະບົບ -->
+                    <p>{{ $t('auth.logout') }}</p>
                   </button>
                 </div>
               </div>
@@ -94,6 +117,7 @@
           </div>
         </div>
       </header>
+
       <!-- Router View -->
       <div class="mx-4">
         <router-view></router-view>
@@ -117,8 +141,13 @@ import {
   BellIcon,
   HomeIcon,
   BuildingOffice2Icon,
-  BriefcaseIcon
+  BriefcaseIcon,
+  Square3Stack3DIcon,
+  CheckBadgeIcon
 } from '@heroicons/vue/24/outline'
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -135,6 +164,7 @@ const userData = ref({
   dep: '',
   branch: '',
   code: '',
+  role_code: ''
 })
 
 onMounted(() => {
@@ -144,51 +174,55 @@ onMounted(() => {
   
   // Load user data
   const storedUser = getUser();
-  if (storedUser) {
-    userData.value.name = storedUser.EMPNAME || 'Admin';
-    userData.value.email = storedUser.EMAIL || 'Admin@gmail.com';
-    userData.value.dep = storedUser.DEP || 'Null';
-    userData.value.branch = storedUser.CUSTOM_BRN_NAME || 'Null';
-    userData.value.code = storedUser.BRANCH_LIST || 'Null';
-  }
-})
+    if (storedUser) {
+      userData.value.name = storedUser.EMPNAME || 'Admin';
+      userData.value.email = storedUser.EMAIL || 'Admin@gmail.com';
+      userData.value.dep = storedUser.DEP || 'Null';
+      userData.value.branch = storedUser.CUSTOM_BRN_NAME || 'Null';
+      userData.value.code = storedUser.BRANCH_LIST || 'Null';
+      userData.value.role_code = storedUser.ROLE_CODE || 'Null';
+    }
+  })
 
 const toggleProfileDropdown = () => {
   isProfileDropdownOpen.value = !isProfileDropdownOpen.value
 }
 
+
 const logout = async () => {
   try {
     const result = await modal.open({
-      title: 'ອອກຈາກລະບົບ',
-      message: 'ທ່ານຕ້ອງການທີ່ຈະອອກຈາກລະບົບແທ້ບໍ?',
+      title: t('auth.logout'),
+      message: t('auth.logout_confirm_message'), 
       type: 'warning',
       showCancel: true,
-      confirmButtonText: 'ອອກຈາກລະບົບ',
-      cancelButtonText: 'ຍົກເລີກ'
+      confirmButtonText: t('auth.logout_confirm_title'),
+      cancelButtonText: t('auth.logout_cancel')
     })
 
     if (result === 'confirm') {
       authStore.logout()
       await router.push('/')
+      // Optionally show success modal
       // await modal.open({
-      //   title: 'ສຳເລັດ',
-      //   message: 'ອອກຈາກລະບົບສຳເລັດແລ້ວ',
+      //   title: t('auth.logout_success_title'),
+      //   message: t('auth.logout_success_message'),
       //   type: 'success',
-      //   confirmButtonText: 'OK'
+      //   confirmButtonText: t('auth.ok')
       // })
     }
 
   } catch (error) {
     console.error('❌ Error during logout:', error)
     await modal.open({
-      title: 'ຜິດພາດ',
-      message: 'ບໍ່ສາມາດອອກຈາກລະບົບໄດ້',
+      title: t('auth.error'),
+      message: t('auth.logout_failed'),
       type: 'error',
-      confirmButtonText: 'OK'
+      confirmButtonText: t('auth.ok')
     })
   }
 }
+
 
 
 const userName = computed(() => userData.value.name)
@@ -196,6 +230,7 @@ const userEmail = computed(() => userData.value.email)
 const userDep = computed(() => userData.value.dep)
 const userBranch = computed(() => userData.value.branch)
 const userCode = computed(() => userData.value.code)
+const userRoleCode = computed(() => userData.value.role_code)
 
 // Close dropdown when clicking outside
 const handleClickOutside = (event) => {

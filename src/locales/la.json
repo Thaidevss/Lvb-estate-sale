@@ -1,0 +1,182 @@
+{
+  "la": {
+    "app": {
+      "title": "ລະບົບຈັດການຊັບສິນ",
+      "manage_property": "ຈັດການຂໍ້ມູນຊັບສິນ",
+      "property_auction": "ຊັບສິນຕ້ອງການປະມູນຂາຍ",
+      "property_details": "ລາຍລະອຽດຂອງຊັບສິນ",
+      "property_info": "ຂໍ້ມູນຊັບສິນ",
+      "property_search": "ຄົ້ນຫາ ຊັບ-ສິນ ພ້ອມຂາຍ"
+    },
+    "common": {
+      "search": "ຄົ້ນຫາ",
+      "add_new": "ເພີ່ມໃໝ່",
+      "edit": "ແກ້ໄຂ",
+      "delete": "ລຶບ",
+      "view": "ເບິ່ງ",
+      "close": "ປິດ",
+      "save": "ບັນທຶກ",
+      "cancel": "ຍົກເລີກ",
+      "confirm": "ຢືນຢັນ",
+      "loading": "ກຳລັງໂຫຼດ...",
+      "login": "ເຂົ້າສູ່ລະບົບ",
+      "back": "ກັບຄືນ",
+      "back_to_home": "ກັບໄປຫນ້າຫລັກ",
+      "clear": "ລ້າງຄ່າ",
+      "apply": "ຄົ້ນຫາ",
+      "details": "ລາຍລະອຽດ ▶",
+      "view_count": "{count} view",
+      "no_data": "Data is Empty.",
+      "latest_update": "ອັບເດດຫຼ້າສຸດ",
+      "contact_officer": "ຕິດຕໍ່ພະນັກງານຮັບຜິດຊອບ",
+      "comments": "ຄຳຄິດເຫັນ",
+      "add_comment": "ເພິ່ມຄຳຄິດເຫັນ",
+      "view_map": "ເບິ່ງແຜນທີ່",
+      "no_map_data": "ບໍ່ມີຂໍ້ມູນແຜນທີ່",
+      "select_property_type": "ເລືອກປະເພດຊັບສິນ",
+      "selected_property_type": "ປະເພດຊັບສິນທີ່ເລືອກ",
+      "action": "ຈັດການ"
+    },
+    "login": {
+      "title": "LaoVietBank Real Estate for Sale.",
+      "username": "ຊື່ຜູ້ໃຊ້",
+      "password": "ລະຫັດຜ່ານ",
+      "placeholder_username": "Enter your username",
+      "placeholder_password": "Enter your password",
+      "button": "ເຂົ້າລະບົບ",
+      "loading": "ກຳລັງເຂົ້າ...",
+      "failed": "ເຂົ້າລະບົບບໍ່ສຳເລັດ",
+      "unknown_error": "ມີບັນຫາທີ່ບໍ່ຮູ້ສາເຫດ"
+    },
+    "property": {
+      "type": "ປະເພດ",
+      "price": "ລາຄາ",
+      "area": "ເນື້ອທີ່",
+      "location": "ສະຖານທີ່",
+      "status": "ສະຖານະ",
+      "visibility": "ການເບິ່ງເຫັນ",
+      "total_value": "ມູນຄ່າທັງໝົດ",
+      "price_per_sqm": "ລາຄາຕໍ່ຕາແມັດ",
+      "description": "ລາຍລະອຽດ",
+      "no_description": "ບໍ່ມີລາຍລະອຽດເພີ່ມເຕີມ.",
+      "contact": "ຕິດຕໍ່",
+      "map": "ແຜນທີ່",
+      "main_image": "ຮູບພາບໜ້າປົກ",
+      "sub_image" : "ຮູບພາບເພີ່ມເຕີມ",
+      "select_image": "ຄລິກເພື່ອເລືອກຮູບພາບ",
+      "paste_image": "ຫຼືລາກແລະວາງຮູບທີ່ນີ້",
+      "limit_image": "ສາມາດເລືອກຫຼາຍຮູບພາບໄດ້ (ສູງສຸດ 6 ຮູບ)",
+      "current_image": "ຮູບປັດຈຸບັນ"
+    },
+    "modal": {
+      "added_by": "ເພີ່ມໂດຍ",
+      "date": "ວັນທີ",
+      "views": "ຈຳນວນເບິ່ງ",
+      "village": "ບ້ານ",
+      "district": "ເມືອງ",
+      "province": "ແຂວງ",
+      "area": "ເນື້ອທີ່",
+      "price": "ລາຄາ",
+      "currency": "ສະກຸນເງິນ",
+      "type": "ປະເພດ",
+      "status": "ສະຖານະ",
+      "authorization_pending": "ລໍຖ້າອະນຸມັດ",
+      "authorization_approved": "ພ້ອມຂາຍ",
+      "authorization_closed": "ປິດການຂາຍ",
+      "authorization_unknown": "ບໍ່ຮູ້ສະຖານະ",
+      "visibility_private": "ສ່ວນຕົວ",
+      "visibility_public": "ສາທາລະນະ",
+      "visibility_unknown": "N/A",
+      "map_location": "ທີ່ຕັ້ງຊັບສິນ",
+      "map_not_available": "ບໍ່ມີແຜນທີ່",
+      "description": "ຄຳອະທິບາຍ",
+      "contact": "ຕິດຕໍ່",
+      "contact_tel": "ເບີໂທ",
+      "contact_email": "ອີເມວ",
+      "updated_at": "ວັນທີອັບເດດ",
+      "updated_by": "ຜູ້ແກ້ໄຂ",
+      "approved_by": "ຜູ້ອະນຸມັດ",
+      "auth": "ອະນຸມັດ"
+    },
+    "filters": {
+      "all": "ທັງໝົດ",
+      "province": "ແຂວງ",
+      "district": "ເມືອງ",
+      "village": "ບ້ານ",
+      "area_range": "ເນື້ອທີ່ຂອງຊັບສິນ (ຕາແມັດ)",
+      "price_range": "ລາຄາຂອງຊັບສິນ ($)",
+      "all_types": "ປະເພດທັງໝົດ",
+      "price_per_sqm": "ລາຄາປະກາດຂາຍຕໍ່ຕາແມັດ ($):"
+    },
+    "placeholders": {
+      "search": "ຄົ້ນຫາປະກາດ...",
+      "comment": "ຄໍາຄິດເຫັນຂອງທ່ານ..."
+    },
+    "area_ranges": {
+      "all": "All",
+      "below_50": "Below 50 sqm",
+      "50_100": "50 - 100 sqm",
+      "100_200": "100 - 200 sqm",
+      "200_500": "200 - 500 sqm",
+      "above_500": "500 sqm and above"
+    },
+    "price_ranges": {
+      "all": "All",
+      "below_50k": "Below 50,000",
+      "50k_100k": "50,000 - 100,000",
+      "100k_500k": "100,000 - 500,000",
+      "500k_1m": "500,000 - 1,000,000",
+      "above_1m": "1,000,000 and above"
+    },
+    "admin": {
+      "system_manage": "ຈັດການລະບົບ",
+      "property_manage": "ຈັດການຂໍ້​ມູນຊັບສິນ",
+      "admin_page_title": "ໜ້າຈັດການຂໍ້ມູນໃນລະບົບການປະມູນຂາຍຊັບສິນ",
+      "department_contact": "ພະແນກແກ້ໄຂໜີ້ ແລະ ຄຸ້ມຄອງຫຼັກຊັບຄໍ້າປະກັນ",
+      "contact_number": "021 251418-666",
+      "notifications": "ແຈ້ງເຕືອນ",
+      "profile": "ໂປຣໄຟລ໌",
+      "department": "ພະແນກ",
+      "branch": "ສາຂາ",
+      "branch_code": "ລະຫັດສາຂາ",
+      "role_code": "ລະຫັດສິດທິ (ROLE_CODE)"
+    },
+    "auth": {
+      "logout": "ອອກຈາກລະບົບ",
+      "logout_confirm_title": "ອອກຈາກລະບົບ",
+      "logout_confirm_message": "ທ່ານຕ້ອງການທີ່ຈະອອກຈາກລະບົບແທ້ບໍ?",
+      "logout_success": "ອອກຈາກລະບົບສຳເລັດແລ້ວ",
+      "logout_failed": "ບໍ່ສາມາດອອກຈາກລະບົບໄດ້",
+      "logout_cancel": "ຍົກເລີກ"
+    },
+    "common1": {
+      "error": "ຜິດພາດ",
+      "success": "ສຳເລັດ",
+      "ok": "ຕົກລົງ"
+    },
+    "navbar": {
+        "bank_name": "ທະນາຄານ ຮ່ວມທຸລະກິດລາວ - ຫວຽດຈໍາກັດ",
+        "tagline": "ຂົວຕໍ່ແຫ່ງຜົນສຳເລັດ",
+        "change_language": "ປ່ຽນພາສາ",
+        "notifications": "ການແຈ້ງເຕືອນ",
+        "user_menu": "ເມນູຜູ້ໃຊ້",
+        "login": "ເຂົ້າສູ່ລະບົບ",
+        "register": "ລົງທະບຽນ",
+        "open_menu": "ເປີດເມນູ",
+        "close_menu": "ປິດເມນູ"
+    },
+    "languages": {
+        "english": "English",
+        "vietnamese": "Tiếng Việt",
+        "lao": "ພາສາລາວ"
+    },
+    "menu": {
+        "vacant_land": "ດິນປຸກສ້າງເປົ່າຫວ່າງ",
+        "agriculture": "ດິນກະສິກໍາ",
+        "residential": "ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ",
+        "car": "ລົດ",
+        "machinery": "ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ",
+        "commercial_land": "ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ"
+    }
+  }
+}

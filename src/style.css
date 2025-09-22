@@ -1,5 +1,11 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&display=swap');
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans+Lao+Looped:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans+Lao+Looped:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Noto+Sans+Lao+Looped:wght@100..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 
 /* :root {
@@ -8,19 +14,22 @@
   font-weight: 400;
 } */
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --font-lao: "Noto Sans Lao Looped", sans-serif;
-  --font-english: "Times New Roman", serif;
+  /* --font-english: "Roboto", sans-serif; */
+  --font-english: "Public Sans", sans-serif;
+  /* font-family: "Public Sans", sans-serif; */
   line-height: 1.5;
   font-weight: 400;
 }
-
-/* ใช้ font Lao เป็นค่าเริ่มต้น */
 body {
   font-family: var(--font-lao);
 }
 
-/* กำหนด class สำหรับภาษาอังกฤษ */
 .font-english {
   font-family: var(--font-english);
 }
@@ -29,7 +38,6 @@ body {
   font-family: var(--font-lao);
 }
 
-/* หรือใช้ attribute selector สำหรับภาษา */
 [lang="en"] {
   font-family: var(--font-english);
 }
@@ -37,3 +45,4 @@ body {
 [lang="lo"] {
   font-family: var(--font-lao);
 }
+

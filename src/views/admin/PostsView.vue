@@ -1,117 +1,111 @@
 <template>
   <div class="posts-management">
     <!-- Header / Filters -->
-    <div class="bg-white rounded-md shadow-md p-6 px-10 mb-6 space-y-4">
-      <!-- Search + Status -->
-      <div
-        class="flex flex-col lg:flex-row lg:items-center justify-between gap-4"
-      >
-        <!-- Search Input -->
-        <div class="relative w-full lg:max-w-md">
-          <MagnifyingGlassIcon
-            class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-          />
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="ຄົ້ນຫາປະກາດ..."
-            class="pl-10 pr-4 py-2 w-full text-sm border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <!-- Status Filter + Add Button -->
-        <div class="flex items-center gap-2">
-          <select
-            v-model="statusFilter"
-            class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="all">ທັງໝົດ</option>
-            <!-- <option value="pending">ລໍຖ້າອະນຸມັດ</option>
-            <option value="approved">ອະນຸມັດແລ້ວ</option>
-            <option value="rejected">ຖືກປະຕິເສດ</option> -->
-          </select>
-          <button
-            @click="openCreateModal"
-            :disabled="postStore.loading"
-            class="bg-blue-600 text-white text-sm px-4 py-2 rounded hover:bg-blue-700 transition flex items-center"
-          >
-            <PlusIcon class="w-4 h-4 mr-2" />
-            <span v-if="!postStore.loading">ເພີ່ມໃໝ່</span>
-            <span v-else>ກຳລັງໂຫຼດ...</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Filters -->
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 items-center"
-      >
-        <select
-          v-model="filters.type"
-          class="border border-gray-300 rounded px-3 py-1.5 text-sm"
-        >
-          <option value="">ປະເພດທັງໝົດ</option>
-          <option
-            v-for="type in locationStore.types"
-            :key="type.id"
-            :value="type.TYPE"
-          >
-            {{ type.TYPE }}
-          </option>
-        </select>
-
-        <select
-          v-model="filters.province"
-          class="border border-gray-300 rounded px-3 py-1.5 text-sm"
-        >
-          <option value="">ແຂວງ</option>
-          <option
-            v-for="province in locationStore.provinces"
-            :key="province.id"
-            :value="province"
-          >
-            {{ province.name }}
-          </option>
-        </select>
-
-        <select
-          v-model="filters.district"
-          :disabled="!filters.province"
-          class="border border-gray-300 rounded px-3 py-1.5 text-sm"
-        >
-          <option value="">ເມືອງ</option>
-          <option
-            v-for="(district, index) in locationStore.districts"
-            :key="index"
-            :value="district"
-          >
-            {{ district }}
-          </option>
-        </select>
-
-        <select
-          v-model="filters.village"
-          :disabled="!filters.district"
-          class="border border-gray-300 rounded px-3 py-1.5 text-sm"
-        >
-          <option value="">ບ້ານ</option>
-          <option
-            v-for="(village, index) in locationStore.villages"
-            :key="index"
-            :value="village"
-          >
-            {{ village }}
-          </option>
-        </select>
-
-        <button
-          @click="applyFilters"
-          class="bg-blue-600 text-white rounded px-4 py-2 text-sm hover:bg-blue-700 transition w-full lg:w-auto"
-        >
-          ຄົ້ນຫາ
-        </button>
-      </div>
+    <div class="bg-white rounded-md shadow-sm p-4 mb-4 space-y-3">
+  <!-- Search + Status -->
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+    <!-- Search Input -->
+    <div class="relative w-full lg:max-w-sm">
+      <MagnifyingGlassIcon
+        class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+      />
+      <input
+        v-model="searchQuery"
+        type="text"
+        placeholder="Search Post..."
+        class="pl-9 pr-3 py-1.5 w-full text-xs border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+      />
     </div>
+
+    <!-- Status Filter + Add Button -->
+    <div class="flex items-center gap-2">
+      <select
+        v-model="statusFilter"
+        class="border border-gray-300 rounded-md px-2.5 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-blue-500"
+      >
+        <option value="all">{{ $t('filters.all') }}</option>
+      </select>
+      <button
+        v-if="isMaker || isAdmin || isChecker"
+        @click="openCreateModal"
+        :disabled="postStore.loading"
+        class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-md hover:bg-blue-700 transition flex items-center"
+      >
+        <PlusIcon class="w-3.5 h-3.5 mr-1.5" />
+        <span v-if="!postStore.loading">{{ $t('common.add_new') }}</span>
+        <span v-else>{{ $t('common.loading') }}</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 items-center">
+    <select
+      v-model="filters.type"
+      class="border border-gray-300 rounded-md px-2.5 py-1.5 text-xs"
+    >
+      <option value="">{{ $t('filters.all_types') }}</option>
+      <option
+        v-for="type in locationStore.types"
+        :key="type.id"
+        :value="type.TYPE"
+      >
+        {{ type.TYPE }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.province"
+      class="border border-gray-300 rounded-md px-2.5 py-1.5 text-xs"
+    >
+      <option value="">{{ $t('filters.province') }}</option>
+      <option
+        v-for="province in locationStore.provinces"
+        :key="province.id"
+        :value="province"
+      >
+        {{ province.name }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.district"
+      :disabled="!filters.province"
+      class="border border-gray-300 rounded-md px-2.5 py-1.5 text-xs"
+    >
+      <option value="">{{ $t('filters.district') }}</option>
+      <option
+        v-for="(district, index) in locationStore.districts"
+        :key="index"
+        :value="district"
+      >
+        {{ district }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.village"
+      :disabled="!filters.district"
+      class="border border-gray-300 rounded-md px-2.5 py-1.5 text-xs"
+    >
+      <option value="">{{ $t('filters.village') }}</option>
+      <option
+        v-for="(village, index) in locationStore.villages"
+        :key="index"
+        :value="village"
+      >
+        {{ village }}
+      </option>
+    </select>
+
+    <button
+      @click="applyFilters"
+      class="bg-blue-600 text-white rounded-md px-3 py-2 text-xs hover:bg-blue-700 transition w-full lg:w-auto"
+    >
+      {{ $t('common.apply') }}
+    </button>
+  </div>
+</div>
 
     <!-- Loading State -->
     <!-- <div v-if="postStore.loading && !showModal" class="text-center py-8">
@@ -130,94 +124,225 @@
     </div>
 
     <!-- Posts Table -->
-    <div
-      v-if="!postStore.loading"
-      class="bg-white rounded-lg shadow overflow-auto"
-    >
-      <table class="min-w-full divide-y divide-gray-200 text-sm">
-        <thead class="bg-gray-50 text-gray-700 font-medium text-left">
+<!-- Posts Table -->
+<div
+  v-if="!postStore.loading"
+  class="bg-white rounded-lg shadow overflow-hidden"
+>
+  <div class="overflow-x-auto">
+    <!-- กำหนดความสูงสูงสุดและเพิ่ม scroll แนวตั้ง -->
+    <div class="max-h-[calc(100vh-250px)] overflow-y-auto">
+      <table class="w-full table-fixed">
+        <thead class="bg-gray-50 sticky top-0 z-10">
           <tr>
-            <th class="px-4 py-3">No.</th>
-            <th class="px-4 py-3">ຮູບ</th>
-            <th class="px-4 py-3">ປະເພດ</th>
-            <th class="px-4 py-3">ລາຄາ</th>
-            <th class="px-4 py-3">ເນື້ອທີ່</th>
-            <th class="px-4 py-3">ສະຖານທີ່</th>
-            <th class="px-4 py-3">ລາຍລະອຽດ</th>
-            <th class="px-4 py-3 text-center">ຈັດການ</th>
+            <th class="w-8 px-2 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">No.</th>
+            <th class="w-20 px-2 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">ຮູບ</th>
+            <th class="w-20 px-2 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('modal.type') }}</th>
+            <th class="w-20 px-2 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('modal.price') }}</th>
+            <th class="w-16 px-2 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('modal.area') }}</th>
+            <th class="w-20 px-2 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('property.location') }}</th>
+            <th class="w-18 px-2 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('property.visibility') }}</th>
+            <th class="w-20 px-2 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('property.status') }}</th>
+            <th class="w-60 px-2 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider bg-gray-50">{{ $t('common.action') }}</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="bg-white divide-y divide-gray-200">
           <tr
             v-for="(post, index) in paginatedPosts"
             :key="post.id"
-            class="hover:bg-gray-50"
+            class="hover:bg-gray-50 transition-colors duration-150"
           >
-            <td class="text-center font-bold">{{ index + 1 }}</td>
-            <td class="px-4 py-2">
-              <!-- <img
-              v-if="post?.IMAGES?.PROFILE_IMAGE"
-              :src="getProfileImageUrl(post.IMAGES)"
-              alt="Property preview"
-              class="w-full h-40 object-cover p-1 rounded-lg"
-            /> -->
-              <img
-                v-if="post.IMAGES && post.IMAGES.PROFILE_IMAGE"
-                :src="
-                  post?.IMAGES?.PROFILE_IMAGE
-                    ? getProfileImageUrl(post.IMAGES)
-                    : defaultImage
-                "
-                @error="handleImageError"  
-                alt="Property preview"
-                class="w-full h-40 object-cover p-1 rounded cursor-pointer hover:opacity-90 transition"
-              />
+            <!-- No. -->
+            <td class="px-2 py-3 text-center text-sm font-medium text-gray-900">
+              {{ index + 1 }}
             </td>
-            <td class="px-4 py-2 text-xs">{{ post.TYPE || "N/A" }}</td>
-            <td class="px-4 py-2 text-xs">
-              {{ (post.PRICE || 0).toLocaleString() }} {{ post.CURRENCY }}
-            </td>
-            <td class="px-4 py-2 text-xs">{{ post.AREA || 0 }} ຕມ.</td>
-            <td class="px-4 py-2 text-xs">{{ formatLocation(post) }}</td>
-            <td class="px-4 py-2 w-2/6 text-xs">{{ post.DESCRIPTION }}</td>
-            <td class="px-4 py-2 text-right space-x-2 w-40">
-              <button
-                class="text-blue-600 hover:bg-blue-600 hover:text-white hover:cursor-pointer duration-75 text-xs border border-blue-600 rounded py-1 px-2"
-                @click="openEditModal(post)"
-                :disabled="postStore.loading"
-              >
-                <span class="flex">
-                  <PencilIcon class="w-3.5 h-3.5" />
-                  ແກ້ໄຂ
-                </span>
-              </button>
-              <button
-                class="text-red-600 hover:bg-red-600 hover:text-white hover:cursor-pointer duration-75 text-xs border border-red-600 rounded py-1 px-2"
-                @click="deletePost(post.id)"
-                :disabled="postStore.loading"
-              >
-                <span class="flex">
-                  <TrashIcon class="w-3.5 h-3.5" />
-                  ລຶບ
-                </span>
-              </button>
-            </td>
-          </tr>
-          <tr v-if="filteredPosts.length === 0 && !postStore.loading">
-            <td colspan="7" class="py-6 text-gray-500 mx-auto w-full">
-              <div class="text-center py-70 mx-auto">
+
+            <!-- Image -->
+            <td class="px-2 py-3">
+              <div class="flex justify-center">
                 <img
-                  class="mx-auto h-20 w-20"
-                  src="../../assets/images/box.png"
-                  alt=""
+                  v-if="post.IMAGES && post.IMAGES.PROFILE_IMAGE"
+                  :src="post?.IMAGES?.PROFILE_IMAGE ? getProfileImageUrl(post.IMAGES) : defaultImage"
+                  @error="handleImageError"  
+                  alt="Property preview"
+                  class="w-16 h-16 object-cover rounded border border-gray-200 hover:shadow-md transition-all duration-200 cursor-pointer"
                 />
-                <p>Data is Empty.</p>
+                <div v-else class="w-16 h-16 bg-gray-100 rounded border border-gray-200 flex items-center justify-center">
+                  <span class="text-gray-400 text-xs">No Image</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Type -->
+            <td class="px-2 py-3">
+              <span class="text-xs font-medium text-gray-900 line-clamp-2">
+                {{ post.TYPE || "N/A" }}
+              </span>
+            </td>
+
+            <!-- Price -->
+            <td class="px-2 py-3">
+              <div class="flex">
+                <div class="text-xs font-medium text-gray-900 me-1">
+                  {{ (post.PRICE || 0).toLocaleString() }}
+                </div>
+                <div class="text-xs text-gray-700">
+                  {{ post.CURRENCY }}
+                </div>
+              </div>
+            </td>
+
+            <!-- Area -->
+            <td class="px-2 py-3 text-center">
+              <span class="text-xs font-medium text-gray-900 me-1">
+                {{ post.AREA || 0 }}
+              </span>
+              <span class="text-xs text-gray-700">(m²)</span>
+            </td>
+
+            <!-- Location -->
+            <td class="px-2 py-3">
+              <span class="text-xs text-gray-700 line-clamp-2">
+                {{ formatLocation(post) }}
+              </span>
+            </td>
+
+            <!-- VISIBILITY -->
+            <td class="px-2 py-3 text-center">
+              <span 
+                :class="{
+                  'bg-green-100 text-green-800 border border-green-200': post.STATUS?.VISIBILITY === 'PRIVATE',
+                  'bg-blue-100 text-blue-800 border border-blue-200': post.STATUS?.VISIBILITY === 'PUBLIC',
+                  'bg-gray-100 text-gray-800 border border-gray-200': !post.STATUS?.VISIBILITY
+                }" 
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+              >
+                {{ post.STATUS?.VISIBILITY ?? 'N/A' }}
+              </span>
+            </td>
+
+            <!-- STATUS -->
+            <td class="px-2 py-3 text-center">
+              <span 
+                :class="{
+                  'bg-yellow-100 text-yellow-800 border border-yellow-200': post.STATUS?.AUTHORIZATION_LEVEL === 0,
+                  'bg-green-100 text-green-800 border border-green-200': post.STATUS?.AUTHORIZATION_LEVEL === 1,
+                  'bg-red-100 text-red-800 border border-red-200': post.STATUS?.AUTHORIZATION_LEVEL === 2,
+                  'bg-gray-100 text-gray-800 border border-gray-200': post.STATUS?.AUTHORIZATION_LEVEL == null
+                }" 
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+              >
+                {{
+                  post.STATUS?.AUTHORIZATION_LEVEL === 0 ? 'Pending' :
+                  post.STATUS?.AUTHORIZATION_LEVEL === 1 ? 'Authorized' :
+                  post.STATUS?.AUTHORIZATION_LEVEL === 2 ? 'Disable' : 'N/A'
+                }}
+              </span>
+            </td>
+
+            <!-- Actions -->
+<td class="px-2 py-3">
+  <div class="flex flex-wrap gap-1 justify-center">
+    <!-- View Button - แสดงสำหรับทุก role -->
+    <button
+      class="inline-flex items-center px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-md text-xs hover:bg-green-100 hover:border-green-300 transition-colors duration-150"
+      @click="openViewModal(post)"
+      :disabled="postStore.loading"
+      title="View"
+    >
+      <EyeIcon class="w-3 h-3 mr-1" />
+      {{ $t('common.view') }}
+    </button>
+
+    <!-- Close Button - แสดงเฉพาะ checker และ admin -->
+    <button
+      v-if="isAdmin || isChecker"
+      class="inline-flex items-center px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded-md text-xs hover:bg-red-100 hover:border-red-300 transition-colors duration-150"
+      @click="disablePost(post.id)"
+      :disabled="postStore.loading"
+      title="Close"
+    >
+      <EyeSlashIcon class="w-3 h-3 mr-1" />
+      {{ $t('common.close') }}
+    </button>
+
+    <!-- Undo Button - แสดงเฉพาะ checker และ admin -->
+    <button
+      v-if="isAdmin || isChecker"
+      class="inline-flex items-center px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-md text-xs hover:bg-purple-100 hover:border-purple-300 transition-colors duration-150"
+      @click="setPendingPost(post.id)"
+      :disabled="postStore.loading"
+      title="undo"
+    >
+      <ArrowPathIcon class="w-3 h-3 mr-1" />
+      Undo
+    </button>
+
+    <!-- Authorize Button - แสดงเฉพาะ checker และ admin -->
+    <button
+      v-if="isAdmin || isChecker"
+      class="inline-flex items-center px-2 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-md text-xs hover:bg-amber-100 hover:border-amber-300 transition-colors duration-150"
+      @click="authorizePost(post.id)"
+      :disabled="postStore.loading"
+      title="Authorize"
+    >
+      <CheckCircleIcon class="w-3 h-3 mr-1" />
+       {{ $t('modal.auth') }}
+    </button>
+
+    <!-- Edit Button - แสดงเฉพาะ maker และ admin -->
+    <button
+      v-if="isMaker || isAdmin || isChecker"
+      class="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md text-xs hover:bg-blue-100 hover:border-blue-300 transition-colors duration-150"
+      @click="openEditModal(post)"
+      :disabled="postStore.loading"
+      title="Edit"
+    >
+      <PencilIcon class="w-3 h-3 mr-1" />
+       {{ $t('common.edit') }}
+    </button>
+
+    <!-- Delete Button - แสดงเฉพาะ maker และ admin -->
+    <button
+      v-if="isMaker || isAdmin || isChecker"
+      class="inline-flex items-center px-2 py-1 bg-red-600 text-white border border-red-700 rounded-md text-xs hover:bg-red-700 hover:border-red-800 transition-colors duration-150"
+      @click="deletePost(post.id)"
+      :disabled="postStore.loading"
+      title="Delete"
+    >
+      <TrashIcon class="w-3 h-3 mr-1" />
+       {{ $t('common.delete') }}
+    </button>
+
+    <!-- แสดงข้อความหากไม่มีสิทธิ์ใดๆ -->
+    <span 
+      v-if="!isMaker && !isChecker && !isAdmin" 
+      class="text-xs text-gray-500"
+    >
+      No actions available
+    </span>
+  </div>
+</td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr v-if="filteredPosts.length === 0 && !postStore.loading">
+            <td colspan="9" class="px-4 py-8 text-center">
+              <div class="flex flex-col items-center justify-center">
+                <img
+                  class="h-16 w-16 mb-4 opacity-50"
+                  src="../../assets/images/box.png"
+                  alt="Empty data"
+                />
+                <p class="text-gray-500 text-sm">Data is Empty.</p>
               </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
+</div>
 
     <!-- Pagination -->
     <div
@@ -278,6 +403,14 @@
       @save="handleSave"
       @saved="handleSaved"
     />
+
+    <!-- View post detail -->
+    <DetailModal
+      v-if="showDetailModal"
+      :land="selectedPost"
+      @close="closeViewModal"
+    />
+
   </div>
 </template>
 
@@ -288,6 +421,13 @@ import {
   PlusIcon,
   PencilIcon,
   TrashIcon,
+  CheckCircleIcon,
+  EyeSlashIcon,
+  EyeIcon,
+  LockClosedIcon, 
+  GlobeAltIcon,
+  ClockIcon,
+  ArrowPathIcon
 } from "@heroicons/vue/24/outline";
 import PostModal from "../admin/components/PostModal.vue";
 import { usePostStore } from "../../stores/indexStore";
@@ -295,6 +435,11 @@ import { getImageUrl, getProfileImageUrl } from "../../utils/getImage";
 import { getDefaultImage } from "../../utils/getImage";
 import { useLocationStore } from "../../stores/locationStore";
 import LoadingSpinner from "../../components/common/Loading.vue";
+import DetailModal from "../admin/PostDetail.vue"
+import { getUser } from '../../services/tokenService';
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 
 // for alert modal
 const { $modal, $loading } =
@@ -303,6 +448,7 @@ const modal = getCurrentInstance().appContext.config.globalProperties.$modal;
 
 const postStore = usePostStore();
 const locationStore = useLocationStore();
+const allPosts = ref([]);
 
 // Filters
 const searchQuery = ref("");
@@ -314,11 +460,25 @@ const modalMode = ref("create");
 const currentPost = ref({});
 const modalLoading = ref(false);
 
+const showDetailModal = ref(false);
+const selectedPost = ref(null);
+
 // for pagination
 const currentPage = ref(1);
-const itemsPerPage = 5;
+const itemsPerPage = 10;
 
 const defaultImage = ref(getDefaultImage());
+
+// เพิ่มตัวแปรหลังส่วน const declaration
+// User data
+const userData = ref({
+  name: '',
+  email: '',
+  dep: '',
+  branch: '',
+  code: '',
+  role_code: '',
+})
 
 const filters = ref({
   type: "",
@@ -326,6 +486,41 @@ const filters = ref({
   district: "",
   village: "",
 });
+
+const openViewModal = (post) => {
+  selectedPost.value = {
+    LAND_DETAILS: {
+      TYPE: post.TYPE,
+      PROVINCE: post.PROVINCE,
+      DISTRICT: post.DISTRICT,
+      VILLAGE: post.VILLAGE,
+      AREA: post.AREA,
+      PRICE: post.PRICE,
+      CURRENCY: post.CURRENCY,
+      DESCRIPTION: post.DESCRIPTION,
+      STATUS: post.STATUS,
+      VIEW_COUNT: post.VIEW_COUNT,
+      CONTACT: {
+        TEL: post.TEL,
+        EMAIL: post.EMAIL,
+      },
+      IMAGES: post.IMAGES,
+    },
+    MAP_LOCATION: post.MAP_LOCATION,
+    CREATED_BY: post.CREATED_BY,
+    CREATED_AT: post.CREATED_AT,
+    UPDATED_BY: post.UPDATED_BY,
+    APPROVED_BY: post.APPROVED_BY,
+  }
+  showDetailModal.value = true
+}
+
+
+const closeViewModal = () => {
+  showDetailModal.value = false
+  selectedPost.value = null
+}
+
 
 const handleImageError = (e) => {
   e.target.src = defaultImage.value;
@@ -340,15 +535,42 @@ const formatLocation = (post) => {
 
 onMounted(async () => {
   try {
+    // ดึงข้อมูลผู้ใช้จาก Local Storage
+    const storedUser = getUser();
+    // if (storedUser && storedUser.DATA) {
+    //   userData.value = storedUser.DATA;
+    //   userRole.value = storedUser.DATA.ROLE_CODE || '';
+    //   console.log('User role:', userRole.value);
+    // }
+    if (storedUser) {
+      userData.value.name = storedUser.EMPNAME || 'Admin';
+      userData.value.email = storedUser.EMAIL || 'Admin@gmail.com';
+      userData.value.dep = storedUser.DEP || 'Null';
+      userData.value.branch = storedUser.CUSTOM_BRN_NAME || 'Null';
+      userData.value.code = storedUser.BRANCH_LIST || 'Null';
+      userData.value.role_code = storedUser.ROLE_CODE || 'Null';
+    }
+
     await locationStore.fetchProvinces();
     await locationStore.fetchTypes();
     await postStore.fetchPosts();
-    console.log("Loaded posts:", postStore.posts);
-    console.log("token:", localStorage.getItem("token"));
+    allPosts.value = [...postStore.posts];
   } catch (error) {
     console.error("Error loading posts:", error);
   }
 });
+
+const userName = computed(() => userData.value.name)
+const userEmail = computed(() => userData.value.email)
+const userDep = computed(() => userData.value.dep)
+const userBranch = computed(() => userData.value.branch)
+const userCode = computed(() => userData.value.code)
+const userRoleCode = computed(() => userData.value.role_code)
+
+// computed properties สำหรับตรวจสอบสิทธิ์
+const isMaker = computed(() => userRoleCode.value === 'MAKER');
+const isChecker = computed(() => userRoleCode.value === 'CHECKER');
+const isAdmin = computed(() => userRoleCode.value === 'ADMIN');
 
 watch(
   [() => filters.value.province, () => filters.value.district],
@@ -374,16 +596,32 @@ watch(
   { deep: true }
 );
 
-const applyFilters = async () => {
-  const apiFilters = {
-    TYPE: filters.value.type || "",
-    PROVINCE: filters.value.province?.name || filters.value.province || "",
-    DISTRICT: filters.value.district || "",
-    VILLAGE: filters.value.village || "",
-  };
-  await postStore.fetchPosts(apiFilters);
+const normalize = (str) => (str || "").toString().toLowerCase().trim();
+
+const applyFilters = () => {
+  let base = [...allPosts.value];
+
+  if (filters.value.type) {
+    base = base.filter((p) => normalize(p.TYPE).includes(normalize(filters.value.type)));
+  }
+
+  if (filters.value.province) {
+    base = base.filter((p) => normalize(p.PROVINCE).includes(normalize(filters.value.province.name || filters.value.province)));
+  }
+
+  if (filters.value.district) {
+    base = base.filter((p) => normalize(p.DISTRICT).includes(normalize(filters.value.district)));
+  }
+
+  if (filters.value.village) {
+    base = base.filter((p) => normalize(p.VILLAGE).includes(normalize(filters.value.village)));
+  }
+
+  // update postStore.posts เพื่อให้ filteredPosts ใช้งาน
+  postStore.posts = base;
   currentPage.value = 1;
 };
+
 
 const openCreateModal = () => {
   modalMode.value = "create";
@@ -396,6 +634,7 @@ const openCreateModal = () => {
     CURRENCY: "LAK",
     TYPE: "",
     DESCRIPTION: "",
+    STATUS: "",
     MAP_LOCATION: "",
     TEL: "",
     EMAIL: "",
@@ -441,24 +680,6 @@ const handleSaved = async () => {
   }
 };
 
-// const deletePost = async (id) => {
-//   console.log('Delete ID:', id);
-
-//   if (!confirm('ທ່ານແນ່ໃຈທີ່ຈະລຶບຂໍ້ມູນນີ້ແທ້ບໍ?')) {
-//     return;
-//   }
-
-//   try {
-//     await postStore.deletePost(id);
-//     alert('ລຶບຂໍ້ມູນສຳເລັດແລ້ວ!');
-//     // โหลดข้อมูลใหม่หรืออัปเดต UI
-//     await postStore.fetchPosts();
-//   } catch (error) {
-//     console.error('Error deleting post:', error);
-//     alert(`ລຶບຂໍ້ມູນບໍ່ສຳເລັດ: ${error.message}`);
-//   }
-// };
-
 
 const deletePost = async (id) => {
   console.log("Delete ID:", id);
@@ -497,6 +718,109 @@ const deletePost = async (id) => {
   }
 };
 
+const authorizePost = async (id) => {
+  try {
+    const result = await modal.open({
+      title: "ຢືນຢັນການອະນຸມັດ",
+      message: "ທ່ານແນ່ໃຈທີ່ຈະອະນຸມັດຂໍ້ມູນນີ້ແທ້ບໍ?",
+      type: "warning",
+      showCancel: true,
+      confirmButtonText: "ອະນຸມັດ",
+      cancelButtonText: "ຍົກເລີກ",
+    });
+
+    if (result === "confirm") {
+      await postStore.authorizePost(id);
+      
+      await modal.open({
+        title: "ສຳເລັດ",
+        message: "ອະນຸມັດຂໍ້ມູນສຳເລັດແລ້ວ",
+        type: "success",
+        confirmButtonText: "OK",
+      });
+      
+      console.log('อนุญาตการขายสำเร็จ');
+      await postStore.fetchPosts(); // รีเฟรชข้อมูลหลังการดำเนินการ
+    }
+  } catch (error) {
+    console.error('Failed to authorize post:', error);
+    await modal.open({
+      title: "ຜິດພາດ",
+      message: "ບໍ່ສາມາດອະນຸມັດຂໍ້ມູນໄດ້: " + error.message,
+      type: "error",
+      confirmButtonText: "OK",
+    });
+  }
+};
+
+const disablePost = async (id) => {
+  try {
+    const result = await modal.open({
+      title: "ຢືນຢັນການປິດການຂາຍ",
+      message: "ທ່ານແນ່ໃຈທີ່ຈະປິດການຂາຍຂໍ້ມູນນີ້ແທ້ບໍ?",
+      type: "warning",
+      showCancel: true,
+      confirmButtonText: "ປິດການຂາຍ",
+      cancelButtonText: "ຍົກເລີກ",
+    });
+
+    if (result === "confirm") {
+      await postStore.disablePost(id);
+      
+      await modal.open({
+        title: "ສຳເລັດ",
+        message: "ປິດການຂາຍສຳເລັດແລ້ວ",
+        type: "success",
+        confirmButtonText: "OK",
+      });
+      
+      console.log('ปิดการขายสำเร็จ');
+      await postStore.fetchPosts(); // รีเฟรชข้อมูลหลังการดำเนินการ
+    }
+  } catch (error) {
+    console.error('Failed to disable post:', error);
+    await modal.open({
+      title: "ຜິດພາດ",
+      message: "ບໍ່ສາມາດປິດການຂາຍໄດ້: " + error.message,
+      type: "error",
+      confirmButtonText: "OK",
+    });
+  }
+};
+
+const setPendingPost = async (id) => {
+  try {
+    const result = await modal.open({
+      title: "ຢືນຢັນການຕັ້ງການລໍຖ້າ",
+      message: "ທ່ານແນ່ໃຈທີ່ຈະຕັ້ງຂໍ້ມູນນີ້ໃຫ້ຢູ່ໃນສະຖານະລໍຖ້າແທ້ບໍ?",
+      type: "warning",
+      showCancel: true,
+      confirmButtonText: "ຕັ້ງລໍຖ້າ",
+      cancelButtonText: "ຍົກເລີກ",
+    });
+
+    if (result === "confirm") {
+      await postStore.setPendingPost(id);
+      
+      await modal.open({
+        title: "ສຳເລັດ",
+        message: "ຕັ້ງສະຖານະລໍຖ້າສຳເລັດແລ້ວ",
+        type: "success",
+        confirmButtonText: "OK",
+      });
+      
+      await postStore.fetchPosts(); // รีเฟรชข้อมูลหลังการดำเนินการ
+    }
+  } catch (error) {
+    console.error('Failed to set pending post:', error);
+    await modal.open({
+      title: "ຜິດພາດ",
+      message: "ບໍ່ສາມາດຕັ້ງສະຖານະລໍຖ້າໄດ້: " + error.message,
+      type: "error",
+      confirmButtonText: "OK",
+    });
+  }
+};
 
 // const filteredPosts = computed(() => {
 //   if (!Array.isArray(postStore.posts)) {
@@ -544,31 +868,47 @@ const visiblePages = computed(() => {
 
 const filteredPosts = computed(() => {
   if (!Array.isArray(postStore.posts)) {
-    currentPage.value = 1; // รีเซ็ตหน้าเมื่อไม่มีข้อมูล
     return [];
   }
 
-  const filtered = postStore.posts.filter((post) => {
+  return postStore.posts.filter((post) => {
     const matchesSearch =
-      post.TYPE?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      post.VILLAGE?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      post.DISTRICT?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      post.PROVINCE?.toLowerCase().includes(searchQuery.value.toLowerCase());
+      normalize(post.TYPE).includes(normalize(searchQuery.value)) ||
+      normalize(post.VILLAGE).includes(normalize(searchQuery.value)) ||
+      normalize(post.DISTRICT).includes(normalize(searchQuery.value)) ||
+      normalize(post.PROVINCE).includes(normalize(searchQuery.value));
 
     const matchesStatus =
       statusFilter.value === "all" ||
       (post.status || "pending") === statusFilter.value;
+
     return matchesSearch && matchesStatus;
   });
-
-  // รีเซ็ตไปที่หน้าแรกเมื่อผลลัพธ์การกรองเปลี่ยน
-  if (
-    currentPage.value > 1 &&
-    filtered.length <= (currentPage.value - 1) * itemsPerPage
-  ) {
-    currentPage.value = 1;
-  }
-
-  return filtered;
 });
+
 </script>
+
+<style scoped>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.table-fixed {
+  table-layout: fixed;
+}
+
+/* สำหรับการแสดงผลบน mobile */
+@media (max-width: 768px) {
+  .table-fixed {
+    table-layout: auto;
+  }
+  
+  .overflow-x-auto {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+</style>

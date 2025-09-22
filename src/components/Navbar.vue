@@ -1,69 +1,166 @@
 <template>
-  <nav class="bg-gradient-to-r from-blue-600 to-blue-900 shadow-lg">
-    <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center h-18 ">
+  <nav class="bg-gradient-to-r from-blue-900 to-blue-600 shadow-lg scroll-smooth">
+    <div class="mx-4 sm:mx-6 md:mx-20 px-4">
+      <div class="flex justify-between items-center h-18">
+        <!-- Logo -->
         <div class="flex-shrink-0 flex items-center pr-4 border-r border-white h-12">
-            <img 
-                src="../assets/images/LVB-logo.png" 
-                alt="LAOVIET Bank Logo"
-                class="h-13 w-auto"
-            >
+          <img 
+            src="../assets/images/LVB-logo.png" 
+            alt="LAOVIET Bank Logo"
+            class="h-13 w-auto"
+          >
         </div>
 
-
+        <!-- Center text - ซ่อนบนมือถือ -->
         <div class="hidden md:flex flex-col items-center justify-center flex-1">
-            <span class="text-white text-md tracking-wider shadow-2xl">
-                ທະນາຄານ ຮ່ວມທຸລະກິດລາວ - ຫວຽດຈໍາກັດ
-            </span>
-            <span class="text-white text-md tracking-wider shadow-2xl">
-                ຂົວຕໍ່ແຫ່ງຜົນສຳເລັດ
-            </span>
+          <span class="text-white text-md tracking-wider shadow-2xl">
+            {{ $t('navbar.bank_name') }}
+          </span>
+          <span class="text-white text-md tracking-wider shadow-2xl">
+            {{ $t('navbar.tagline') }}
+          </span>
         </div>
-            <div class="relative w-32 h-32">
-                <img 
-                src="../assets/images/flower-2.png" 
-                alt="Flower"
-                class="absolute  top-8 right-30 h-28 w-24 opacity-90"
-                style="transform: rotate(-5deg)"
-                >
-                <img 
-                    src="../assets/images/flower-1.png" 
-                    alt="Flower"
-                    class="absolute top-5 right-4 h-32 w-32 opacity-80"
-                    style="transform: rotate(5deg)"
-                >
-                <img 
-                    src="../assets/images/flower-1.png" 
-                    alt="Flower"
-                    class="absolute top-2 right-0 left-22 h-20 w-20 opacity-70"
-                    style="transform: rotate(15deg)"
-                >
-                <img 
-                    src="../assets/images/flower-1.png" 
-                    alt="Flower"
-                    class="absolute top-17 right-0 left-35 h-8 w-8 opacity-100"
-                    style="transform: rotate(15deg)"
-                >
+
+        <!-- Right Actions: Language, Notifications, User -->
+        <div class="flex items-center space-x-4">
+          <!-- Desktop buttons - hidden on mobile -->
+          <div class="hidden sm:flex items-center space-x-4">
+            <!-- Language Dropdown -->
+            <div class="relative">
+              <button 
+                class="peer flex items-center justify-center w-10 h-10 
+                       text-white bg-blue-600 hover:bg-blue-800 
+                       transition-colors rounded-full shadow-md cursor-pointer"
+                aria-label="Change language"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
+              </button>
+              <div
+                class="absolute right-0 mt-3 w-40 bg-white rounded-xl shadow-lg ring-1 ring-black/5
+                      opacity-0 scale-95 translate-y-1 
+                      peer-hover:opacity-100 peer-hover:scale-100 peer-hover:translate-y-0
+                      peer-focus-within:opacity-100 peer-focus-within:scale-100 peer-focus-within:translate-y-0
+                      transition duration-200 ease-out transform origin-top
+                      peer-hover:pointer-events-auto peer-focus-within:pointer-events-auto"
+              >
+                <button @click="setLanguage('en')" class="w-full px-5 py-2 text-sm text-gray-700 hover:bg-blue-200 hover:rounded-t-xl flex items-center"><img src="../assets/images/united-kingdom.png" class="w-7 h-7 me-2" alt=""> English</button>
+                <button @click="setLanguage('vn')" class="w-full px-5 py-2 text-sm text-gray-700 hover:bg-blue-200 flex items-center"><img src="../assets/images/vietnam.png" class="w-7 h-7 me-2" alt="">ViệtNam</button>
+                <button @click="setLanguage('la')" class="w-full px-5 py-2 text-sm text-gray-700 hover:bg-blue-200 hover:rounded-b-xl flex items-center"><img src="../assets/images/laos.png" class="w-7 h-5 me-2" alt="">Lao</button>
+              </div>
             </div>
+            
+            <!-- Notifications -->
+            <button 
+              class="w-10 h-10 text-white bg-blue-600 hover:bg-blue-800 
+                     transition-colors rounded-full shadow-md relative cursor-pointer"
+              @click="toggleNotifications"
+              aria-label="Notifications"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              <span 
+                v-if="hasNotifications" 
+                class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"
+              ></span>
+            </button>
 
+            <!-- User Menu Dropdown -->
+            <div class="relative">
+              <button 
+                class="peer flex items-center justify-center w-10 h-10 
+                       text-white bg-blue-600 hover:bg-blue-800 
+                       transition-colors rounded-full shadow-md cursor-pointer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </button>
+              <div
+                class="absolute right-0 mt-3 w-40 py-2 px-2 bg-white rounded-lg shadow-lg ring-1 ring-black/5
+                      opacity-0 scale-95 translate-y-1 
+                      peer-hover:opacity-100 peer-hover:scale-100 peer-hover:translate-y-0
+                      peer-focus-within:opacity-100 peer-focus-within:scale-100 peer-focus-within:translate-y-0
+                      transition duration-200 ease-out transform origin-top
+                      peer-hover:pointer-events-auto peer-focus-within:pointer-events-auto"
+              >
+                <router-link to="/login" class="flex justify-evenly item-center px-5 py-2 text-sm border border-gray-200 rounded-lg mb-2 text-gray-700 hover:bg-blue-200 hover:rounded-lg">
+                <ArrowRightEndOnRectangleIcon class="w-5 h-5"/>
+                {{ $t('navbar.login') }}
+                </router-link>
+                <router-link to="/register" class="flex justify-evenly item-center px-5 py-2 text-sm border border-gray-200 rounded-lg text-gray-700 hover:bg-blue-200 hover:rounded-lg">
+                {{ $t('navbar.register') }}
+                 <ArrowRightEndOnRectangleIcon class="w-5 h-5"/>
+                </router-link>
+              </div>
+            </div>
+          </div>
 
-        <!-- Mobile menu button (สำหรับ responsive) -->
-        <div class="md:hidden flex items-center">
+          <!-- Mobile buttons - shown only on mobile -->
+          <div class="sm:hidden flex items-center space-x-2">
+            <!-- Language button for mobile -->
+            <button 
+              class="text-white p-2 rounded-full hover:bg-blue-600 relative"
+              @click="isMobileLangOpen = !isMobileLangOpen"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+              </svg>
+            </button>
+            
+            <!-- Notifications for mobile -->
+            <button 
+              class="text-white p-2 rounded-full hover:bg-blue-600 relative"
+              @click="toggleNotifications"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              <span 
+                v-if="hasNotifications" 
+                class="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"
+              ></span>
+            </button>
+
+            <!-- User menu for mobile -->
+            <button 
+              class="text-white p-2 rounded-full hover:bg-blue-600"
+              @click="isMobileUserOpen = !isMobileUserOpen"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Mobile dropdowns -->
+          <div v-if="isMobileLangOpen" class="absolute right-16 top-14 w-28 bg-white rounded-md shadow-lg z-50">
+            <button @click="setLanguage('en'); isMobileLangOpen=false" class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">English</button>
+            <button @click="setLanguage('vn'); isMobileLangOpen=false" class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">Tiếng Việt</button>
+            <button @click="setLanguage('la'); isMobileLangOpen=false" class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">Lao</button>
+          </div>
+
+          <div v-if="isMobileUserOpen" class="absolute right-4 top-14 w-32 bg-white rounded-md shadow-lg z-50">
+            <router-link @click="isMobileUserOpen=false" to="/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">Login</router-link>
+            <router-link @click="isMobileUserOpen=false" to="/register" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">Register</router-link>
+          </div>
+        </div>
+
+        <!-- Mobile menu button -->
+        <div class="sm:hidden flex items-center">
           <button 
             @click="isOpen = !isOpen"
             class="text-white focus:outline-none"
           >
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg v-if="!isOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
+            <svg v-else class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
-        </div>
-      </div>
-
-      <!-- Mobile Menu (จะแสดงเมื่อหน้าจอเล็ก) -->
-      <div v-if="isOpen" class="md:hidden pb-2">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-          <!-- <span class="text-white font-bold block">LAOVIET Bank</span> -->
         </div>
       </div>
     </div>
@@ -72,14 +169,27 @@
 
 <script setup>
 import { ref } from 'vue'
+import {
+  ArrowRightEndOnRectangleIcon
+} from "@heroicons/vue/24/outline";
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 
 const isOpen = ref(false)
-</script>
+const isMobileLangOpen = ref(false)
+const isMobileUserOpen = ref(false)
+const hasNotifications = ref(true)
+const currentLanguage = ref('en')
 
-<style scoped>
-/* เพิ่ม animation สำหรับดอกไม้ */
-.relative:hover img:last-child {
-  transform: rotate(-15deg);
-  transition: transform 0.3s ease;
+// ฟังก์ชันเปลี่ยนภาษา
+const setLanguage = (lang) => {
+  console.log('Language changed to:', lang)
+  locale.value = lang
+  localStorage.setItem('user-locale', lang)
 }
-</style>
+
+const toggleNotifications = () => {
+  console.log('Notifications toggled')
+}
+</script>

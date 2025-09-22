@@ -5,7 +5,7 @@
       <div class="sticky top-0 bg-blue-800 z-10 border-b border-gray-100 px-6 py-3">
         <div class="flex justify-between items-center">
           <h3 class="text-md font-bold text-white">
-            {{ mode === 'create' ? 'ເພີ່ມການປະກາດໃໝ່' : 'ແກ້ໄຂການປະກາດ' }}
+            {{ mode === 'create' ? 'Add New Post' : 'Update Post' }}
           </h3>
           <button 
             @click="close" 
@@ -25,11 +25,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <!-- Village -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ບ້ານ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('filters.village') }}</label>
                 <input 
                   v-model="formData.VILLAGE"
                   type="text" 
-                  placeholder="ກະລຸນາເພີ່ມບ້ານ"
+                  placeholder="ກະລຸນາເພີ່ມບ້ານ............."
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
@@ -37,7 +37,7 @@
 
               <!-- Province -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ແຂວງ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('filters.province') }}</label>
                 <select
                   v-model="formData.PROVINCE"
                   @change="loadDistricts"
@@ -57,7 +57,7 @@
 
               <!-- District -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ເມືອງ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('filters.district') }}</label>
                 <select
                   v-model="formData.DISTRICT"
                   :disabled="!formData.PROVINCE"
@@ -77,7 +77,7 @@
 
               <!-- Area -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ເນື້ອທີ່ (ຕມ.)</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('property.area') }} (ຕມ.)</label>
                 <input 
                   v-model.number="formData.AREA"
                   type="text" 
@@ -88,7 +88,7 @@
 
               <!-- Price -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ລາຄາ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('property.price') }}</label>
                 <div class="relative">
                   <input 
                     v-model.number="formData.PRICE"
@@ -104,7 +104,7 @@
 
               <!-- Currency -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ສະກຸນເງີນ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('modal.currency') }}</label>
                 <select 
                   v-model="formData.CURRENCY"
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
@@ -112,26 +112,32 @@
                 >
                   <option value="LAK">LAK</option>
                   <option value="USD">USD</option>
+                  <option value="VND">VND</option>
                 </select>
               </div>
 
               <!-- Type -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ປະເພດ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('modal.type') }}</label>
                 <select 
                   v-model="formData.TYPE"
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
+                  <option value="">ປະເພດ</option>
                   <option value="ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ">ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ</option>
                   <option value="ດິນກະສິກໍາ">ດິນກະສິກໍາ</option>
                   <option value="ດິນປຸກສ້າງເປົ່າຫວ່າງ">ດິນປຸກສ້າງເປົ່າຫວ່າງ</option>
+                  <option value="ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ">ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ</option>
+                  <option value="ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ">ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ</option> 
+                  <option value="ລົດ">ລົດ</option> 
+                  <option value="ສິດນຳໃຊ້ທີ່ດິນ ຫຼື ອາຄານ">ສິດນຳໃຊ້ທີ່ດິນ ຫຼື ອາຄານ</option> 
                 </select>
               </div>
 
               <!-- Phone -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ເບີໂທລະສັບ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('modal.contact_tel') }}</label>
                 <input 
                   v-model="formData.TEL"
                   type="tel" 
@@ -143,7 +149,7 @@
 
               <!-- Email -->
               <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ອີເມວ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('modal.contact_email') }}</label>
                 <input 
                   v-model="formData.EMAIL"
                   type="email" 
@@ -153,9 +159,37 @@
                 >
               </div>
 
+              <!-- Post Privacy -->
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Post visibility</label>
+                <div class="flex items-center space-x-4 mt-1">
+                  <label class="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      value="PUBLIC" 
+                      v-model="formData.VISIBILITY" 
+                      class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <span class="text-sm text-gray-700">Public</span>
+                  </label>
+
+                  <label class="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      value="PRIVATE" 
+                      v-model="formData.VISIBILITY" 
+                      class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <span class="text-sm text-gray-700">Private</span>
+                  </label>
+                </div>
+              </div>
+
+
+
               <!-- Map Location -->
               <div class="md:col-span-2 space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ຕຳແໜ່ງສະຖານທີ່ (Google Maps)</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('property.location') }} (Google Maps)</label>
                 <input 
                   v-model="formData.MAP_LOCATION"
                   type="text" 
@@ -167,10 +201,11 @@
 
               <!-- Description -->
               <div class="md:col-span-2 space-y-1">
-                <label class="block text-sm font-medium text-gray-700">ລາຍລະອຽດ</label>
+                <label class="block text-sm font-medium text-gray-700">{{ $t('property.description') }}</label>
                 <textarea 
                   v-model="formData.DESCRIPTION"
-                  rows="4"
+                  rows="8"
+                  placeholder="ລາຍລະອຽດ..............."
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 ></textarea>
@@ -179,19 +214,19 @@
           </div>
 
           <!-- Right Column - Image Uploads -->
-          <div class="w-96 flex flex-col overflow-y-auto p-6 bg-gray-50">
+          <div class="w-96 flex flex-col ms-20 overflow-y-auto p-6 bg-gray-50">
             <!-- Profile Image Upload -->
             <div class="space-y-2">
-              <label class="block text-sm font-medium text-gray-700">ຮູບພາບໜ້າປົກ</label>
-              <div class="flex items-center gap-4">
+              <label class="block text-sm font-medium text-gray-700">{{ $t('property.main_image') }}</label>
+              <div class="flex flex-col gap-4">
                 <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors duration-200">
                   <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4">
                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                     <p class="text-xs text-gray-500 mt-2 text-center">
-                      ຄລິກເພື່ອເລືອກຮູບພາບ<br>
-                      <span class="text-blue-500">ຫຼືລາກແລະວາງຮູບທີ່ນີ້</span>
+                      {{ $t('property.select_image') }}<br>
+                      <span class="text-blue-500">{{ $t('property.paste_image') }}</span>
                     </p>
                   </div>
                   <input 
@@ -220,7 +255,7 @@
 
             <!-- Detail Images -->
             <div class="space-y-2 mt-6">
-              <label class="block text-sm font-medium text-gray-700">ຮູບພາບເພີ່ມເຕີມ</label>
+              <label class="block text-sm font-medium text-gray-700">{{ $t('property.sub_image') }}</label>
               <div class="flex flex-col gap-3">
                 <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors duration-200">
                   <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4">
@@ -228,8 +263,8 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
                     </svg>
                     <p class="text-xs text-gray-500 mt-2 text-center">
-                      ຄລິກເພື່ອເລືອກຮູບພາບ<br>
-                      <span class="text-blue-500">ສາມາດເລືອກຫຼາຍຮູບພາບໄດ້ (ສູງສຸດ 6 ຮູບ)</span>
+                      {{ $t('property.select_image') }}<br>
+                      <span class="text-blue-500">{{ $t('property.limit_image') }}</span>
                     </p>
                   </div>
                   <input 
@@ -242,7 +277,7 @@
                   >
                 </label>
                 <p class="text-xs text-gray-500 text-center">
-                  ຮູບປັດຈຸບັນ: {{ formData.DETAILS_IMAGE.length }}/6
+                  {{ $t('property.current_image') }}: {{ formData.DETAILS_IMAGE.length }}/6
                 </p>
                 
                 <!-- Detail Images Preview -->
@@ -272,7 +307,7 @@
               class="px-5 py-2.5 text-sm font-medium rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
               :disabled="loading"
             >
-              ຍົກເລີກ
+              cancel
             </button>
             <button
               type="submit"
@@ -285,7 +320,7 @@
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
               </span>
-              {{ mode === 'create' ? 'ບັນທຶກ' : 'ອັບເດດ' }}
+              {{ mode === 'create' ? 'save' : 'update' }}
             </button>
           </div>
         </div>
@@ -298,6 +333,10 @@
 import { ref, watch, getCurrentInstance, onMounted, computed } from 'vue'
 import { usePostStore } from '../../../stores/indexStore'
 import mockLaosApi from '../../../services/mockApi'
+
+import { useI18n } from 'vue-i18n'
+
+const { locale, t } = useI18n()
 
 // for alert modal
 const { $modal, $loading } = getCurrentInstance().appContext.config.globalProperties
@@ -346,51 +385,10 @@ const formData = ref({
   EMAIL: '',
   PROFILE_IMAGE: null,
   DETAILS_IMAGE: [],
-  CREATED_BY: 'ADMIN'
+  CREATED_BY: 'ADMIN',
+  VISIBILITY: ''
 });
 
-// watch(() => props.post, async (newPost) => {
-//   if (newPost) {
-//     console.log('Original post data:', newPost);
-    
-//     // เก็บค่าเดิมของจังหวัดและอำเภอไว้ก่อน
-//     const oldProvince = formData.value.PROVINCE;
-//     const oldDistrict = formData.value.DISTRICT;
-    
-//     formData.value = {
-//       ...newPost,
-//       VILLAGE: newPost.VILLAGE || '',
-//       DISTRICT: oldDistrict || newPost.DISTRICT || '', // ใช้ค่าเดิมถ้ามี
-//       PROVINCE: oldProvince || newPost.PROVINCE || '', // ใช้ค่าเดิมถ้ามี
-//       AREA: newPost.AREA || 0,
-//       PRICE: newPost.PRICE || 0,
-//       CURRENCY: newPost.CURRENCY || 'LAK',
-//       TYPE: newPost.TYPE || '',
-//       DESCRIPTION: newPost.DESCRIPTION || '',
-//       MAP_LOCATION: newPost.MAP_LOCATION || '',
-//       TEL: newPost.TEL || '',
-//       EMAIL: newPost.EMAIL || '',
-//       PROFILE_IMAGE: null,
-//       DETAILS_IMAGE: [],
-//       CREATED_BY: newPost.CREATED_BY || 'ADMIN',
-//       id: newPost.id || newPost.ID || newPost._id || null,
-//       ID: newPost.ID || newPost._id || newPost.id || null,
-//       _id: newPost._id || newPost.ID || newPost.id || null
-//     }
-    
-//     // โหลดอำเภอของจังหวัดที่เลือก (ถ้ามี)
-//     if (formData.value.PROVINCE) {
-//       const province = provinces.value.find(p => p.name === formData.value.PROVINCE);
-//       if (province) {
-//         districts.value = await mockLaosApi.getDistrictsByProvinceId(province.id);
-//       }
-//     }
-    
-//     console.log('Copied form data:', formData.value);
-//   } else {
-//     resetForm();
-//   }
-// }, { immediate: true, deep: true });
 
 watch(() => props.post, async (newPost) => {
   if (newPost) {
@@ -416,6 +414,7 @@ watch(() => props.post, async (newPost) => {
       PROFILE_IMAGE: null,
       DETAILS_IMAGE: [],
       CREATED_BY: newPost.CREATED_BY || 'ADMIN',
+      VISIBILITY: '',
       id: newPost.id || newPost.ID || newPost._id || null,
       ID: newPost.ID || newPost._id || newPost.id || null,
       _id: newPost._id || newPost.ID || newPost.id || null
@@ -448,31 +447,6 @@ watch(() => props.post, async (newPost) => {
   }
 }, { immediate: true, deep: true });
 
-// const resetForm = () => {
-//   const oldProvince = formData.value.PROVINCE;
-//   const oldDistrict = formData.value.DISTRICT;
-  
-//   formData.value = {
-//     VILLAGE: '',
-//     DISTRICT: oldDistrict || '',
-//     PROVINCE: oldProvince || '',
-//     AREA: 0,
-//     PRICE: 0,
-//     CURRENCY: 'LAK',
-//     TYPE: '',
-//     DESCRIPTION: '',
-//     MAP_LOCATION: '',
-//     TEL: '',
-//     EMAIL: '',
-//     PROFILE_IMAGE: null,
-//     DETAILS_IMAGE: [],
-//     CREATED_BY: 'ADMIN'
-//   };
-  
-//   if (!formData.value.PROVINCE) {
-//     districts.value = [];
-//   }
-// };
 
 const resetForm = () => {
   const oldProvince = formData.value.PROVINCE;
@@ -492,7 +466,8 @@ const resetForm = () => {
     EMAIL: '',
     PROFILE_IMAGE: null,
     DETAILS_IMAGE: [],
-    CREATED_BY: 'ADMIN'
+    CREATED_BY: 'ADMIN',
+    VISIBILITY: ''
   };
   
   // รีเซ็ต preview images
@@ -503,22 +478,6 @@ const resetForm = () => {
     districts.value = [];
   }
 };
-
-// const handleProfileImage = (event) => {
-//   const file = event.target.files[0];
-//   formData.value.PROFILE_IMAGE = file || null;
-//   event.target.value = ''; // รีเซ็ต input file
-// };
-
-// const handleDetailImages = (event) => {
-//   const files = event.target.files;
-//   if (files && files.length > 0) {
-//     formData.value.DETAILS_IMAGE = Array.from(files).slice(0, 6);
-//   } else {
-//     formData.value.DETAILS_IMAGE = [];
-//   }
-//   event.target.value = ''; // รีเซ็ต input file
-// };
 
 const handleProfileImage = (event) => {
   const file = event.target.files[0];
@@ -591,12 +550,6 @@ const save = async () => {
   try {
     const formDataToSend = new FormData();
 
-    // เพิ่มข้อมูลพื้นฐานทั้งหมด
-    // Object.keys(formData.value).forEach(key => {
-    //   if (key !== 'PROFILE_IMAGE' && key !== 'DETAILS_IMAGE' && key !== 'IMAGES') {
-    //     formDataToSend.append(key, formData.value[key]);
-    //   }
-    // });
 
     Object.keys(formData.value).forEach(key => {
       if (

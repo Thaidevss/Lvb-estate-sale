@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { getToken } from './tokenService'
 
+const API_URL = import.meta.env.VITE_BASE_API_URL;
+
 const apiService = axios.create({
-  baseURL: 'http://10.2.182.23:8000'
+  // baseURL: 'http://10.2.182.23:8000'
+  baseURL: API_URL
 })
 
 // apiService.interceptors.request.use(config => {

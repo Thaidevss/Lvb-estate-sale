@@ -1,4 +1,6 @@
-const BASE_IMAGE_URL = 'http://10.2.182.23:8000/uploads/';
+
+// const BASE_IMAGE_URL = 'http://10.2.182.23:8000/uploads/';
+const BASE_IMAGE_URL = import.meta.env.VITE_API_UPLOAD;
 
 export const getImageUrl = (filename) => {
   if (!filename) return getDefaultImage();
@@ -67,4 +69,4 @@ export const getDefaultImage = () => {
     console.error('Error loading default image:', e);
     return 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NjYyIgc3Ryb2tlLXdpZHRoPSIyIj48cmVjdCB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHg9IjIiIHk9IjIiIHJ4PSIyIi8+PHBhdGggZD0iTTggMTJhMiAyIDAgMTAwLTQgMiAyIDAgMDAwIDR6bTAgMGg4YTQgNCAwIDAxLTggMHoiLz48L3N2Zz4=';
   }
-};
+}; 

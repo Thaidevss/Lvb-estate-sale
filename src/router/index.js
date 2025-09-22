@@ -27,6 +27,15 @@ const routes = [
         component: () => import('../views/public/Test.vue'),
         meta: { public: true }
       },
+      {
+        path: '/index/land',
+        name: 'land_webint',
+        component: () => import('../views/public/WebinitPage.vue'),
+        meta: { 
+          public: true, 
+          lockToIndex: true // เพิ่ม Meta Field นี้
+        }
+      },
     ]
   },
   {
@@ -34,12 +43,6 @@ const routes = [
       component: AdminLayout,
       meta: { requiresAuth: true },
       children: [
-        // {
-        //   path: '',
-        //   name: 'AdminDashboard',
-        //   component: () => import('../views/admin/DashboardView.vue'),
-        //   meta: { title: 'ໜ້າຫຼັກ Admin' }
-        // },
         {
           path: '',
           name: 'AdminPosts',
@@ -76,25 +79,39 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   
-  // เรียก initializeAuth เพื่อโหลด token จาก localStorage
   authStore.initializeAuth()
   
   const isPublic = to.matched.some(record => record.meta.public)
   const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
   
-  // ถ้า route ต้อง authentication แต่ไม่มี token
   if (!isPublic && !authStore.checkAuth()) {
     return next({
       path: '/login',
-      query: { redirect: to.fullPath } // เตรียม redirect กลับหลังจาก login
+      query: { redirect: to.fullPath }
     })
   }
   
-  // ถ้า route อนุญาตเฉพาะเมื่อ logout แต่ยัง login อยู่
   if (onlyWhenLoggedOut && authStore.isAuthenticated) {
-    return next('/admin') // หรือ path หลักหลัง login
+    return next('/admin')
   }
-  
+
+  const fromLockIndex = from.matched.some(record => record.meta.lockToIndex);
+
+  // ตรวจสอบ referrer URL
+  const referrer = document.referrer;
+  const isFromIndex = referrer.includes('/index');
+
+  if (isFromIndex && to.path === '/') {
+    // ถ้ามาจาก URL ที่มี /index และกำลังจะไปหน้า /
+    return next({ name: 'land_webint' });
+  }
+
+  // สำหรับการนำทางภายในแอปตามปกติ
+  if (fromLockIndex && to.path === '/') {
+    return next({ name: 'land_webint' });
+  }
+
+
   next()
 })
 

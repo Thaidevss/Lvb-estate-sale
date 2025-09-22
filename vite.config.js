@@ -8,5 +8,9 @@ export default defineConfig({
     vue(),
     tailwindcss(),
   ],
-  server: 9999
+  server: {
+    port: 5173,     
+    host: true,    
+    open: true      
+  }
 })

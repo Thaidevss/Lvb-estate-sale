@@ -1,0 +1,124 @@
+// src/stores/testStore.js (สำหรับกรณีต้องส่ง body)
+
+import { ref } from "vue";
+import { defineStore } from "pinia";
+import axios from "axios";
+import CryptoJS from "crypto-js";
+
+const secret =
+  "soukphasoneLVBf3e1b2648d3a44a2f1975db9b88d86be267e5a823bbca50a8e6d7525d0c3c2b5";
+
+export const useTestStore = defineStore("test", () => {
+  const isLoading = ref(false);
+  const sentPayload = ref(null);
+  const apiResponse = ref(null);
+  const decryptedData = ref(null);
+  const error = ref(null);
+
+  // ฟังก์ชันเข้ารหัสข้อมูล
+  function encryptData(data) {
+    try {
+      const key = CryptoJS.SHA256(secret);
+      const iv = CryptoJS.lib.WordArray.random(16);
+
+      const encrypted = CryptoJS.AES.encrypt(JSON.stringify(data), key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+      });
+
+      const ivBase64 = CryptoJS.enc.Base64.stringify(iv);
+      const ciphertextBase64 = encrypted.ciphertext.toString(
+        CryptoJS.enc.Base64
+      );
+
+      return `${ivBase64}:${ciphertextBase64}`;
+    } catch (e) {
+      console.error("Encryption failed:", e);
+      throw e;
+    }
+  }
+
+  // ฟังก์ชันถอดรหัสข้อมูล
+  function decryptData(data) {
+    try {
+      if (!data) return null; // ตรวจสอบข้อมูลว่าง
+      const [ivBase64, ciphertextBase64] = data.split(":");
+      const iv = CryptoJS.enc.Base64.parse(ivBase64);
+      const ciphertext = CryptoJS.enc.Base64.parse(ciphertextBase64);
+      const key = CryptoJS.SHA256(secret);
+
+      const decrypted = CryptoJS.AES.decrypt({ ciphertext: ciphertext }, key, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+      });
+
+      const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
+      return JSON.parse(decryptedText);
+    } catch (e) {
+      console.error("Decryption failed:", e);
+      throw e;
+    }
+  }
+
+  // ฟังก์ชันดึงข้อมูล API
+  // ฟังก์ชันดึงข้อมูล API
+  // ในไฟล์ testStore.js หรือในส่วนที่จัดการ logic การเรียก API
+async function fetchData() {
+  isLoading.value = true;
+  error.value = null;
+  apiResponse.value = null;
+  decryptedData.value = null;
+
+  try {
+    // ใช้ axios.post เพื่อส่ง body ตามที่ API ต้องการ
+    const response = await axios.post("http://10.2.182.23:8000/test", {
+      DATA: "dEEKhnPOLNw1g1wxwqI2eg==:XGn1S3KqUtgb27bsh5Dkbw==",
+    });
+
+    // เข้าถึงข้อมูลจาก response.data
+    const rawData = response.data;
+    apiResponse.value = rawData; // เก็บข้อมูล response ดิบ
+
+    // ดึงข้อมูลที่เข้ารหัสจาก rawData
+    const encryptedData = rawData.DATA_SEND_FROM_API?.data_2;
+
+    // ถอดรหัสข้อมูลที่เข้ารหัส
+    let decryptedValue = null;
+    if (encryptedData) {
+      try {
+        decryptedValue = decryptData(encryptedData);
+      } catch (decryptError) {
+        console.error("Decryption of data_2 failed:", decryptError);
+        error.value = "Failed to decrypt API data.";
+        return; // ออกจากฟังก์ชันเมื่อถอดรหัสล้มเหลว
+      }
+    }
+
+    // รวมข้อมูลที่ถอดรหัสแล้วและข้อมูลอื่น ๆ
+    decryptedData.value = {
+      data_1: rawData.DATA_SEND_FROM_API?.data_1, // ข้อมูลที่ไม่ได้เข้ารหัส
+      decrypted_data_2: decryptedValue, // ข้อมูลที่ถูกถอดรหัสแล้ว
+    };
+
+  } catch (e) {
+    console.error("Fetch data failed:", e);
+    // จัดการข้อผิดพลาด เช่น HTTP error หรือ network issue
+    error.value = e.message;
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+  return {
+    isLoading,
+    sentPayload,
+    apiResponse,
+    decryptedData,
+    error,
+    fetchData,
+    encryptData,
+    decryptData,
+  };
+});
