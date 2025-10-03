@@ -3,16 +3,16 @@
     <img
       :src="flowerImage"
       alt="Loading flower"
-      class="w-18 h-18 animate-spin-slow opacity-90 drop-shadow-lg filter-blue"
+      class="w-28 h-28"
     />
-    <p class=" font-medium text-sky-700 text-sm animate-pulse">
-      ກຳລັງໂຫຼດຂໍ້ມູນ...
+    <p class=" font-bold text-sky-700 text-sm animate-pulse">
+      Loading...
     </p>
   </div>
 </template>
 
 <script setup>
-import flowerImage from '../../assets/images/flower-3.png'
+import flowerImage from '../../assets/images/Loading-PS-render-80x80px.gif'
 </script>
 
 <style scoped>
@@ -36,7 +36,9 @@ import flowerImage from '../../assets/images/flower-3.png'
   filter: brightness(10%) saturate(250%) invert(15%) sepia(90%) saturate(2000%) hue-rotate(200deg) brightness(85%) contrast(130%);
 }
 
-
+/* .filter-red {
+  filter: brightness(10%) saturate(250%) invert(15%) sepia(90%) saturate(2000%) hue-rotate(0deg) brightness(85%) contrast(130%);
+} */
 
 @keyframes pulse-rotate {
   0%, 100% {

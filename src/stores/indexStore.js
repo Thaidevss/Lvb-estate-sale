@@ -7,7 +7,6 @@ import CryptoJS from "crypto-js";
 const secret = import.meta.env.VITE_SECRET_KEY_ENCRYPT;
 
 export const usePostStore = defineStore("post", () => {
-  // State
   const posts = ref([]);
   const loading = ref(false);
   const error = ref(null);
@@ -84,26 +83,26 @@ export const usePostStore = defineStore("post", () => {
 
             // console.log("Fetch Data Log (Decrypted):", posts.value);
           } else {
-            console.error("Decrypted data is not an array:", decryptedData);
+            // console.error("Decrypted data is not an array:", decryptedData);
             posts.value = [];
           }
         } catch (decryptError) {
-          console.error(
-            "Failed to decrypt the main data payload:",
-            decryptError
-          );
+          // console.error(
+          //   "Failed to decrypt the main data payload:",
+          //   decryptError
+          // );
           error.value = "Failed to process data from the server.";
           posts.value = [];
         }
       } else {
-        console.error(
-          "No encrypted data found in response or data is not a string."
-        );
+        // console.error(
+        //   "No encrypted data found in response or data is not a string."
+        // );
         posts.value = [];
       }
     } catch (err) {
       error.value = err.message;
-      console.error("Error fetching posts:", err);
+      // console.error("Error fetching posts:", err);
     } finally {
       loading.value = false;
     }
@@ -156,9 +155,8 @@ export const usePostStore = defineStore("post", () => {
     try {
       loading.value = true;
 
-      // Debug log
-      console.log("Sending update for post ID:", id);
-      console.log("FormData content:", formData);
+      // console.log("Sending update for post ID:", id);
+      // console.log("FormData content:", formData);
       for (let [key, value] of formData.entries()) {
         console.log(key, value instanceof File ? value.name : value);
       }
@@ -169,19 +167,16 @@ export const usePostStore = defineStore("post", () => {
         },
       };
 
-      // ตรวจสอบว่า ID ถูกส่งไปด้วย
       if (!id) {
         throw new Error("Missing post ID for update");
       }
 
-      // สำหรับบาง API อาจต้องการให้ส่ง ID ใน URL
       const response = await apiService.post(
         `${API_URL}/auction/update`,
         formData,
         config
       );
 
-      // อัปเดตข้อมูลใน store
       posts.value = posts.value.map((post) =>
         post.id === id || post.ID === id || post._id === id
           ? { ...post, ...response.data }
@@ -199,7 +194,7 @@ export const usePostStore = defineStore("post", () => {
 
   const deletePost = async (id) => {
     try {
-      console.log("delete ID STORE", id);
+      // console.log("delete ID STORE", id);
       loading.value = true;
       const response = await apiService.post(
         `${API_URL}/auction/delete`,
@@ -216,29 +211,13 @@ export const usePostStore = defineStore("post", () => {
     }
   };
 
-  // const viewCountDetail = async (id) => {
-  //   console.log("Detail ID", id);
-  //   try {
-  //     loading.value = true;
-  //     await apiService.post(`${API_URL}/auction/view/detail`, { ID: id });
-  //   } catch (err) {
-  //     error.value = err.message;
-  //     console.error("Error fetching detail post:", err);
-  //     throw err;
-  //   }
-  // };
 
   const viewCountDetail = async (id) => {
-    console.log("Detail ID", id);
+    // console.log("Detail ID", id);
     try {
       loading.value = true;
 
       const encryptedPayload = encryptData({ ID : id });
-
-      console.log('response encrypt', encryptedPayload);
-      const decrypt = decryptData("et8r3fQD/i7Dzic4RPKeBw==:Kxdw0gUVsd1dC4/y4HHZ0D6hGL3SdYqh9DPMv3q9J0VeppYXEB8nYOZQb3tdI/sR6kbSlPYkeayorvREghTYh52ZwfHECJZgSZ5CGFBz5sa39AK1mV95oyVqnqzMe2P7ieGMW6MkwhIzM6SD0zv5k5849jS9EDk1s0lKO6bR7LFTknLj/CYBuzfqhe8uT5RzsaReo49MIq/rhI0V8XpWSUVCkJYRWpUu7A0Ap92ookJrqHpm3BWDXpwQDz4knUPtHKjI2ifDlKn8RIG5GXP0gHKCruWwAiTVjxkB1fcNPTENATTYQ37BNys5ub9CKS+qZ1O8GNlLHEcm8vHodGoJTbRCqh8DSWlfWzOkHZdjOZ/EyGHWX1XOtEBq8bOViheaJEUC5PzYuFXsSTtkhEbAMCOmq6WipPEDw9L70wh1DhXLXdUIi/cLyvrECw0gNww3zPrnfMPjQ5bbmuYOB4L5DIQy+b1nlBHirbC77nq5oQmYRsBt2+3BL7I+jBqp3EjHHKO/A4kKSe093t9SmnZ2pCyrn7KmDyz/i3FUgkd2lqusGMEZm4+wy8d28vhG8tG8HpcQGDf2/pL0IXB9pO/k9lV6inHXaEpq8eRPoX+qZS15fa0U14xXQua5iF8xmlVzgWVv15ojN84pCrfTo84puoSx5A5obNGTEsIuwrjMchGD4cGEjdFYR9+ZjMI4x1LB31OJe6o06bVNm61SHAqWtH4/ZuUUhcf9r59/MVLiEVCKfr90aSGfEEYr6Sa3/rWgJrCE35Enavn8i01G2zj1kZ3zR9bAvT81GwWxwrJNcoY5UY5Sxwa2oIeTKYyasfGtaiHsJ/1Z105ZphUZipo76Q==")
-      console.log('decrypt 1:', decrypt);
-
 
       const response = await apiService.post(`${API_URL}/auction/view/detail`, {
         DATA: encryptedPayload,
@@ -248,10 +227,10 @@ export const usePostStore = defineStore("post", () => {
 
       if (encryptedDataString && typeof encryptedDataString === "string") {
         const decryptedData = decryptData(encryptedDataString);
-        console.log("Detail (Decrypted):", decryptedData);
+        // console.log("Detail (Decrypted):", decryptedData);
         return decryptedData;
       } else {
-        console.error("No encrypted detail data found in response.");
+        // console.error("No encrypted detail data found in response.");
         return null;
       }
     } catch (err) {
@@ -267,31 +246,28 @@ export const usePostStore = defineStore("post", () => {
     try {
       loading.value = true;
       
-      // สร้าง payload ตามที่ API ต้องการ
       const payload = {
         ID: id,
         AUTHORIZATION_LEVEL: authorizationLevel
       };
 
-      console.log("Sending update status request:", payload);
+      // console.log("Sending update status request:", payload);
 
-      // ส่ง request ไปยัง API โดยไม่ต้องเข้ารหัส
       const response = await apiService.post(`${API_URL}/auction/update`, payload, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
-      console.log("Update status response:", response.data);
+      // console.log("Update status response:", response.data);
 
-      // อัปเดตสถานะใน store ทันที (ไม่ต้องรอ refetch)
       const postIndex = posts.value.findIndex(post => 
         post.id === id || post.ID === id || post._id === id
       );
       
       if (postIndex !== -1) {
         posts.value[postIndex].STATUS.AUTHORIZATION_LEVEL = authorizationLevel;
-        console.log("Updated post status in store");
+        // console.log("Updated post status in store");
       }
 
       return response.data;
@@ -304,12 +280,10 @@ export const usePostStore = defineStore("post", () => {
     }
   };
 
-  // ฟังก์ชันสำหรับ authorized (สถานะ 1)
   const authorizePost = async (id) => {
     return await updatePostStatus(id, 1);
   };
 
-  // ฟังก์ชันสำหรับ disable (สถานะ 2)
   const disablePost = async (id) => {
     return await updatePostStatus(id, 2);
   };

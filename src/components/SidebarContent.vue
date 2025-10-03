@@ -1,177 +1,221 @@
 <template>
-  <div class="bg-white p-5 rounded-lg">
-    <h2 class="text-sm font-bold text-blue-900 mb-4 text-center">
-      ຄົ້ນຫາ ຊັບ-ສິນ ພ້ອມຂາຍ
-    </h2>
-    <div class="space-y-3 text-sm">
-      <!-- ฟิลเตอร์ประเภท -->
-      <select
-        v-model="filters.type"
-        class="w-full border text-gray-600 border-gray-300 shadow rounded text-sm px-2 py-1.5"
-      >
-        <option value="">ປະເພດທັງໝົດ</option>
-        <option
-          v-for="type in locationStore.types"
-          :key="type.id"
-          :value="type"
-        >
-          {{ type.TYPE }}
-        </option>
-      </select>
-
-      <select
-        v-model="filters.province"
-        @change="onProvinceChange"
-        class="w-full border text-gray-600 border-gray-300 shadow rounded text-sm px-2 py-1.5"
-      >
-        <option value="">ແຂວງ</option>
-        <option
-          v-for="province in locationStore.provinces"
-          :key="province.id"
-          :value="province"
-        >
-          {{ province.name }}
-        </option>
-      </select>
-      <select
-        v-model="filters.district"
-        @change="onDistrictChange"
-        class="w-full border text-gray-600 border-gray-300 shadow rounded text-sm px-2 py-1.5"
-        :disabled="!filters.province"
-      >
-        <option value="">ເມືອງ</option>
-        <option
-          v-for="(district, index) in locationStore.districts"
-          :key="index"
-          :value="district"
-        >
-          {{ district }}
-        </option>
-      </select>
-      <select
-        v-model="filters.village"
-        class="w-full border text-gray-600 border-gray-300 shadow rounded text-sm px-2 py-1.5"
-        :disabled="!filters.district"
-      >
-        <option value="">ບ້ານ</option>
-        <option
-          v-for="(village, index) in locationStore.villages"
-          :key="index"
-          :value="village"
-        >
-          {{ village }}
-        </option>
-      </select>
-      <select
-        class="w-full border text-gray-600 border-gray-300 shadow rounded text-sm px-2 py-1.5"
-      >
-        <option value="">ເນື້ອທີ່ຂອງຊັບສິນ (ຕາແມັດ)</option>
-      </select>
-      <select
-        class="w-full border text-gray-600 border-gray-300 shadow rounded text-sm px-2 py-1.5"
-      >
-        <option value="">ລາຄາຂອງຊັບສິນ ($)</option>
-      </select>
-      <button
-        @click="applyFilters"
-        class="w-full bg-blue-900 text-white py-2 rounded shadow hover:bg-blue-800 transition"
-      >
-        ຄົ້ນຫາ
-      </button>
+  <div class="space-y-4 text-sm p-4">
+    <!-- Search input -->
+    <div class="relative">
+      <input
+        type="text"
+        v-model="searchQuery"
+        @input="debouncedSearch"
+        placeholder="Search..."
+        class="text-sm w-full pl-10 p-2 border border-gray-300 rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <MagnifyingGlassIcon
+        class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none"
+      />
     </div>
+
+    <!-- Filters -->
+    <select
+      v-model="filters.type"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+    >
+      <option value="">{{ $t("filters.all_types") }}</option>
+      <option
+        v-for="type in locationStore.types"
+        :key="type.id"
+        :value="type.TYPE"
+      >
+        {{ type.TYPE }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.province"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+    >
+      <option value="">{{ $t("filters.province") }}</option>
+      <option
+        v-for="province in locationStore.provinces"
+        :key="province.id"
+        :value="province.name"
+      >
+        {{ province.name }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.district"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+      :disabled="!filters.province"
+    >
+      <option value="">{{ $t("filters.district") }}</option>
+      <option
+        v-for="(district, index) in locationStore.districts"
+        :key="index"
+        :value="district"
+      >
+        {{ district }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.village"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+      :disabled="!filters.district"
+    >
+      <option value="">{{ $t("filters.village") }}</option>
+      <option
+        v-for="(village, index) in locationStore.villages"
+        :key="index"
+        :value="village"
+      >
+        {{ village }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.areaRange"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+    >
+      <option value="">{{ $t("filters.area_range") }}</option>
+      <option
+        v-for="(range, index) in areaRanges"
+        :key="index"
+        :value="range"
+      >
+        {{ range.label }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.priceRange"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+    >
+      <option value="">{{ $t("filters.price_range") }}</option>
+      <option
+        v-for="(range, index) in priceRanges"
+        :key="index"
+        :value="range"
+      >
+        {{ range.label }}
+      </option>
+    </select>
+
+    <select
+      v-model="filters.priceSqm"
+      class="w-full border text-gray-600 border-gray-200 rounded-md text-sm px-2 py-2.5"
+    >
+      <option value="">{{ $t("filters.price_per_sqm") }}</option>
+      <option
+        v-for="(price, index) in priceSqm"
+        :key="index"
+        :value="price"
+      >
+        {{ price.label }}
+      </option>
+    </select>
+
+    <!-- Apply button -->
+    <button
+      @click="applyFilters"
+      class="w-full bg-blue-900 text-white py-2.5 rounded-md shadow hover:bg-blue-800 transition"
+    >
+      {{ $t("common.apply") }}
+    </button>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import { useLocationStore } from '../stores/locationStore'
-import { usePostStore } from '../stores/indexStore'
+import { ref, watch, onMounted } from "vue";
+import { useLocationStore } from "../stores/locationStore";
+import { debounce } from "lodash";
+import { MagnifyingGlassIcon } from "@heroicons/vue/24/outline";
 
-const locationStore = useLocationStore()
-const postStore = usePostStore()
+const locationStore = useLocationStore();
 
-// ใช้ reactive filters แทน ref เพื่อให้สามารถ watch การเปลี่ยนแปลงได้
-const filters = ref({
-  type: "",
-  province: "",
-  district: "",
-  village: "",
-})
+const props = defineProps({
+  filters: {
+    type: Object,
+    required: true,
+  },
+});
 
-const emit = defineEmits(['closeMenu', 'applyFilters'])
+const emit = defineEmits(["apply-filters", "search"]);
 
-const onProvinceChange = async () => {
-  if (filters.value.province && filters.value.province.name) {
-    await locationStore.fetchDistricts(filters.value.province.name)
-    filters.value.district = ""
-    filters.value.village = ""
-  } else {
-    locationStore.districts = []
-    locationStore.villages = []
-    filters.value.district = ""
-    filters.value.village = ""
-  }
-}
+const priceRanges = ref([
+  { label: "All", min: 0, max: Infinity },
+  { label: "Below 50,000", min: 0, max: 50000 },
+  { label: "50,000 - 100,000", min: 50000, max: 100000 },
+  { label: "100,000 - 500,000", min: 100000, max: 500000 },
+  { label: "500,000 - 1,000,000", min: 500000, max: 1000000 },
+  { label: "1,000,000 and above", min: 1000000, max: Infinity },
+]);
 
-const onDistrictChange = async () => {
-  if (filters.value.district && filters.value.province) {
-    await locationStore.fetchVillages(
-      filters.value.province.name,
-      filters.value.district
-    )
-    filters.value.village = ""
-  } else {
-    locationStore.villages = []
-    filters.value.village = ""
-  }
-}
+const areaRanges = ref([
+  { label: "All", min: 0, max: Infinity },
+  { label: "Below 50 sqm", min: 0, max: 50 },
+  { label: "50 - 100 sqm", min: 50, max: 100 },
+  { label: "100 - 200 sqm", min: 100, max: 200 },
+  { label: "200 - 500 sqm", min: 200, max: 500 },
+  { label: "500 - 1000 sqm", min: 500, max: 1000 },
+  { label: "1000 sqm and above", min: 1000, max: Infinity },
+]);
 
-const applyFilters = async () => {
-  const apiFilters = {
-    VILLAGE: filters.value.village === "ບ້ານ" ? "" : filters.value.village,
-    DISTRICT: filters.value.district === "ເມືອງ" ? "" : filters.value.district,
-    PROVINCE: filters.value.province === "ແຂວງ"
-      ? ""
-      : filters.value.province?.name || filters.value.province || "",
-    TYPE: filters.value.type === "ປະເພດຊັບສິນ"
-      ? ""
-      : filters.value.type?.TYPE || filters.value.type || "",
-  }
+const priceSqm = ref([
+  { label: "All", min: 0, max: Infinity },
+  { label: "Below 30", min: 0, max: 30 },
+  { label: "30 - 100", min: 30, max: 100 },
+  { label: "100 - 200", min: 100, max: 200 },
+  { label: "200 - 500", min: 200, max: 500 },
+  { label: "500 and above", min: 500, max: Infinity },
+]);
 
-  // ส่ง event ไปยัง component หลัก
-  emit('applyFilters', apiFilters)
-  emit('closeMenu')
-}
+// Search query
+const searchQuery = ref("");
 
-// Watch สำหรับการเปลี่ยนแปลงของ filters (เหมือนในต้นฉบับ)
+// Debounced search
+const handleSearch = () => {
+  emit("search", searchQuery.value);
+};
+const debouncedSearch = debounce(handleSearch, 1000);
+
+// Watch province/district to fetch districts/villages
 watch(
-  [() => filters.value.province, () => filters.value.district],
+  [() => props.filters.province, () => props.filters.district],
   async ([newProvince, newDistrict], [oldProvince, oldDistrict]) => {
     if (newProvince !== oldProvince) {
-      if (newProvince && newProvince.name) {
-        await locationStore.fetchDistricts(newProvince.name)
-        filters.value.district = ""
-        filters.value.village = ""
+      if (newProvince) {
+        await locationStore.fetchDistricts(newProvince);
+        props.filters.district = "";
+        props.filters.village = "";
       } else {
-        locationStore.districts = []
-        locationStore.villages = []
-        filters.value.district = ""
-        filters.value.village = ""
+        locationStore.districts = [];
+        locationStore.villages = [];
+        props.filters.district = "";
+        props.filters.village = "";
       }
     }
-    if (newDistrict !== oldDistrict && filters.value.province) {
+
+    if (newDistrict !== oldDistrict && props.filters.province) {
       if (newDistrict) {
-        await locationStore.fetchVillages(
-          filters.value.province.name,
-          newDistrict
-        )
-        filters.value.village = ""
+        await locationStore.fetchVillages(props.filters.province, newDistrict);
+        props.filters.village = "";
       } else {
-        locationStore.villages = []
-        filters.value.village = ""
+        locationStore.villages = [];
+        props.filters.village = "";
       }
     }
   },
   { deep: true }
-)
+);
+
+onMounted(async () => {
+  await locationStore.fetchProvinces();
+  await locationStore.fetchTypes();
+});
+
+// Apply filters button
+const applyFilters = () => {
+  emit("apply-filters");
+};
 </script>

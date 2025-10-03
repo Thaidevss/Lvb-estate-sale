@@ -8,6 +8,8 @@ export const useLocationStore = defineStore('location', {
     types: [],
     provinces: [],
     districts: [],
+    provincesList : [],
+    districtsList : [],
     villages: [],
     error: null,
     loading: false,
@@ -56,12 +58,10 @@ export const useLocationStore = defineStore('location', {
         })
         
         if (response.data.error === "0") {
-          // กรองข้อมูล district เฉพาะของจังหวัดที่เลือก
           const districtsForProvince = response.data.data
             .filter(item => item.PROVINCE === provinceName)
             .map(item => item.DISTRICT)
-            
-          // เอาเฉพาะ district ที่ไม่ซ้ำกัน
+          
           const uniqueDistricts = [...new Set(districtsForProvince)].filter(Boolean)
           
           this.districts = uniqueDistricts
@@ -84,12 +84,10 @@ export const useLocationStore = defineStore('location', {
         })
         
         if (response.data.error === "0") {
-          // กรองข้อมูล village เฉพาะของจังหวัดและอำเภอที่เลือก
           const villagesForDistrict = response.data.data
             .filter(item => item.PROVINCE === provinceName && item.DISTRICT === districtName)
             .map(item => item.VILLAGE)
             
-          // เอาเฉพาะ village ที่ไม่ซ้ำกัน
           const uniqueVillages = [...new Set(villagesForDistrict)].filter(Boolean)
           
           this.villages = uniqueVillages
@@ -100,6 +98,22 @@ export const useLocationStore = defineStore('location', {
       } finally {
         this.loading = false
       }
+    },
+
+   async fetchProvincesList() {
+      try {
+        const res = await apiService.post(`${API_URL}/provinces`)
+        if (res.data && res.data.data) {
+          this.provincesList = res.data.data
+        }
+      } catch (err) {
+        console.error("Fetch provinces error:", err)
+      }
+    },
+
+    async fetchDistrictsByProvince(provinceId) {
+      const selectedProvince = this.provincesList.find(p => p.id === provinceId)
+      this.districtsList = selectedProvince ? selectedProvince.districts : []
     }
   }
 })

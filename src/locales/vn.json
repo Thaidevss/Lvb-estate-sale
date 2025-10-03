@@ -24,7 +24,7 @@
       "back_to_home": "Về trang chủ",
       "clear": "Xóa",
       "apply": "Áp dụng",
-      "details": "Chi tiết ▶",
+      "details": "Chi tiết",
       "view_count": "{count} lượt xem",
       "no_data": "Không có dữ liệu.",
       "latest_update": "Cập nhật mới nhất",
@@ -149,14 +149,43 @@
       "logout_failed": "Không thể đăng xuất",
       "logout_cancel": "ຍົກເລີກ"
     },
+    "post": {
+        "delete": "Xóa",
+        "delete_confirm_title": "Xác nhận xóa",
+        "delete_confirm_message": "Bạn có chắc chắn muốn xóa dữ liệu này không?",
+        "delete_success": "Xóa dữ liệu thành công",
+        "delete_failed": "Không thể xóa dữ liệu",
+
+        "authorize": "Duyệt",
+        "authorize_confirm_title": "Xác nhận duyệt",
+        "authorize_confirm_message": "Bạn có chắc chắn muốn duyệt dữ liệu này không?",
+        "authorize_success": "Duyệt dữ liệu thành công",
+        "authorize_failed": "Không thể duyệt dữ liệu",
+
+        "disable": "Ngừng bán",
+        "disable_confirm_title": "Xác nhận ngừng bán",
+        "disable_confirm_message": "Bạn có chắc chắn muốn ngừng bán dữ liệu này không?",
+        "disable_success": "Ngừng bán thành công",
+        "disable_failed": "Không thể ngừng bán",
+
+        "pending": "Chờ xử lý",
+        "pending_confirm_title": "Xác nhận trạng thái chờ",
+        "pending_confirm_message": "Bạn có chắc chắn muốn đặt dữ liệu này ở trạng thái chờ không?",
+        "pending_success": "Đặt trạng thái chờ thành công",
+        "pending_failed": "Không thể đặt trạng thái chờ",
+
+        "cancel": "Hủy",
+        "ok": "Đồng ý",
+        "error_title": "Lỗi"
+    },
     "common1": {
       "error": "Lỗi",
       "success": "Thành công",
       "ok": "Đồng ý"
     },
     "navbar": {
-        "bank_name": "Ngân hàng Liên doanh Lào - Việt",
-        "tagline": "Cầu nối thành công",
+        "bank_name": "NGÂN HÀNG LIÊN DOANH LÀO - VIỆT",
+        "tagline": "CẦU NỐI CỦA THÀNH CÔNG",
         "change_language": "Thay đổi ngôn ngữ",
         "notifications": "Thông báo",
         "user_menu": "Menu người dùng",
@@ -168,7 +197,7 @@
     "languages": {
         "english": "English",
         "vietnamese": "Tiếng Việt",
-        "lao": "Lào"
+        "lao": "Lao"
     },
     "menu":{
         "vacant_land": "Đất xây dựng trống",
@@ -177,6 +206,80 @@
         "car": "Xe ô tô",
         "machinery": "Máy móc và thiết bị hạng nặng",
         "commercial_land": "Đất và khách sạn, nhà nghỉ, nhà máy"
+    },
+    "hero": {
+      "head_title": "Thông tin phát mại tài sản bảo đảm",
+      "sub_title": "Được tuyển chọn kỹ lưỡng với các Tài sản chất lượng để bạn lựa chọn",
+      "search": "Tìm kiếm",
+      "type": "Loại hình",
+      "price": "Giá",
+      "area": "Diện tích",
+      "buy": "Mua",
+      "rent": "Thuê",
+      "sell": "Bán",
+      "project" : "Dự án",
+      "properties" : "Bất động sản",
+      "experience" : "Trải nghiệm Hoàn hảo"
+    },
+    "content": {
+      "feature_properties": "Bất động sản nổi bật",
+      "properties": "Tất cả bất động sản",
+      "location": "Vị trí",
+      "key_feature": "Đặc điểm chính",
+      "description": "Mô tả",
+      "location_map": "Vị trí & Bản đồ",
+      "contact_info": "Thông tin liên hệ",
+      "property_detail": "Chi tiết bất động sản",
+      "property_type": "Loại bất động sản",
+      "total_area": "Tổng diện tích",
+      "price_per": "Giá mỗi m²",
+      "location_detail": "Chi tiết vị trí",
+      "village": "Làng/Xóm",
+      "district": "Quận/Huyện",
+      "province": "Tỉnh/Thành phố",
+      "phone": "Điện thoại",
+      "email": "Email",
+      "send_msg": "Gửi tin nhắn"
+    },
+    "filter_tab": {
+      "price": "Giá",
+      "area": "Diện tích",
+      "type": "Loại",
+      "all": "Tất cả",
+      "all_type": "Tất cả loại",
+      "reset_all": "Đặt lại tất cả",
+      "property_type": "Loại bất động sản",
+      "province": "Tỉnh/Thành phố",
+      "district": "Quận/Huyện",
+      "village": "Làng/Xóm",
+      "all_province": "Tất cả Tỉnh/Thành phố",
+      "all_district": "Tất cả Quận/Huyện",
+      "all_village": "Tất cả Làng/Xóm",
+      "price_min": "Giá tối thiểu",
+      "price_max": "Giá tối đa",
+      "min_area": "Diện tích tối thiểu",
+      "max_area": "Diện tích tối đa"
+    },
+    "aboutUs": {
+      "title": "Tại sao chọn chúng tôi?",
+      "quality": "Bất động sản chất lượng",
+      "absolute": "An ninh tuyệt đối",
+      "finacial": "Uy tín tài chính & Giải pháp vốn",
+      "verified": "Đã được xác minh pháp lý",
+      "quality_sub": "Chúng tôi chọn lọc kỹ càng những bất động sản tốt nhất đáp ứng tiêu chuẩn cao của chúng tôi.",
+      "absolute_sub": "Dữ liệu và giao dịch của bạn được bảo mật với các tiêu chuẩn an ninh cao nhất.",
+      "finacial_sub": "Được hậu thuẫn bởi sự ổn định và uy tín của Ngân hàng Lào-Việt, bạn sẽ dễ dàng tiếp cận các ưu đãi vay vốn độc quyền và lựa chọn tài chính.",
+      "verified_sub": "Mỗi danh sách đều được kiểm tra và phê duyệt 100% theo pháp luật bởi đội ngũ pháp lý của ngân hàng, đảm bảo giao dịch an toàn và không rủi ro."
+    },
+    "footer": {
+      "address": "Địa chỉ: 44 Đại lộ Lane Xang, Làng Hatsady, Quận Chanthabouly, Thủ đô Viêng Chăn, CHDCND Lào"
+    },
+    "contact": {
+      "title": "Liên hệ để biết thông tin",
+      "name": "NGÂN HÀNG LIÊN DOANH LÀO - VIỆT",
+      "name_sub": "(Phòng Xử lý nợ và Quản lý tài sản)",
+      "tel": "Điện thoại",
+      "contact_us": "Liên hệ với chúng tôi"
     }
   }
 }

@@ -39,16 +39,15 @@
               <div class="space-y-1">
                 <label class="block text-sm font-medium text-gray-700">{{ $t('filters.province') }}</label>
                 <select
-                  v-model="formData.PROVINCE"
-                  @change="loadDistricts"
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  v-model="selectedProvince"
+                  @change="handleProvinceChange"
+                  class="border border-gray-300 rounded-md px-3 py-2 w-full text-sm text-gray-800"
                 >
                   <option value="">ເລືອກແຂວງ</option>
-                  <option 
-                    v-for="province in provinces" 
-                    :key="province.id" 
-                    :value="province.name"
-                    :selected="province.name === formData.PROVINCE"
+                  <option
+                    v-for="province in locationStore.provincesList"
+                    :key="province.id"
+                    :value="province.id"
                   >
                     {{ province.name }}
                   </option>
@@ -59,16 +58,15 @@
               <div class="space-y-1">
                 <label class="block text-sm font-medium text-gray-700">{{ $t('filters.district') }}</label>
                 <select
-                  v-model="formData.DISTRICT"
-                  :disabled="!formData.PROVINCE"
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  v-model="selectedDistrict"
+                  @change="handleDistrictChange"
+                  class="border border-gray-300 rounded-md px-3 py-2 w-full text-sm text-gray-800"
                 >
                   <option value="">ເລືອກເມືອງ</option>
-                  <option 
-                    v-for="district in filteredDistricts" 
-                    :key="district.id" 
-                    :value="district.name"
-                    :selected="district.name === formData.DISTRICT"
+                  <option
+                    v-for="district in locationStore.districtsList"
+                    :key="district.id"
+                    :value="district.id"
                   >
                     {{ district.name }}
                   </option>
@@ -81,7 +79,7 @@
                 <input 
                   v-model.number="formData.AREA"
                   type="text" 
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
               </div>
@@ -93,7 +91,7 @@
                   <input 
                     v-model.number="formData.PRICE"
                     type="text" 
-                    class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                     required
                   >
                   <span class="absolute right-3 top-2.5 text-sm text-gray-500">
@@ -107,7 +105,7 @@
                 <label class="block text-sm font-medium text-gray-700">{{ $t('modal.currency') }}</label>
                 <select 
                   v-model="formData.CURRENCY"
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
                   <option value="LAK">LAK</option>
@@ -121,7 +119,7 @@
                 <label class="block text-sm font-medium text-gray-700">{{ $t('modal.type') }}</label>
                 <select 
                   v-model="formData.TYPE"
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
                   <option value="">ປະເພດ</option>
@@ -142,7 +140,7 @@
                   v-model="formData.TEL"
                   type="tel" 
                   placeholder="020XXXXXXXX"
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
               </div>
@@ -154,7 +152,7 @@
                   v-model="formData.EMAIL"
                   type="email" 
                   placeholder="email@gmail.com"
-                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
               </div>
@@ -163,7 +161,7 @@
               <div class="space-y-1">
                 <label class="block text-sm font-medium text-gray-700">Post visibility</label>
                 <div class="flex items-center space-x-4 mt-1">
-                  <label class="flex items-center space-x-2">
+                  <!-- <label class="flex items-center space-x-2">
                     <input 
                       type="radio" 
                       value="PUBLIC" 
@@ -171,7 +169,7 @@
                       class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     />
                     <span class="text-sm text-gray-700">Public</span>
-                  </label>
+                  </label> -->
 
                   <label class="flex items-center space-x-2">
                     <input 
@@ -180,12 +178,20 @@
                       v-model="formData.VISIBILITY" 
                       class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                     />
-                    <span class="text-sm text-gray-700">Private</span>
+                    <span class="text-sm text-gray-700">Local</span>
+                  </label>
+
+                  <label class="flex items-center space-x-2">
+                    <input 
+                      type="radio" 
+                      value="ALL" 
+                      v-model="formData.VISIBILITY" 
+                      class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <span class="text-sm text-gray-700">Local And Public</span>
                   </label>
                 </div>
               </div>
-
-
 
               <!-- Map Location -->
               <div class="md:col-span-2 space-y-1">
@@ -332,6 +338,7 @@
 <script setup>
 import { ref, watch, getCurrentInstance, onMounted, computed } from 'vue'
 import { usePostStore } from '../../../stores/indexStore'
+import { useLocationStore } from '../../../stores/locationStore'
 import mockLaosApi from '../../../services/mockApi'
 
 import { useI18n } from 'vue-i18n'
@@ -343,6 +350,7 @@ const { $modal, $loading } = getCurrentInstance().appContext.config.globalProper
 const modal = getCurrentInstance().appContext.config.globalProperties.$modal;
 
 const postStore = usePostStore()
+const locationStore = useLocationStore()
 
 const props = defineProps({
   post: {
@@ -361,13 +369,14 @@ const props = defineProps({
 
 const provinces = ref([]);
 const districts = ref([]);
+const selectedProvince = ref("");
+const selectedDistrict = ref("");
 
 // เพิ่ม refs และ reactive properties
 const profileImagePreview = ref(null);
 const detailImagesPreviews = ref([]);
 const profileImageInput = ref(null);
 const detailImagesInput = ref(null);
-
 
 const emit = defineEmits(['close', 'saved'])
 
@@ -394,7 +403,6 @@ watch(() => props.post, async (newPost) => {
   if (newPost) {
     console.log('Original post data:', newPost);
     
-    // เก็บค่าเดิมของจังหวัดและอำเภอไว้ก่อน
     const oldProvince = formData.value.PROVINCE;
     const oldDistrict = formData.value.DISTRICT;
     
@@ -414,28 +422,32 @@ watch(() => props.post, async (newPost) => {
       PROFILE_IMAGE: null,
       DETAILS_IMAGE: [],
       CREATED_BY: newPost.CREATED_BY || 'ADMIN',
-      VISIBILITY: '',
+      VISIBILITY: newPost.VISIBILITY || 'PRIVATE',
       id: newPost.id || newPost.ID || newPost._id || null,
       ID: newPost.ID || newPost._id || newPost.id || null,
       _id: newPost._id || newPost.ID || newPost.id || null
     }
     
-    // โหลดอำเภอของจังหวัดที่เลือก (ถ้ามี)
-    if (formData.value.PROVINCE) {
-      const province = provinces.value.find(p => p.name === formData.value.PROVINCE);
-      if (province) {
-        districts.value = await mockLaosApi.getDistrictsByProvinceId(province.id);
+    if (newPost.PROVINCE) {
+      const provinceObj = locationStore.provincesList.find(p => p.name === newPost.PROVINCE);
+      if (provinceObj) {
+        selectedProvince.value = provinceObj.id;
+        locationStore.fetchDistrictsByProvince(provinceObj.id).then(() => {
+          if (newPost.DISTRICT) {
+            const districtObj = locationStore.districtsList.find(d => d.name === newPost.DISTRICT);
+            if (districtObj) {
+              selectedDistrict.value = districtObj.id;
+            }
+          }
+        });
       }
     }
-    
-    // ถ้ามีรูปภาพอยู่แล้วใน post ให้แสดง preview
+
     if (newPost.IMAGES && newPost.IMAGES.length > 0) {
-      // รูปโปรไฟล์ (รูปแรก)
       if (newPost.IMAGES[0]) {
         profileImagePreview.value = newPost.IMAGES[0];
       }
-      
-      // รูปรายละเอียด (รูปที่เหลือ)
+
       if (newPost.IMAGES.length > 1) {
         detailImagesPreviews.value = newPost.IMAGES.slice(1);
       }
@@ -636,6 +648,45 @@ const loadDistricts = async () => {
 };
 
 onMounted(async () => {
-  provinces.value = await mockLaosApi.getProvinces()
+  // provinces.value = await mockLaosApi.getProvinces()
+  if (locationStore.provincesList.length === 0) {
+    await locationStore.fetchProvincesList();
+  }
 })
+
+const handleProvinceChange = async () => {
+  if (selectedProvince.value) {
+    // โหลด districts
+    await locationStore.fetchDistrictsByProvince(selectedProvince.value);
+    
+    // ค้นหาชื่อจังหวัดจาก ID
+    const province = locationStore.provincesList.find(p => p.id === selectedProvince.value);
+    if (province) {
+      formData.value.PROVINCE = province.name;
+    }
+    
+    // รีเซ็ต district
+    selectedDistrict.value = "";
+    formData.value.DISTRICT = "";
+  } else {
+    // รีเซ็ตทั้งหมดถ้าไม่เลือกจังหวัด
+    selectedDistrict.value = "";
+    formData.value.PROVINCE = "";
+    formData.value.DISTRICT = "";
+    locationStore.districtsList = [];
+  }
+};
+
+const handleDistrictChange = () => {
+  if (selectedDistrict.value) {
+    // ค้นหาชื่ออำเภอจาก ID
+    const district = locationStore.districtsList.find(d => d.id === selectedDistrict.value);
+    if (district) {
+      formData.value.DISTRICT = district.name;
+    }
+  } else {
+    formData.value.DISTRICT = "";
+  }
+};
+
 </script>

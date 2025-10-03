@@ -35,7 +35,6 @@ export const useAuthStore = defineStore("authStore", {
       this.errorCode = null;
 
       try {
-        // Input validation
         if (!username || !password) {
           throw {
             name: "ValidationError",
@@ -55,13 +54,12 @@ export const useAuthStore = defineStore("authStore", {
               Accept: "application/json",
             },
             validateStatus: (status) => {
-              // Consider status codes < 500 as successful to handle business logic errors
               return status < 500;
             },
           }
         );
 
-        console.log("API Response:", response); // Debug log
+        // console.log("API Response:", response);
 
         // Handle business logic errors (status 2xx but error in response)
         if (response.data.error === "0") {
@@ -69,15 +67,12 @@ export const useAuthStore = defineStore("authStore", {
           //   this.user = response.data.data.DATA
           this.token = `LVB ${response.data.data.TOKEN}`;
           this.user = response.data.data.DATA;
-
-          // Store in localStorage
           //   localStorage.setItem('token', this.token)
           //   localStorage.setItem('user', JSON.stringify(this.user))
 
           setToken(this.token);
           setUser(this.user);
 
-          // Set default axios headers
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${this.token}`;
@@ -94,7 +89,6 @@ export const useAuthStore = defineStore("authStore", {
       } catch (error) {
         console.error("Login error:", error);
 
-        // Handle different error types
         if (error.name === "ValidationError") {
           this.error = error.message;
           this.errorCode = 400;
@@ -102,7 +96,6 @@ export const useAuthStore = defineStore("authStore", {
           this.error = error.message;
           this.errorCode = error.code || 400;
         } else if (error.response) {
-          // Server responded with a status code outside 2xx
           this.errorCode = error.response.status;
 
           switch (error.response.status) {
@@ -141,15 +134,13 @@ export const useAuthStore = defineStore("authStore", {
                 "Login failed";
           }
 
-          console.error("Response data:", error.response.data);
-          console.error("Response status:", error.response.status);
+          // console.error("Response data:", error.response.data);
+          // console.error("Response status:", error.response.status);
         } else if (error.request) {
-          // Request was made but no response received
           this.error = "No response from server. Please check your network.";
           this.errorCode = "NETWORK_ERROR";
           console.error("Request:", error.request);
         } else {
-          // Something happened in setting up the request
           this.error = error.message;
           this.errorCode = "CLIENT_ERROR";
         }
@@ -199,7 +190,6 @@ export const useAuthStore = defineStore("authStore", {
       if (!token) return true;
 
       try {
-        // ตัวอย่างการ decode token (ถ้าเป็น JWT)
         const payload = JSON.parse(atob(token.split(".")[1]));
         return payload.exp < Date.now() / 1000;
       } catch {
@@ -215,12 +205,9 @@ export const useAuthStore = defineStore("authStore", {
       return true;
     },
 
-    // Helper method to clear errors
     clearError() {
       this.error = null;
       this.errorCode = null;
     },
-
-    // ... rest of your store methods
   },
 });

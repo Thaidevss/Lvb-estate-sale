@@ -1,4 +1,4 @@
-// src/stores/testStore.js (สำหรับกรณีต้องส่ง body)
+
 
 import { ref } from "vue";
 import { defineStore } from "pinia";
@@ -15,7 +15,6 @@ export const useTestStore = defineStore("test", () => {
   const decryptedData = ref(null);
   const error = ref(null);
 
-  // ฟังก์ชันเข้ารหัสข้อมูล
   function encryptData(data) {
     try {
       const key = CryptoJS.SHA256(secret);
@@ -38,11 +37,9 @@ export const useTestStore = defineStore("test", () => {
       throw e;
     }
   }
-
-  // ฟังก์ชันถอดรหัสข้อมูล
   function decryptData(data) {
     try {
-      if (!data) return null; // ตรวจสอบข้อมูลว่าง
+      if (!data) return null;
       const [ivBase64, ciphertextBase64] = data.split(":");
       const iv = CryptoJS.enc.Base64.parse(ivBase64);
       const ciphertext = CryptoJS.enc.Base64.parse(ciphertextBase64);
@@ -61,10 +58,6 @@ export const useTestStore = defineStore("test", () => {
       throw e;
     }
   }
-
-  // ฟังก์ชันดึงข้อมูล API
-  // ฟังก์ชันดึงข้อมูล API
-  // ในไฟล์ testStore.js หรือในส่วนที่จัดการ logic การเรียก API
 async function fetchData() {
   isLoading.value = true;
   error.value = null;
@@ -72,19 +65,15 @@ async function fetchData() {
   decryptedData.value = null;
 
   try {
-    // ใช้ axios.post เพื่อส่ง body ตามที่ API ต้องการ
     const response = await axios.post("http://10.2.182.23:8000/test", {
       DATA: "dEEKhnPOLNw1g1wxwqI2eg==:XGn1S3KqUtgb27bsh5Dkbw==",
     });
 
-    // เข้าถึงข้อมูลจาก response.data
     const rawData = response.data;
     apiResponse.value = rawData; // เก็บข้อมูล response ดิบ
 
-    // ดึงข้อมูลที่เข้ารหัสจาก rawData
     const encryptedData = rawData.DATA_SEND_FROM_API?.data_2;
 
-    // ถอดรหัสข้อมูลที่เข้ารหัส
     let decryptedValue = null;
     if (encryptedData) {
       try {
@@ -92,19 +81,16 @@ async function fetchData() {
       } catch (decryptError) {
         console.error("Decryption of data_2 failed:", decryptError);
         error.value = "Failed to decrypt API data.";
-        return; // ออกจากฟังก์ชันเมื่อถอดรหัสล้มเหลว
+        return;
       }
     }
-
-    // รวมข้อมูลที่ถอดรหัสแล้วและข้อมูลอื่น ๆ
     decryptedData.value = {
-      data_1: rawData.DATA_SEND_FROM_API?.data_1, // ข้อมูลที่ไม่ได้เข้ารหัส
-      decrypted_data_2: decryptedValue, // ข้อมูลที่ถูกถอดรหัสแล้ว
+      data_1: rawData.DATA_SEND_FROM_API?.data_1, 
+      decrypted_data_2: decryptedValue, 
     };
 
   } catch (e) {
     console.error("Fetch data failed:", e);
-    // จัดการข้อผิดพลาด เช่น HTTP error หรือ network issue
     error.value = e.message;
   } finally {
     isLoading.value = false;

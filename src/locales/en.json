@@ -24,7 +24,7 @@
       "back_to_home": "Back to Home",
       "clear": "Clear",
       "apply": "Apply",
-      "details": "Details ▶",
+      "details": "Details",
       "view_count": "{count} views",
       "no_data": "Data is Empty.",
       "latest_update": "Latest Update",
@@ -106,7 +106,7 @@
       "area_range": "Property Area (sqm)",
       "price_range": "Property Price ($)",
       "all_types": "All Types",
-      "price_per_sqm": "Selling Price per sqm ($):"
+      "price_per_sqm": "Selling Price per sqm ($)"
     },
     "placeholders": {
       "search": "Search listings...",
@@ -149,14 +149,43 @@
       "logout_failed": "Failed to log out",
       "logout_cancel": "ຍົກເລີກ"
     },
+    "post": {
+        "delete": "Delete",
+        "delete_confirm_title": "Confirm Deletion",
+        "delete_confirm_message": "Are you sure you want to delete this item?",
+        "delete_success": "Data has been successfully deleted",
+        "delete_failed": "Unable to delete data",
+
+        "authorize": "Authorize",
+        "authorize_confirm_title": "Confirm Authorization",
+        "authorize_confirm_message": "Are you sure you want to authorize this item?",
+        "authorize_success": "Data has been successfully authorized",
+        "authorize_failed": "Unable to authorize data",
+
+        "disable": "Disable",
+        "disable_confirm_title": "Confirm Disable",
+        "disable_confirm_message": "Are you sure you want to disable this item?",
+        "disable_success": "Item has been successfully disabled",
+        "disable_failed": "Unable to disable item",
+
+        "pending": "Set Pending",
+        "pending_confirm_title": "Confirm Pending Status",
+        "pending_confirm_message": "Are you sure you want to set this item to pending?",
+        "pending_success": "Pending status set successfully",
+        "pending_failed": "Unable to set pending status",
+
+        "cancel": "Cancel",
+        "ok": "OK",
+        "error_title": "Error"
+    },
     "common1": {
       "error": "Error",
       "success": "Success",
       "ok": "OK"
     },
     "navbar": {
-        "bank_name": "Lao-Viet Joint Venture Bank",
-        "tagline": "The Bridge to Success",
+        "bank_name": "LAO - VIET BANK CO., LTD",
+        "tagline": "BRIDGE OF SUCCESS",
         "change_language": "Change language",
         "notifications": "Notifications",
         "user_menu": "User menu",
@@ -177,6 +206,80 @@
         "car": "Car",
         "machinery": "Machinery & Heavy Equipment",
         "commercial_land": "Land with Hotels, Guesthouses, Factories"
+    },
+    "hero": {
+      "head_title": "Collateral Asset Liquidation Information",
+      "sub_title": "Carefully selected with high-quality assets for you to choose from",
+      "search": "Search",
+      "type": "Type",
+      "price": "Price",
+      "area": "Area",
+      "buy": "Buy",
+      "rent": "Rent",
+      "sell": "Sell",
+      "project" : "Project",
+      "properties" : "Properties",
+      "experience" : "Perfect"
+    },
+    "content": {
+      "feature_properties": "Featured Properties",
+      "properties": "All Properties",
+      "location": "Location",
+      "key_feature": "Key Features",
+      "description": "Description",
+      "location_map": "Location & Map",
+      "contact_info": "Contact Information",
+      "property_detail": "Property Details",
+      "property_type": "Property Type",
+      "total_area": "Total Area",
+      "price_per": "Price per m²",
+      "location_detail": "Location Details",
+      "village": "Village",
+      "district": "District",
+      "province": "Province",
+      "phone": "Phone",
+      "email": "Email",
+      "send_msg": "Send Message"
+    },
+    "filter_tab": {
+      "price": "Price",
+      "area": "Area",
+      "type": "Type",
+      "all": "All",
+      "all_type": "All Types",
+      "reset_all": "Reset All",
+      "property_type": "Property Type",
+      "province": "Province",
+      "district": "District",
+      "village": "Village",
+      "all_province": "All Provinces",
+      "all_district": "All Districts",
+      "all_village": "All Villages",
+      "price_min": "Minimum Price",
+      "price_max": "Maximum Price",
+      "min_area": "Minimum Area",
+      "max_area": "Maximum Area"
+    },
+    "aboutUs": {
+      "title": "Why Choose Us?",
+      "quality": "High-Quality Real Estate",
+      "absolute": "Absolute Security",
+      "finacial": "Financial Credibility & Capital Solutions",
+      "verified": "Legally Verified",
+      "quality_sub": "We carefully select only the best properties that meet our high standards.",
+      "absolute_sub": "Your data and transactions are secured with the highest security standards.",
+      "finacial_sub": "Backed by the stability and credibility of Lao-Viet Bank, you gain exclusive access to loan offers and financial options with ease.",
+      "verified_sub": "Every listing is 100% legally verified and approved by the bank’s legal team, ensuring safe and risk-free transactions."
+    },
+    "footer": {
+      "address": "Address: 44 Lane Xang Avenue, Hatsady Village, Chanthabouly District, Vientiane Capital, Lao PDR"
+    },
+    "contact": {
+      "title": "Contact for Information",
+      "name": "Lao-Viet Joint Venture Bank Co., Ltd.",
+      "name_sub": "(Debt Resolution and Collateral Management Department)",
+      "tel": "Tel",
+      "contact_us": "Contact Us"
     }
   }
 }

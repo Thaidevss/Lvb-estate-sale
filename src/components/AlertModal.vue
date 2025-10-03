@@ -24,10 +24,10 @@
         <p class="text-center mb-6" :class="textColor">{{ message }}</p>
 
         <!-- Buttons -->
-        <div class="flex justify-center space-x-3">
+        <div class="flex justify-center space-x-3 mx-10">
           <button
             @click="confirm"
-            class="text-white px-5 py-2 rounded-lg font-medium transition"
+            class="text-white px-5 py-2 rounded-md font-medium transition "
             :class="confirmButtonColor"
           >
             {{ confirmText }}
@@ -35,7 +35,7 @@
           <button
             v-if="showCancel"
             @click="cancel"
-            class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg font-medium transition"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-md font-medium transition "
           >
             {{ cancelText }}
           </button>

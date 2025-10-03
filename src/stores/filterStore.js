@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
 export const usePropertyStore = defineStore('property', () => {
-  // State
   const properties = ref([])
   const filteredProperties = ref([])
   const provinces = ref([])
@@ -13,7 +12,6 @@ export const usePropertyStore = defineStore('property', () => {
 
   const API_URL = import.meta.env.VITE_BASE_API_URL;
 
-  // ดึงข้อมูลทั้งหมด
   const fetchAllProperties = async () => {
     try {
       loading.value = true
@@ -29,7 +27,6 @@ export const usePropertyStore = defineStore('property', () => {
       properties.value = data
       filteredProperties.value = data
       
-      // สกัดข้อมูลจังหวัดที่ไม่ซ้ำ
       provinces.value = [...new Set(data.map(item => item.PROVINCE))]
     } catch (err) {
       error.value = err.message
@@ -38,7 +35,6 @@ export const usePropertyStore = defineStore('property', () => {
     }
   }
 
-  // ดึงอำเภอตามจังหวัดที่เลือก
   const fetchDistricts = async (province) => {
     if (!province) {
       districts.value = []
@@ -66,7 +62,6 @@ export const usePropertyStore = defineStore('property', () => {
     }
   }
 
-  // ดึงข้อมูลหมู่บ้านตามอำเภอที่เลือก
   const fetchVillages = async (province, district) => {
     if (!district) {
       villages.value = []
@@ -95,7 +90,6 @@ export const usePropertyStore = defineStore('property', () => {
     }
   }
 
-  // ค้นหาข้อมูลตามเงื่อนไข
   const searchProperties = async (filters) => {
     try {
       loading.value = true

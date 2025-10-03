@@ -8,6 +8,9 @@
           <Square3Stack3DIcon class="h-8 w-8 me-1 text-blue-900 font-bold" />
           ຊັບສິນຕ້ອງການປະມູນຂາຍ
         </h2>
+        <div>
+          <LoadingSpinner />
+        </div>
         <button class="text-sm py-1 px-2 border rounded text-blue-900 border-blue-900 hover:bg-gray-100 flex items-center shadow whitespace-nowrap">
           <router-link to="/login" class="flex items-center">
             <UserCircleIcon class="w-5 h-5 me-1" />

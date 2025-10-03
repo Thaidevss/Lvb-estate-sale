@@ -4,7 +4,7 @@
       v-for="(image, index) in imageList"
       :key="index"
       :src="image"
-      class="rounded shadow w-full h-48 object-cover cursor-pointer hover:opacity-90 transition"
+      class="rounded shadow w-full h-60 object-cover cursor-pointer hover:opacity-90 transition"
       @click="openLightbox(index)"
     />
     
@@ -15,7 +15,7 @@
     />
   </div>
   
-  <!-- Lightbox สำหรับแสดงรูปภาพเต็มหน้าจอ -->
+  <!-- Lightbox -->
   <div v-if="showLightbox" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50" @click.self="closeLightbox">
     <div class="relative max-w-4xl w-full p-4">
       <button 

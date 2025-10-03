@@ -7,15 +7,15 @@
         <img src="../assets/images/LVB-logo.png" alt="LaoViet Bank" class="h-12" />
         <div class="flex items-center gap-2">
           <i class="fas fa-phone"></i>
-          <span>Hotline: 1440</span>
+          <span class="flex item-center"><img src="../assets/images/telephone.png" class="h-6 w-6 me-2 invert brightness-0"  alt=""> Hotline: 1440</span>
         </div>
         <div class="flex items-center gap-2">
           <i class="fas fa-globe"></i>
-          <a href="https://laovietbank.com.la" class="hover:underline">www.laovietbank.com.la</a>
+          <a href="https://laovietbank.com.la" target="_blank" class="hover:underline flex items-center"><img src="../assets/images/worldwide.png" class="h-6 w-6 me-2 invert brightness-0"  alt="">www.laovietbank.com.la</a>
         </div>
         <div class="flex items-center gap-2">
-          <i class="fab fa-facebook"></i>
-          <a href="#" class="hover:underline">Facebook: LaoVietBank</a>
+          <i class="fab fa-facebook"></i> 
+          <a href="https://www.facebook.com/LaoVietBank" target="_blank" class="hover:underline flex items-center"><img src="../assets/images/facebook-circular-logo.png" class="h-6 w-6 me-2 invert brightness-0"  alt=""> LaoVietBank</a>
         </div>
       </div>
 
@@ -34,17 +34,18 @@
       <div class="flex flex-col items-center md:items-start space-y-3">
         <h3 class="text-lg font-semibold mb-2">ຕິດຕໍ່</h3>
         <div class="flex items-start gap-2">
-          <MapPinIcon class="w-7 h-7"/>
+          <MapPinIcon class="w-8 h-8"/>
           <p>
-            ທີ່ຢູ່: 44 ຖະໜົນ ລ້ານຊ້າງ, ບ້ານຫັດສະດີ, ເມືອງ ຈັນທະບູລີ, ນະຄອນຫຼວງວຽງຈັນ, ສປປ ລາວ
+            <!-- ທີ່ຢູ່: 44 ຖະໜົນ ລ້ານຊ້າງ, ບ້ານຫັດສະດີ, ເມືອງ ຈັນທະບູລີ, ນະຄອນຫຼວງວຽງຈັນ, ສປປ ລາວ -->
+            {{ $t("footer.address") }}
           </p>
         </div>
         <div class="flex items-center gap-2">
-          <EnvelopeIcon class="w-5 h-5"/>
+          <EnvelopeIcon class="w-6 h-6"/>
           <a href="mailto:info@laovietbank.com.la" class="hover:underline">info@laovietbank.com.la</a>
         </div>
         <div class="flex items-center gap-2">
-          <PhoneIcon class="w-5 h-5"/>
+          <PhoneIcon class="w-6 h-6"/>
           <span>+020 9999 8888</span>
         </div>
       </div>
@@ -63,6 +64,9 @@ import {
     EnvelopeIcon,
     MapPinIcon
 } from "@heroicons/vue/24/outline";
+import { useI18n } from "vue-i18n";
+
+const { locale, t } = useI18n();
 </script>
 <style>
 /* ถ้าใช้ Tailwind อยู่แล้วไม่จำเป็นต้องมี css เพิ่ม */

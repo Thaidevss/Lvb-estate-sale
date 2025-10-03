@@ -1,15 +1,23 @@
 <template>
   <div class="container mx-auto p-4 min-h-screen ">
-    <div class="flex justify-between mb-8">
-      <div
-        class="flex items-center border border-blue-900 w-25 rounded px-2 py-1 text-blue-900 text-sm hover:cursor-pointer"
-      >
-        <ArrowLeftCircleIcon class="w-5 h-5 me-1" />
-        <button class="text-sm cursor-pointer">
-          <router-link :to="{name: 'land_webint'}"> {{ $t('common.back') }} </router-link>
+    <div class="flex justify-between mb-8"> 
+      <!-- <router-link :to="{name: 'land_webint'}">
+        <div
+          class="flex items-center border border-blue-900 w-25 rounded px-2 py-1 text-blue-900 text-sm hover:cursor-pointer"
+        >
+          <ArrowLeftCircleIcon class="w-5 h-5 me-1" />
+        
+            <p class="text-sm cursor-pointer">{{ $t('common.back') }}</p>
+          
+        </div>
+      </router-link> -->
+        <button 
+          @click="goBack"
+          class="flex items-center border border-blue-900 w-25 rounded px-2 py-1 text-blue-900 text-sm hover:cursor-pointer"
+        >
+          <ArrowLeftCircleIcon class="w-5 h-5 me-1" />
+          <p class="text-sm cursor-pointer">{{ $t('common.back') }}</p>
         </button>
-      </div>
-
       <div>
         <h2 class="text-md font-bold text-blue-900 text-center flex items-center">
           <ChartBarSquareIcon class="h-8 w-8 me-1"/>
@@ -105,8 +113,8 @@
             {{ $t('common.contact_officer') }}
           </h3>
           <div v-if="property && property.CONTACT" class="font-english">
-            <p class="flex text-md my-3 ms-3"><PhoneIcon class="w-6 h-6 me-2 text-blue-900 flex-shrink-0" /> {{ property.CONTACT.TEL }}</p>
-            <p class="flex text-md ms-3"><EnvelopeIcon class="w-6 h-6 me-2 text-blue-900 flex-shrink-0" /> {{ property.CONTACT.EMAIL }}</p>
+            <p class="flex text-sm my-3 ms-3"><PhoneIcon class="w-5 h-5 me-2 text-blue-900 flex-shrink-0" /> {{ property.CONTACT.TEL }}</p>
+            <p class="flex text-sm ms-3"><EnvelopeIcon class="w-5 h-5 me-2 text-blue-900 flex-shrink-0" /> {{ property.CONTACT.EMAIL }}</p>
           </div>
           <p class="text-xs text-gray-500 mt-4 text-end">
             {{ $t('common.latest_update') }}: {{ formatDate(property?.UPDATED_AT) }}
@@ -174,6 +182,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import { useRouter } from 'vue-router'
 import {
   ArrowLeftCircleIcon,
   CurrencyDollarIcon,
@@ -198,17 +207,16 @@ const { locale, t } = useI18n()
 
 const postStore = usePostStore();
 const route = useRoute();
+const router = useRouter()
 
 const property = ref(null);
 
-// Calculate price per square meter - FIXED VERSION
 const pricePerSqm = computed(() => {
   if (!property.value || property.value.PRICE === null || property.value.PRICE === undefined || 
       property.value.AREA === null || property.value.AREA === undefined) {
     return null;
   }
   
-  // Convert to number safely
   const priceNum = typeof property.value.PRICE === 'string' 
     ? Number(property.value.PRICE.replace(/[^\d.]/g, '')) 
     : Number(property.value.PRICE);
@@ -224,23 +232,19 @@ const pricePerSqm = computed(() => {
 onMounted(async () => {
   try {
     await postStore.fetchPosts();
-    console.log("✅ All posts:", postStore.posts);
-
     const postId = route.query.id;
-    console.log("✅ Post ID from URL:", postId);
-
     property.value = postStore.posts.find(
       (post) => String(post.id) === String(postId)
     );
-    console.log("✅ Found property:", property.value);
-
     if (!property.value) {
-      console.warn("⚠️ Post not found for ID:", postId);
     }
-  } catch (error) {
-    console.error("❌ Error loading post:", error);
-  }
+  } catch (error) {}
 });
+
+const goBack = () => {
+  router.go(-1) 
+  // router.back()
+}
 
 const getEmbedUrl = (url) => {
   if (!url) return "";
@@ -268,9 +272,7 @@ const propertyImages = computed(() => {
 const copyMapUrl = async () => {
   try {
     await navigator.clipboard.writeText(property.value?.MAP_LOCATION || "");
-    // alert("ຄັດລອກລິ້ງແຜນທີ່ແລ້ວ");
   } catch (err) {
-    // alert("ຄັດລອກບໍ່ສຳເລັດ");
   }
 };
 

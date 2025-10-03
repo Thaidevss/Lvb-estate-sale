@@ -7,14 +7,28 @@
     <p class="text-gray-600 mt-2">
       Sorry, the page you are looking for doesn't exist or has been moved.
     </p>
-    <router-link to="/" class="mt-6 inline-block px-6 py-2 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 transition">
+    <!-- <router-link to="/" >
       Go Back Home
-    </router-link>
+    </router-link> -->
+    <button 
+      @click="goBack"
+      class="mt-6 inline-block px-6 py-2 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 transition"
+    >
+       Go Back Home
+    </button>
   </div>
 </template>
 
 <script setup>
-// No script logic needed for this simple page
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const goBack = () => {
+
+  // router.go(-1) 
+  router.back()
+}
+
 </script>
 
 <style>
