@@ -51,6 +51,7 @@
     "property": {
       "type": "Loại",
       "price": "Giá",
+      "price_string": "Giá bằng chữ",
       "area": "Diện tích",
       "location": "Vị trí",
       "status": "Trạng thái",
@@ -205,7 +206,9 @@
         "residential": "Đất và công trình nhà ở",
         "car": "Xe ô tô",
         "machinery": "Máy móc và thiết bị hạng nặng",
-        "commercial_land": "Đất và khách sạn, nhà nghỉ, nhà máy"
+        "commercial_land": "Đất và khách sạn, nhà nghỉ, nhà máy",
+        "property_use_rights": "Quyền sử dụng đất hoặc công trình xây dựng",
+        "other_property": "Tài sản khác"
     },
     "hero": {
       "head_title": "Thông tin phát mại tài sản bảo đảm",
@@ -222,8 +225,8 @@
       "experience" : "Trải nghiệm Hoàn hảo"
     },
     "content": {
-      "feature_properties": "Bất động sản nổi bật",
-      "properties": "Tất cả bất động sản",
+      "feature_properties": "Tài sản chào bán nổi bật",
+      "properties": "Tất cả tài sản chào bán",
       "location": "Vị trí",
       "key_feature": "Đặc điểm chính",
       "description": "Mô tả",
@@ -280,6 +283,13 @@
       "name_sub": "(Phòng Xử lý nợ và Quản lý tài sản)",
       "tel": "Điện thoại",
       "contact_us": "Liên hệ với chúng tôi"
+    },
+    "favorite": {
+      "title": "Danh sách yêu thích",
+      "delete_all": "Xóa tất cả mục yêu thích",
+      "empty_favorite": "Chưa có mục yêu thích nào",
+      "price_string": "Giá bằng chữ",
+      "document_pdf": "Tài liệu"
     }
   }
 }

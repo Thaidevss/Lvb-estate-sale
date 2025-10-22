@@ -99,11 +99,18 @@
               <p><strong>{{ $t('filters.district') }}:</strong> {{ land.LAND_DETAILS?.DISTRICT }}</p>
               <p><strong>{{ $t('filters.province') }}:</strong> {{ land.LAND_DETAILS?.PROVINCE }}</p>
               <p><strong>{{ $t('modal.area') }}:</strong> {{ land.LAND_DETAILS?.AREA }} (m²)</p>
-              <p>
-                <strong> {{ $t('modal.price') }}:</strong>
-                {{ land.LAND_DETAILS?.PRICE.toLocaleString() }}
-                {{ land.LAND_DETAILS?.CURRENCY }}
-              </p>
+              <div class="col-span-2"> <strong> {{ $t('modal.price') }}:</strong>
+                  <template v-if="land.LAND_DETAILS?.PRICE">
+                      <span class="font-bold text-gray-900 me-1 ms-2">{{ land.LAND_DETAILS.PRICE }}</span>
+                      <span class="text-gray-600 me-2">{{ land.LAND_DETAILS.CURRENCY }}</span>
+                  </template>
+
+                  <template v-if="land.LAND_DETAILS?.PRICE_STRING">
+                      <span class="text-gray-600 me-2" :class="{'ml-1': land.LAND_DETAILS.PRICE}">
+                          ({{ land.LAND_DETAILS.PRICE_STRING }})
+                      </span>
+                  </template>
+              </div>
               <p><strong> {{ $t('modal.type') }}:</strong> {{ land.LAND_DETAILS?.TYPE }}</p>
               <div class="flex"><strong class="me-2"> {{ $t('modal.status') }}:</strong>
                 <div class="flex space-x-1 items-center">
@@ -119,7 +126,7 @@
                         :class="{
                         'bg-green-100 text-green-800 border border-green-600': land.LAND_DETAILS?.STATUS.VISIBILITY === 'PRIVATE',
                         'bg-blue-100 text-blue-800 border border-blue-600': land.LAND_DETAILS?.STATUS.VISIBILITY === 'PUBLIC',
-                        'bg-gray-100 text-gray-800 border border-gray-600': land.LAND_DETAILS?.STATUS.VISIBILITY
+                        'bg-green-600 text-white border border-green-600': land.LAND_DETAILS?.STATUS.VISIBILITY
                         }" 
                         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
                     >
@@ -196,24 +203,6 @@ const statusClass = (status) => {
   }
 };
 
-// เพิ่มฟังก์ชัน getEmbedUrl ในส่วน script
-// const getEmbedUrl = (url) => {
-//   if (!url) return "about:blank";
-  
-//   try {
-//     new URL(url);
-//     const match = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-//     if (match) {
-//       const lat = match[1];
-//       const lng = match[2];
-//       return `https://www.google.com/maps?q=${lat},${lng}&hl=la&z=16&output=embed`;
-//     }
-//     return url.includes("google.com/maps") ? url.replace('https://www.google.com/maps', 'https://www.google.com/maps/embed') : "";
-//   } catch (e) {
-//     // หากไม่ใช่ URL ที่ถูกต้อง ให้ใช้การค้นหาด้วยข้อความ
-//     return `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(url)}`;
-//   }
-// };
 
 const getEmbedUrl = (url) => {
   if (!url) return "";

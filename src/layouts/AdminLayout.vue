@@ -23,20 +23,6 @@
               </div>
             </div>
 
-            <!-- Center Section - Contact Info -->
-            <!-- <div class="hidden lg:flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-lg">
-              <div class="flex items-center space-x-2">
-                <div class="bg-white/20 p-1.5 rounded-full">
-                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                  </svg>
-                </div>
-                <span class="text-sm font-medium text-white">
-                  {{ $t('admin.contact_number') }}
-                </span>
-              </div>
-            </div> -->
-
             <!-- Right Section - Language, Notifications & Profile -->
             <div class="flex items-center space-x-3">
               <!-- Language Selector -->
@@ -239,6 +225,12 @@
               
               <div class="flex items-center space-x-4">
                 <div class="flex items-center space-x-2 text-xs">
+                  <div>
+                    <button @click="openGuidelineVN" class="text-white border px-6 py-1 rounded-md cursor-pointer hover:bg-gray-200 hover:text-blue-800">Guideline VN</button>
+                  </div>
+                  <div>
+                    <button @click="openGuidelineLA" class="text-white border px-6 py-1 rounded-md cursor-pointer hover:bg-gray-200 hover:text-blue-800">Guideline LA</button>
+                  </div>
                   <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span class="text-blue-200">System Online</span>
                 </div>
@@ -312,6 +304,13 @@ onMounted(() => {
     userData.value.role_code = storedUser.ROLE_CODE || 'Null';
   }
 })
+
+const openGuidelineVN = () => {
+  window.open('/Guideline.pdf', '_blank');
+}
+const openGuidelineLA = () => {
+  window.open('/GuidelineLA.pdf', '_blank');
+}
 
 const toggleProfileDropdown = () => {
   isProfileDropdownOpen.value = !isProfileDropdownOpen.value

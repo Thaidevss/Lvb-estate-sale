@@ -1,13 +1,20 @@
 <template>
-  <nav class="bg-gradient-to-r from-blue-900 to-blue-600 shadow-lg scroll-smooth">
+<!-- for webint -->
+  <!-- <nav class="bg-gradient-to-r from-blue-900 to-blue-600 shadow-lg scroll-smooth"> -->
+
+  <!-- for website public -->
+  <nav class="bg-[#17479d] shadow-lg scroll-smooth">
+
     <div class="mx-4 sm:mx-6 md:mx-20 px-4">
       <div class="flex justify-between items-center h-18">
-        <div class="flex-shrink-0 flex items-center pr-4 border-r border-white h-12">
-          <img 
-            src="../assets/images/LVB-logo.png" 
-            alt="LAOVIET Bank Logo"
-            class="h-13 w-auto"
-          >
+        <div class="flex-shrink-0 flex items-center pr-4 h-12">
+          <a href="https://laovietbank.com.la/">
+            <img 
+              src="../assets/images/LVB-logo.png" 
+              alt="LAOVIET Bank Logo"
+              class="h-13 w-auto"
+            >
+          </a>
         </div>
 
         <div class="hidden md:flex flex-col items-center justify-center flex-1">
@@ -80,25 +87,35 @@
               </Transition>
             </div>
             
-            <button 
-              class="w-10 h-10 text-white bg-blue-600 hover:bg-blue-800 
-                     transition-colors rounded-full shadow-md relative cursor-pointer"
-              @click="toggleNotifications"
-              aria-label="Notifications"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-              <span 
-                v-if="hasNotifications" 
-                class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"
-              ></span>
-            </button>
+           
+              <button
+                v-if="route.name !== 'land_webint'" 
+                class="w-10 h-10 text-white bg-blue-500/20 hover:bg-blue-500/50
+                      transition-colors rounded-full shadow-md relative cursor-pointer"
+                @click="toggleNotifications"
+                aria-label="Notifications"
+              >
+                <router-link to="/favorites">
+                <HeartIcon class="w-5 h-5 mx-auto"/>
+                <span 
+                  v-if="hasNotifications" 
+                  class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"
+                ></span>
+                </router-link>
+              </button>
 
             <div class="relative" ref="desktopUserRef">
+              <!-- for webint -->
+              <!-- <button 
+                class="flex items-center justify-center w-10 h-10 
+                       text-white bg-blue-800 hover:bg-blue-800 
+                       transition-colors rounded-full shadow-md cursor-pointer"
+                @click="toggleDesktopUser"
+              > -->
+            <!-- for website public -->
               <button 
                 class="flex items-center justify-center w-10 h-10 
-                       text-white bg-blue-600 hover:bg-blue-800 
+                       text-white bg-blue-500/20 hover:bg-blue-500/50
                        transition-colors rounded-full shadow-md cursor-pointer"
                 @click="toggleDesktopUser"
               >
@@ -135,7 +152,7 @@
             <!-- Mobile Language Button -->
             <div class="relative" ref="mobileLangRef">
               <button 
-                class="text-white ps-2.5 rounded-full hover:bg-blue-600 relative w-10 h-10 bg-blue-600 mx-1 shadow-md"
+                class="text-white ps-2.5 rounded-full bg-blue-500/20 hover:bg-blue-500/50 relative w-10 h-10  mx-1 shadow-md"
                 @click.stop="toggleMobileLang"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -169,24 +186,29 @@
               </Transition>
             </div>
 
-            <!-- Mobile Notification Button -->
-            <button 
-              class="w-10 h-10 text-white bg-blue-600 hover:bg-blue-800 
-                      transition-colors rounded-full shadow-md relative cursor-pointer"
-              @click="toggleNotifications"
-              aria-label="Notifications"
-            >
-              <HeartIcon class="h-6 w-6 mx-auto"/>
-              <span 
-                v-if="hasNotifications" 
-                class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"
-              ></span>
-            </button>
+            
+            
+              <!-- Mobile Notification Button -->
+              <button 
+                class="w-10 h-10 text-white bg-blue-500/20 hover:bg-blue-500/50
+                        transition-colors rounded-full shadow-md relative cursor-pointer"
+                @click="toggleNotifications"
+                aria-label="Notifications"
+              >
+                <router-link to="/favorites">
+                  <HeartIcon class="h-6 w-6 mx-auto"/>
+                  <span 
+                    v-if="hasNotifications" 
+                    class="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"
+                  ></span>
+                </router-link>
+              </button>
+           
 
             <!-- Mobile User Button -->
             <div class="relative" ref="mobileUserRef">
               <button 
-                class="w-10 h-10 ps-2.5 text-white bg-blue-600 hover:bg-blue-800 
+                class="w-10 h-10 ps-2.5 text-white bg-blue-500/20 hover:bg-blue-500/50
                        transition-colors rounded-full shadow-md cursor-pointer"
                 @click="toggleMobileUser"
               >
@@ -225,7 +247,8 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 import {
   ArrowRightEndOnRectangleIcon, 
   HeartIcon,
-  CheckBadgeIcon
+  CheckBadgeIcon,
+  ArrowLeftCircleIcon
 } from "@heroicons/vue/24/outline";
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'

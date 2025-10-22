@@ -556,6 +556,7 @@ const openViewModal = (post) => {
       VILLAGE: post.VILLAGE,
       AREA: post.AREA,
       PRICE: post.PRICE,
+      PRICE_STRING: post.PRICE_STRING,
       CURRENCY: post.CURRENCY,
       DESCRIPTION: post.DESCRIPTION,
       STATUS: post.STATUS,
@@ -680,6 +681,7 @@ const openCreateModal = () => {
     PROVINCE: "",
     AREA: 0,
     PRICE: 0,
+    PRICE_STRING: "",
     CURRENCY: "LAK",
     TYPE: "",
     DESCRIPTION: "",
@@ -717,6 +719,7 @@ const handleSave = async (postData) => {
   try {
     modalLoading.value = true;
     if (modalMode.value === "create") {
+      console.log("Saving new post:", postData);
       await postStore.createPost(postData);
     } else {
       await postStore.updatePost(postData.id, postData);

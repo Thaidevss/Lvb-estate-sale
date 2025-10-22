@@ -1,59 +1,114 @@
 <template>
-  <footer class="bg-gradient-to-r from-blue-800 to-blue-900 text-white py-10">
-    <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
-      
-      <!-- Logo + Hotline -->
-      <div class="flex flex-col items-center md:items-start space-y-4">
-        <img src="../assets/images/LVB-logo.png" alt="LaoViet Bank" class="h-12" />
-        <div class="flex items-center gap-2">
-          <i class="fas fa-phone"></i>
-          <span class="flex item-center"><img src="../assets/images/telephone.png" class="h-6 w-6 me-2 invert brightness-0"  alt=""> Hotline: 1440</span>
+  <footer class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
+    <div class="container mx-auto px-6 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+        
+        <!-- Logo & Hotline Section -->
+        <div class="md:col-span-4 flex flex-col space-y-6">
+          <div>
+            <img 
+              src="../assets/images/LVB logo with full name-white.png" 
+              alt="LaoViet Bank" 
+              class="mb-4" 
+            />
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <i class="fas fa-globe"></i>
-          <a href="https://laovietbank.com.la" target="_blank" class="hover:underline flex items-center"><img src="../assets/images/worldwide.png" class="h-6 w-6 me-2 invert brightness-0"  alt="">www.laovietbank.com.la</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <i class="fab fa-facebook"></i> 
-          <a href="https://www.facebook.com/LaoVietBank" target="_blank" class="hover:underline flex items-center"><img src="../assets/images/facebook-circular-logo.png" class="h-6 w-6 me-2 invert brightness-0"  alt=""> LaoVietBank</a>
-        </div>
-      </div>
 
-      <!-- Services -->
-      <div class="flex flex-col items-center md:items-start space-y-3">
-        <h3 class="text-lg font-semibold mb-2">ບໍລິການ</h3>
-        <ul class="space-y-2">
-          <li>Property Curation</li>
-          <li>Investment Advisory</li>
-          <li>Relocation Support</li>
-          <li>Property Management</li>
-        </ul>
-      </div>
+        <!-- Address Section -->
+        <div class="md:col-span-4">
+          <h3 class="text-lg font-semibold mb-4 pb-2 border-b border-blue-600/40">
+            ທີ່ຕັ້ງສໍານັກງານໃຫຍ່
+          </h3>
+          <div class="space-y-4">
+            <div class="flex gap-3">
+              <MapPinIcon class="w-6 h-6 flex-shrink-0 text-blue-300 mt-1"/>
+              <p class="text-sm text-blue-100 leading-relaxed">
+                <!-- {{ $t("footer.address") }} -->
+                ທີ່ຢູ່: 44 ຖະໜົນ ລ້ານຊ້າງ, ບ້ານຫັດສະດີ, ເມືອງ ຈັນທະບູລີ,<br> ນະຄອນຫຼວງວຽງຈັນ, ສປປ ລາວ
+              </p>
+            </div>
+            
+            <div class="flex gap-3">
+              <PhoneIcon class="w-6 h-6 flex-shrink-0 text-blue-300"/>
+              <div class="text-sm text-blue-100">
+                <p class="font-medium mb-1">ເບີໂທລະສັບ:</p>
+                <p class="leading-relaxed">
+                  (856-21) 251-418 / 216-316
+                  214-337 / 244-229
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <!-- Contact -->
-      <div class="flex flex-col items-center md:items-start space-y-3">
-        <h3 class="text-lg font-semibold mb-2">ຕິດຕໍ່</h3>
-        <div class="flex items-start gap-2">
-          <MapPinIcon class="w-8 h-8"/>
-          <p>
-            <!-- ທີ່ຢູ່: 44 ຖະໜົນ ລ້ານຊ້າງ, ບ້ານຫັດສະດີ, ເມືອງ ຈັນທະບູລີ, ນະຄອນຫຼວງວຽງຈັນ, ສປປ ລາວ -->
-            {{ $t("footer.address") }}
-          </p>
-        </div>
-        <div class="flex items-center gap-2">
-          <EnvelopeIcon class="w-6 h-6"/>
-          <a href="mailto:info@laovietbank.com.la" class="hover:underline">info@laovietbank.com.la</a>
-        </div>
-        <div class="flex items-center gap-2">
-          <PhoneIcon class="w-6 h-6"/>
-          <span>+020 9999 8888</span>
+        <!-- Contact & Social Section -->
+        <div class="md:col-span-4">
+          <h3 class="text-lg font-semibold mb-4 pb-2 border-b border-blue-600/40">
+            ຕິດຕໍ່ພວກເຮົາ
+          </h3>
+          <div class="space-y-3">
+            <a 
+              href="https://laovietbank.com.la" 
+              target="_blank" 
+              class="flex items-center gap-3 text-sm text-blue-100 hover:text-white transition-colors group"
+            >
+              <img 
+                src="../assets/images/worldwide.png" 
+                class="h-5 w-5 invert brightness-0 group-hover:scale-110 transition-transform" 
+                alt="Website"
+              />
+              <span class="group-hover:underline">www.laovietbank.com.la</span>
+            </a>
+            
+            <a 
+              href="https://www.facebook.com/LaoVietBank" 
+              target="_blank" 
+              class="flex items-center gap-3 text-sm text-blue-100 hover:text-white transition-colors group"
+            >
+              <img 
+                src="../assets/images/facebook-circular-logo.png" 
+                class="h-5 w-5 invert brightness-0 group-hover:scale-110 transition-transform" 
+                alt="Facebook"
+              />
+              <span class="group-hover:underline">LaoVietBank</span>
+            </a>
+            <div class="flex items-center gap-3">
+              <img 
+                src="../assets/images/telephone.png" 
+                class="h-5 w-5 invert brightness-0" 
+                alt="Hotline"
+              />
+              <span class="">1440</span>
+            </div>
+          </div>
+
+          <!-- Quick Links (Optional) -->
+          <!-- <div class="mt-6 pt-6 border-t border-blue-600/30">
+            <p class="text-xs text-blue-300 uppercase tracking-wide mb-3">ລິ້ງດ່ວນ</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="#" class="text-xs text-blue-200 hover:text-white transition-colors">ບໍລິການ</a>
+              <span class="text-blue-600">•</span>
+              <a href="#" class="text-xs text-blue-200 hover:text-white transition-colors">ກ່ຽວກັບເຮົາ</a>
+              <span class="text-blue-600">•</span>
+              <a href="#" class="text-xs text-blue-200 hover:text-white transition-colors">ຂ່າວສານ</a>
+            </div>
+          </div> -->
         </div>
       </div>
     </div>
 
     <!-- Bottom Copyright -->
-    <div class="mt-10 border-t border-blue-700 pt-4 text-center text-xs">
-      Copyright © 2025 Lao Viet Bank. All rights reserved.
+    <div class="border-t border-blue-700/50 bg-blue-950/30 backdrop-blur-sm">
+      <div class="container mx-auto px-6 py-4">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-blue-300">
+          <p>© 2025 Lao Viet Bank. All rights reserved.</p>
+          <div class="flex gap-4">
+            <a href="#" class="hover:text-white transition-colors">ນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ</a>
+            <span class="text-blue-600">•</span>
+            <a href="#" class="hover:text-white transition-colors">ເງື່ອນໄຂການໃຊ້ງານ</a>
+          </div>
+        </div>
+      </div>
     </div>
   </footer>
 </template>
@@ -61,13 +116,31 @@
 <script setup>
 import {
     PhoneIcon,
-    EnvelopeIcon,
     MapPinIcon
 } from "@heroicons/vue/24/outline";
 import { useI18n } from "vue-i18n";
 
 const { locale, t } = useI18n();
 </script>
-<style>
-/* ถ้าใช้ Tailwind อยู่แล้วไม่จำเป็นต้องมี css เพิ่ม */
+
+<style scoped>
+/* Optional: Add subtle animation on hover */
+footer a {
+  position: relative;
+}
+
+footer a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+footer a:hover::after {
+  width: 100%;
+}
 </style>

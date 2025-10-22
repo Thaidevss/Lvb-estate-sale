@@ -5,14 +5,17 @@
       <!-- Background Image -->
       <div
         class="absolute inset-0 bg-cover bg-center"
-        style="
-          background-image: url('https://cdn.businessday.ng/2021/07/luxury-residential-real-estate.png');
-        "
+        :style="{
+          backgroundImage: `url(${heroBg})`
+        }"
       ></div>
 
       <!-- Gradient Overlay -->
-      <div
+      <!-- <div
         class="absolute inset-0 bg-gradient-to-r from-blue-900 to-teal-700 opacity-30"
+      ></div> -->
+      <div
+        class="absolute inset-0 bg-gradient-to-r"
       ></div>
 
       <!-- <div class="absolute inset-0 bg-black opacity-20"></div> -->
@@ -30,9 +33,9 @@
           </p>
 
           <!-- Search Box -->
-          <div class="bg-white/30 rounded-2xl shadow-xl p-4 mb-12 py-10 px-10">
+          <div class="bg-gray-500/50 rounded-2xl shadow-xl p-4 mb-12 py-10 px-10">
             <div>
-              <h2 class="text-2xl font-semibold mb-4">
+              <h2 class="text-2xl font-semibold mb-4 ">
                 {{ $t("app.property_search") }}
               </h2>
             </div>
@@ -76,7 +79,7 @@
                   class="block text-sm text-center font-medium text-white mb-1"
                   >{{ $t("hero.type") }}</label
                 >
-                <select
+                <!-- <select
                   v-model="heroPropertyType"
                   class="w-full px-4 py-2.5 rounded-full bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                 >
@@ -85,6 +88,19 @@
                     v-for="type in locationStore.types"
                     :key="type.id"
                     :value="type.TYPE"
+                  >
+                    {{ type.TYPE }}
+                  </option>
+                </select> -->
+                <select
+                  v-model="heroPropertyType"
+                  class="w-full px-4 py-2.5 rounded-full bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                >
+                  <option value="">{{ $t("hero.type") }}</option>
+                  <option
+                    v-for="type in translatedTypes"
+                    :key="type.id"
+                    :value="type.ORIGINAL_TYPE" 
                   >
                     {{ type.TYPE }}
                   </option>
@@ -150,113 +166,134 @@
         </div>
       </div>
     </section>
+    
     <!-- Stats Section -->
-    <section class="hero-section py-16 bg-cover bg-center bg-no-repeat relative">
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center py-12">
-          <div class="bg-white rounded-lg shadow-md p-8">
-            <h3 class="text-4xl font-bold text-blue-600 mb-2">
-              {{ totalProjects > 0 ? totalProjects.toLocaleString() + '+' : '1000+' }}
-            </h3>
-            <p class="text-gray-600">{{ $t("hero.project") }}</p>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-8">
-            <h3 class="text-4xl font-bold text-blue-600 mb-2">
-              {{ totalProperties > 0 ? totalProperties.toLocaleString() + '+' : '50K+' }}
-            </h3>
-            <p class="text-gray-600">{{ $t("hero.properties") }}</p>
-          </div>
-          <div class="bg-white rounded-lg shadow-md p-8">
-            <h3 class="text-4xl font-bold text-blue-600 mb-2">Perfect</h3>
-            <p class="text-gray-600">{{ $t("hero.experience") }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- <section class="hero-section py-16 bg-cover bg-center bg-no-repeat relative">
 
+    </section> -->
 
     <!-- Featured Properties Section -->
-    <section class="py-16 bg-gray-50">
-      <div class="container mx-auto px-4">
-        <h2 class="text-xl font-bold text-gray-800 mb-10 text-center">
-          <!-- Featured Properties -->
-          {{ $t("content.feature_properties") }}
-        </h2>
+<section class="py-16 bg-gray-50 hero-section">
+  <div class="container mx-auto px-4">
+    <h2 class="text-xl font-bold text-white mb-6 text-center">
+      {{ $t("content.feature_properties") }}
+    </h2>
 
-        <!-- Slider Wrapper -->
-        <div class="relative w-full mx-auto">
-          <!-- Scroll Buttons -->
-          <button
-            @click="scrollLeft"
-            :disabled="!canScrollLeft"
-            class="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-3 z-20 hover:bg-gray-200 disabled:opacity-50"
-          >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fill-rule="evenodd"
-                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-12">
+      <LoadingSpinner />
+    </div>
 
-          <button
-            @click="scrollRight"
-            :disabled="!canScrollRight"
-            class="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-3 z-20 hover:bg-gray-200 disabled:opacity-50"
-          >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path
-                fill-rule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
+    <!-- Empty State -->
+    <div
+      v-else-if="featuredProperties.length === 0"
+      class="text-center py-12"
+    >
+      <div class="text-gray-200 mb-4">
+        <svg
+          class="mx-auto h-16 w-16"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m0 0V9a2 2 0 012-2h2m0 0V6a2 2 0 012-2h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V9a2 2 0 012 2v0"
+          />
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-white">
+        No properties found
+      </h3>
+      <p class="text-gray-200">
+        Try adjusting your filters to see more results.
+      </p>
+    </div>
 
-          <!-- Scrollable Container -->
-          <div
-            ref="sliderRef"
-            @scroll="updateScrollButtons"
-            class="flex gap-6 overflow-x-auto scroll-smooth pb-4"
-            style="scrollbar-width: none; -ms-overflow-style: none"
-          >
-            <PropertyCard
-              v-for="item in featuredProperties"
-              :key="item.id || item._id"
-              :id="item.id || item._id"
-              :type="item.TYPE"
-              :area="item.AREA"
-              :village="item.VILLAGE"
-              :district="item.DISTRICT"
-              :province="item.PROVINCE"
-              :price="item.PRICE"
-              :currency="item.CURRENCY"
-              :description="item.DESCRIPTION"
-              :view-count="item.VIEW_COUNT"
-              :profile-image="getProfileImageUrl(item.IMAGES)"
-              :detail-images="item.IMAGES?.DETAILS_IMAGE || []"
-              :map-location="item.MAP_LOCATION"
-              :tel="item.CONTACT?.TEL"
-              :email="item.CONTACT?.EMAIL"
-              :visibility="item.STATUS?.VISIBILITY"
-              :authorization-level="item.STATUS?.AUTHORIZATION_LEVEL"
-              :created-by="item.CREATED_BY"
-              :created-at="item.CREATED_AT"
-              class="flex-shrink-0 w-80 min-w-80"
-              @view-details="viewDetails"
-            />
-          </div>
+    <!-- Slider Wrapper -->
+    <div v-else class="relative w-full mx-auto">
+      <!-- Scroll Buttons -->
+      <button
+        @click="scrollLeft"
+        :disabled="!canScrollLeft"
+        class="absolute left-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-3 z-20 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        :class="{ 'hover:scale-110': canScrollLeft }"
+      >
+        <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <button
+        @click="scrollRight"
+        :disabled="!canScrollRight"
+        class="absolute right-2 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-full p-3 z-20 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        :class="{ 'hover:scale-110': canScrollRight }"
+      >
+        <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <!-- Scrollable Container -->
+      <div
+        ref="sliderRef"
+        @scroll="updateScrollButtons"
+        class="flex gap-4 overflow-x-auto scroll-smooth pb-4 px-2"
+        style="scrollbar-width: none; -ms-overflow-style: none"
+      >
+        <div
+          v-for="item in featuredProperties"
+          :key="item.id || item._id"
+          class="flex-shrink-0"
+          style="width: 320px; min-width: 320px;"
+        >
+          <PropertyCard
+            :id="item.id || item._id"
+            :type="item.TYPE"
+            :area="item.AREA"
+            :village="item.VILLAGE"
+            :district="item.DISTRICT"
+            :province="item.PROVINCE"
+            :price="item.PRICE"
+            :price_string="item.PRICE_STRING"
+            :currency="item.CURRENCY"
+            :description="item.DESCRIPTION"
+            :view-count="item.VIEW_COUNT"
+            :profile-image="getProfileImageUrl(item.IMAGES)"
+            :detail-images="item.IMAGES?.DETAILS_IMAGE || []"
+            :map-location="item.MAP_LOCATION"
+            :tel="item.CONTACT?.TEL"
+            :email="item.CONTACT?.EMAIL"
+            :visibility="item.STATUS?.VISIBILITY"
+            :authorization-level="item.STATUS?.AUTHORIZATION_LEVEL"
+            :created-by="item.CREATED_BY"
+            :created-at="item.CREATED_AT"
+            class="h-full"
+            @view-details="viewDetails"
+          />
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- Properties Section -->
     <section class="bg-gray-100" data-section="properties">
-      <div class="container mx-auto px-4 h-auto">
+      <div class="container mx-auto px-4 h-auto mt-40">
         <section class="py-5 bg-gray-50">
           <div class="container mx-auto px-4">
-            <h2 class="text-xl font-bold text-gray-800 mb-8 text-center">
+            <h2 class="text-xl font-bold text-gray-800 mb-8 mt-20 text-center">
               {{ $t("content.properties") }}
             </h2>
 
@@ -310,7 +347,7 @@
                     <label class="block text-sm text-gray-600 mb-1"
                       >{{ $t("filter_tab.property_type") }}</label
                     >
-                    <select
+                    <!-- <select
                       v-model="filterType"
                       @change="applyTabFilters"
                       class="w-full text-sm px-3 py-1.5 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -322,6 +359,20 @@
                         :value="type.TYPE"
                       >
                         {{ type.TYPE }}
+                      </option>
+                    </select> -->
+                    <select
+                      v-model="filterType"
+                      @change="applyTabFilters"
+                      class="w-full text-sm px-3 py-1.5 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                      <option value="">{{ $t("filter_tab.all_type") }}</option>
+                      <option
+                        v-for="type in translatedTypes"
+                        :key="type.id"
+                        :value="type.ORIGINAL_TYPE"
+                      >
+                        {{ type.TYPE }} <!-- ใช้ค่าที่แปลแล้วสำหรับแสดง -->
                       </option>
                     </select>
                   </div>
@@ -748,6 +799,7 @@
                 :district="item.DISTRICT"
                 :province="item.PROVINCE"
                 :price="item.PRICE"
+                :price_string="item.PRICE_STRING"
                 :currency="item.CURRENCY"
                 :description="item.DESCRIPTION"
                 :view-count="item.VIEW_COUNT"
@@ -829,62 +881,62 @@
       </div>
     </section>
     <!-- CTA Section -->
-    <section class="py-16 bg-blue-50">
-  <div class="container mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold text-gray-800 mb-6">
-      <!-- ຕິດຕໍ່ສອບຖາມຂໍ້ມູນ -->
-      {{ $t("contact.title") }}
-    </h2>
-    <p class="text-gray-600 max-w-2xl mx-auto mb-4">
-      <span class="text-xl">{{ $t("contact.name") }}</span> <br>
-      <span class="text-md">{{ $t("contact.name_sub") }}</span>
-    </p>
-    <p class="text-lg text-gray-700 font-medium mb-8">
-      {{ $t("contact.tel") }}: 021 251418-666
-    </p>
-    
-    <button
-      @click="showContactModal = true"
-      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors inline-flex items-center"
-    >
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-      </svg>
-      {{ $t("contact.contact_us") }}
-    </button>
-  </div>
-
-  <!-- Contact Modal -->
-  <div v-if="showContactModal" class="fixed inset-0 z-50 overflow-y-auto" @click="showContactModal = false">
-    <div class="flex items-center justify-center min-h-screen px-4">
-      <div class="fixed inset-0 bg-black opacity-50"></div>
-      
-      <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6" @click.stop>
-        <button @click="showContactModal = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-
-        <h3 class="text-2xl font-bold text-gray-900 mb-6">ຕິດຕໍ່ພວກເຮົາ</h3>
+    <section class="py-16 bg-blue-50 hero-section ">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold text-white mb-6">
+          <!-- ຕິດຕໍ່ສອບຖາມຂໍ້ມູນ -->
+          {{ $t("contact.title") }}
+        </h2>
+        <p class="text-white max-w-2xl mx-auto mb-4">
+          <span class="text-xl">{{ $t("contact.name") }}</span> <br>
+          <span class="text-md">{{ $t("contact.name_sub") }}</span>
+        </p>
+        <p class="text-lg text-white font-medium mb-8">
+          {{ $t("contact.tel") }}: 021 251418-666
+        </p>
         
-        <div class="space-y-4">
-          <a href="tel:021251418" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-center">
-           ໂທລະສັບ: 021 251418-666
-          </a>
+        <button
+          @click="showContactModal = true"
+          class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors inline-flex items-center"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+          </svg>
+          {{ $t("contact.contact_us") }}
+        </button>
+      </div>
+
+      <!-- Contact Modal -->
+      <div v-if="showContactModal" class="fixed inset-0 z-50 overflow-y-auto" @click="showContactModal = false">
+        <div class="flex items-center justify-center min-h-screen px-4">
+          <div class="fixed inset-0 bg-black opacity-50"></div>
           
-          <a href="https://wa.me/856021251418" target="_blank" class="block w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-center">
-            WhatsApp
-          </a>
-          
-          <!-- <a href="mailto:info@example.com" class="block w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-center">
-            Email
-          </a> -->
+          <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full p-6" @click.stop>
+            <button @click="showContactModal = false" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+
+            <h3 class="text-2xl font-bold text-gray-900 mb-6">ຕິດຕໍ່ພວກເຮົາ</h3>
+            
+            <div class="space-y-4">
+              <a href="tel:021251418" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-center">
+              ໂທລະສັບ: 021 251418-666
+              </a>
+              
+              <a href="https://wa.me/856021251418" target="_blank" class="block w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-center">
+                WhatsApp
+              </a>
+              
+              <!-- <a href="mailto:info@example.com" class="block w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors text-center">
+                Email
+              </a> -->
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
   </div>
 </template>
 
@@ -898,6 +950,7 @@ import {
   Square3Stack3DIcon,
   UserCircleIcon,
   EyeIcon,
+  HeartIcon
 } from "@heroicons/vue/24/outline";
 import { usePostStore } from "../../stores/indexStore";
 import { getProfileImageUrl, getDefaultImage } from "../../utils/getImage";
@@ -906,6 +959,7 @@ import LoadingSpinner from "../../components/common/Loading.vue";
 import PropertyCard from "../../components/PropertyCard.vue";
 import { useI18n } from "vue-i18n";
 const bgImage = new URL('../../assets/images/BG.png', import.meta.url).href;
+import heroBg from '../../assets/images/hero-bg.jpg'
 
 const { locale, t } = useI18n();
 
@@ -988,6 +1042,36 @@ const heroAreaRanges = ref([
   { label: "500-1000 m²", min: 500, max: 1000 },
   { label: "Above 1000 m²", min: 1000, max: 999999 },
 ]);
+
+const propertyTypeMapping = {
+  "ດິນປຸກສ້າງເປົ່າຫວ່າງ": "menu.vacant_land",
+  "ດິນກະສິກໍາ": "menu.agriculture", 
+  "ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ": "menu.residential",
+  "ລົດ": "menu.car",
+  "ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ": "menu.machinery",
+  "ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ": "menu.commercial_land",
+  "ສິດນຳໃຊ້ທີ່ດິນ ຫຼື ອາຄານ": "menu.property_use_rights",
+  "ຊັບສິນອື່ນໆ": "menu.other_property"
+}
+
+const translatedTypes = computed(() => {
+  if (!locationStore.types || !Array.isArray(locationStore.types)) {
+    return []
+  }
+  
+  return locationStore.types.map(type => {
+    const originalType = type.TYPE
+    const mappedKey = Object.keys(propertyTypeMapping).find(
+      key => key === originalType
+    )
+    
+    return {
+      ...type,
+      TYPE: mappedKey ? t(propertyTypeMapping[mappedKey]) : originalType,
+      ORIGINAL_TYPE: originalType 
+    }
+  })
+})
 
 // Hero search functionality
 const performHeroSearch = () => {
@@ -1328,7 +1412,7 @@ onMounted(async () => {
   //   filteredListings.value = allListings.value.filter((i) =>
   //     (i.STATUS?.VISIBILITY === 'PUBLIC')
   //   );
-  console.log("Post Data Log:", allListings.value);
+  // console.log("Post Data Log:", allListings.value);
 
   filteredListings.value = baseFilter(allListings.value);
   loading.value = false;
@@ -1594,14 +1678,15 @@ const totalProjects = computed(() => {
 
 .hero-section {
   background-image: url('../../assets/images/BG.png');
-  clip-path: none; 
+  /* clip-path: none;  */
+  height: 350px;
 }
 
 
 @media (min-width: 768px) {
-  .hero-section {
-    clip-path: ellipse(100% 90% at 50% 0%);
-  }
+  /* .hero-section {
+    clip-path: ellipse(100% 95% at 50% 0%);
+  } */
 }
 
 @keyframes bounceSmooth {
@@ -1615,6 +1700,30 @@ const totalProjects = computed(() => {
 
 .animate-bounce-smooth {
   animation: bounceSmooth 2s ease-in-out infinite;
+}
+
+div::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+div {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Ensure cards maintain consistent height */
+:deep(.property-card) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: Add smooth scroll behavior */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
 }
 
 

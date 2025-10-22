@@ -37,10 +37,16 @@
            <h2 class="text-md text-center font-bold text-blue-900 mb-4 flex items-center"><NewspaperIcon class="h-7 w-7 me-1"/>{{ $t('app.property_info') }}</h2>
          </div>
           <div class="mb-4">
-            <p class="font-bold text-lg text-blue-800 flex items-center mb-1 font-english">
+            <p v-if=" property.PRICE" class="font-bold text-lg text-blue-800 flex items-center mb-1 font-english">
               <CurrencyDollarIcon class="w-8 h-8 me-2 flex-shrink-0" />
               <span class="truncate"
                 >{{ property.PRICE }} {{ property.CURRENCY }}</span
+              >
+            </p>
+            <p v-if="property.PRICE_STRING" class="font-bold text-lg text-blue-800 flex items-center mb-1 font-english">
+              <CurrencyDollarIcon class="w-8 h-8 me-2 flex-shrink-0" />
+              <span class="truncate"
+                >({{ property.PRICE_STRING }})</span
               >
             </p>
             <p class="text-sm text-gray-600 ms-9">({{ $t('property.total_value') }})</p>

@@ -29,7 +29,7 @@
                 <input 
                   v-model="formData.VILLAGE"
                   type="text" 
-                  placeholder="ກະລຸນາເພີ່ມບ້ານ............."
+                  placeholder="Vui lòng thêm tên làng / ກະລຸນາເພີ່ມບ້ານ/ Please enter village name..."
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
@@ -42,6 +42,7 @@
                   v-model="selectedProvince"
                   @change="handleProvinceChange"
                   class="border border-gray-300 rounded-md px-3 py-2 w-full text-sm text-gray-800"
+                  required
                 >
                   <option value="">ເລືອກແຂວງ</option>
                   <option
@@ -61,6 +62,7 @@
                   v-model="selectedDistrict"
                   @change="handleDistrictChange"
                   class="border border-gray-300 rounded-md px-3 py-2 w-full text-sm text-gray-800"
+                  required
                 >
                   <option value="">ເລືອກເມືອງ</option>
                   <option
@@ -78,9 +80,10 @@
                 <label class="block text-sm font-medium text-gray-700">{{ $t('property.area') }} (ຕມ.)</label>
                 <input 
                   v-model.number="formData.AREA"
-                  type="text" 
+                  type="number" 
+                  step="0.01"
+                  min="0"
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  required
                 >
               </div>
 
@@ -89,15 +92,28 @@
                 <label class="block text-sm font-medium text-gray-700">{{ $t('property.price') }}</label>
                 <div class="relative">
                   <input 
-                    v-model.number="formData.PRICE"
-                    type="text" 
-                    class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    required
+                    v-model="formData.PRICE"
+                    type="number" 
+                    step="0.01"
+                    min=""
+                    placeholder="Giá bằng số..."
+                    class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 pr-16 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   >
                   <span class="absolute right-3 top-2.5 text-sm text-gray-500">
                     {{ formData.CURRENCY }}
                   </span>
                 </div>
+              </div>
+
+              <!-- Price string -->
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">{{ $t('favorite.price_string') }}</label>
+                <input 
+                  v-model="formData.PRICE_STRING"
+                  type="text" 
+                  placeholder="Giá bằng chữ..."
+                  class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                >
               </div>
 
               <!-- Currency -->
@@ -106,7 +122,7 @@
                 <select 
                   v-model="formData.CURRENCY"
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  required
+                  
                 >
                   <option value="LAK">LAK</option>
                   <option value="USD">USD</option>
@@ -122,14 +138,15 @@
                   class="w-full text-sm border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   required
                 >
-                  <option value="">ປະເພດ</option>
-                  <option value="ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ">ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ</option>
-                  <option value="ດິນກະສິກໍາ">ດິນກະສິກໍາ</option>
-                  <option value="ດິນປຸກສ້າງເປົ່າຫວ່າງ">ດິນປຸກສ້າງເປົ່າຫວ່າງ</option>
-                  <option value="ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ">ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ</option>
-                  <option value="ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ">ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ</option> 
-                  <option value="ລົດ">ລົດ</option> 
-                  <option value="ສິດນຳໃຊ້ທີ່ດິນ ຫຼື ອາຄານ">ສິດນຳໃຊ້ທີ່ດິນ ຫຼື ອາຄານ</option> 
+                  <option value="">{{ $t('content.property_type') }}</option>
+                  <option value="ດິນ ແລະ ສິ່ງປຸກສ້າງທີ່ຢູ່ອາໄສ">{{ $t('menu.residential') }}</option>
+                  <option value="ດິນກະສິກໍາ">{{ $t('menu.agriculture') }}</option>
+                  <option value="ດິນປຸກສ້າງເປົ່າຫວ່າງ">{{ $t('menu.vacant_land') }}</option>
+                  <option value="ດິນ ແລະ ໂຮງແຮມ, ບ້ານພັກ, ໂຮງງານ">{{ $t('menu.commercial_land') }}</option>
+                  <option value="ເຄື່ອງຈັກ ແລະ ກົນຈັກໜັກ">{{ $t('menu.machinery') }}</option> 
+                  <option value="ລົດ">{{ $t('menu.car') }}</option> 
+                  <option value="ສິດນຳໃຊ້ທີ່ດິນ ຫຼື ອາຄານ">{{ $t('menu.property_use_rights') }}</option> 
+                  <option value="ຊັບສິນອື່ນໆ">{{ $t('menu.other_property') }}</option> 
                 </select>
               </div>
 
@@ -157,20 +174,46 @@
                 >
               </div>
 
+              <!-- PDF Upload -->
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-800">
+                  {{ $t("favorite.document_pdf") }} (PDF)
+                </label>
+
+                <div class="relative flex items-center justify-between border border-gray-300 rounded-lg px-4 py-3 hover:border-blue-400 transition-all duration-200 cursor-pointer">
+                  <input
+                    id="pdf-upload"
+                    type="file"
+                    accept="application/pdf"
+                    @change="handlePdfUpload"
+                    class="absolute inset-0 opacity-0 cursor-pointer"
+                    ref="pdfInput"
+                  />
+                  <div class="flex items-center space-x-3">
+                    <DocumentArrowDownIcon class="h-5 w-5"/>
+                    <span class="text-sm text-gray-600">
+                      {{ pdfFileName || 'Choose PDF...' }}
+                    </span>
+                  </div>
+
+                  <button
+                    v-if="formData.FILE_PDF"
+                    @click.prevent="removePdf"
+                    class="text-xs text-red-500 hover:text-red-700 transition-colors duration-200"
+                  >
+                    ລົບ
+                  </button>
+                </div>
+
+                <p class="text-xs text-gray-400 mt-1">
+                  ຮອງຮັບແຕ່ໄຟລ໌ .pdf
+                </p>
+              </div>
+
               <!-- Post Privacy -->
               <div class="space-y-1">
                 <label class="block text-sm font-medium text-gray-700">Post visibility</label>
                 <div class="flex items-center space-x-4 mt-1">
-                  <!-- <label class="flex items-center space-x-2">
-                    <input 
-                      type="radio" 
-                      value="PUBLIC" 
-                      v-model="formData.VISIBILITY" 
-                      class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                    />
-                    <span class="text-sm text-gray-700">Public</span>
-                  </label> -->
-
                   <label class="flex items-center space-x-2">
                     <input 
                       type="radio" 
@@ -304,7 +347,7 @@
           </div>
         </div>
 
-        <!-- Modal Footer (now inside form) -->
+        <!-- Modal Footer -->
         <div class="sticky bottom-0 bg-white z-10 border-t border-gray-100 px-6 py-4">
           <div class="flex justify-end gap-3">
             <button 
@@ -340,6 +383,9 @@ import { ref, watch, getCurrentInstance, onMounted, computed } from 'vue'
 import { usePostStore } from '../../../stores/indexStore'
 import { useLocationStore } from '../../../stores/locationStore'
 import mockLaosApi from '../../../services/mockApi'
+import {
+  DocumentArrowDownIcon
+} from "@heroicons/vue/24/outline";
 
 import { useI18n } from 'vue-i18n'
 
@@ -377,6 +423,8 @@ const profileImagePreview = ref(null);
 const detailImagesPreviews = ref([]);
 const profileImageInput = ref(null);
 const detailImagesInput = ref(null);
+const pdfInput = ref(null);
+const pdfFileName = ref('');
 
 const emit = defineEmits(['close', 'saved'])
 
@@ -385,7 +433,8 @@ const formData = ref({
   DISTRICT: '',
   PROVINCE: '',
   AREA: 0,
-  PRICE: 0,
+  PRICE: null,
+  PRICE_STRING: '',
   CURRENCY: 'LAK',
   TYPE: '',
   DESCRIPTION: '',
@@ -394,26 +443,23 @@ const formData = ref({
   EMAIL: '',
   PROFILE_IMAGE: null,
   DETAILS_IMAGE: [],
+  FILE_PDF: null,
   CREATED_BY: 'ADMIN',
-  VISIBILITY: ''
+  VISIBILITY: 'ALL'
 });
 
-
 watch(() => props.post, async (newPost) => {
-  if (newPost) {
+  if (newPost && Object.keys(newPost).length > 0) {
     console.log('Original post data:', newPost);
     
-    const oldProvince = formData.value.PROVINCE;
-    const oldDistrict = formData.value.DISTRICT;
-    
     formData.value = {
-      ...newPost,
       VILLAGE: newPost.VILLAGE || '',
-      DISTRICT: oldDistrict || newPost.DISTRICT || '',
-      PROVINCE: oldProvince || newPost.PROVINCE || '',
+      DISTRICT: newPost.DISTRICT || '',
+      PROVINCE: newPost.PROVINCE || '',
       AREA: newPost.AREA || 0,
-      PRICE: newPost.PRICE || 0,
+      PRICE: newPost.PRICE || null,
       CURRENCY: newPost.CURRENCY || 'LAK',
+      PRICE_STRING: newPost.PRICE_STRING || '',
       TYPE: newPost.TYPE || '',
       DESCRIPTION: newPost.DESCRIPTION || '',
       MAP_LOCATION: newPost.MAP_LOCATION || '',
@@ -421,25 +467,31 @@ watch(() => props.post, async (newPost) => {
       EMAIL: newPost.EMAIL || '',
       PROFILE_IMAGE: null,
       DETAILS_IMAGE: [],
+      FILE_PDF: null,
       CREATED_BY: newPost.CREATED_BY || 'ADMIN',
-      VISIBILITY: newPost.VISIBILITY || 'PRIVATE',
+      VISIBILITY: newPost.VISIBILITY || 'ALL',
       id: newPost.id || newPost.ID || newPost._id || null,
       ID: newPost.ID || newPost._id || newPost.id || null,
       _id: newPost._id || newPost.ID || newPost.id || null
+    }
+
+    // Set PDF file name if exists
+    if (newPost.FILE_PDF) {
+      pdfFileName.value = typeof newPost.FILE_PDF === 'string' ? newPost.FILE_PDF.split('/').pop() : newPost.FILE_PDF.name;
+      formData.value.FILE_PDF = newPost.FILE_PDF;
     }
     
     if (newPost.PROVINCE) {
       const provinceObj = locationStore.provincesList.find(p => p.name === newPost.PROVINCE);
       if (provinceObj) {
         selectedProvince.value = provinceObj.id;
-        locationStore.fetchDistrictsByProvince(provinceObj.id).then(() => {
-          if (newPost.DISTRICT) {
-            const districtObj = locationStore.districtsList.find(d => d.name === newPost.DISTRICT);
-            if (districtObj) {
-              selectedDistrict.value = districtObj.id;
-            }
+        await locationStore.fetchDistrictsByProvince(provinceObj.id);
+        if (newPost.DISTRICT) {
+          const districtObj = locationStore.districtsList.find(d => d.name === newPost.DISTRICT);
+          if (districtObj) {
+            selectedDistrict.value = districtObj.id;
           }
-        });
+        }
       }
     }
 
@@ -459,17 +511,14 @@ watch(() => props.post, async (newPost) => {
   }
 }, { immediate: true, deep: true });
 
-
 const resetForm = () => {
-  const oldProvince = formData.value.PROVINCE;
-  const oldDistrict = formData.value.DISTRICT;
-  
   formData.value = {
     VILLAGE: '',
-    DISTRICT: oldDistrict || '',
-    PROVINCE: oldProvince || '',
-    AREA: 0,
-    PRICE: 0,
+    DISTRICT: '',
+    PROVINCE: '',
+    AREA: null,
+    PRICE: null,
+    PRICE_STRING: '',
     CURRENCY: 'LAK',
     TYPE: '',
     DESCRIPTION: '',
@@ -478,16 +527,42 @@ const resetForm = () => {
     EMAIL: '',
     PROFILE_IMAGE: null,
     DETAILS_IMAGE: [],
+    FILE_PDF: null,
     CREATED_BY: 'ADMIN',
-    VISIBILITY: ''
+    VISIBILITY: 'ALL'
   };
   
-  // รีเซ็ต preview images
+  selectedProvince.value = '';
+  selectedDistrict.value = '';
   profileImagePreview.value = null;
   detailImagesPreviews.value = [];
+  pdfFileName.value = '';
   
-  if (!formData.value.PROVINCE) {
-    districts.value = [];
+  if (profileImageInput.value) profileImageInput.value.value = '';
+  if (detailImagesInput.value) detailImagesInput.value.value = '';
+  if (pdfInput.value) pdfInput.value.value = '';
+};
+
+const handlePdfUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    if (file.type === 'application/pdf') {
+      formData.value.FILE_PDF = file;
+      pdfFileName.value = file.name;
+    } else {
+      alert('ກະລຸນາເລືອກໄຟລ໌ PDF ເທົ່ານັ້ນ');
+      event.target.value = '';
+      formData.value.FILE_PDF = null;
+      pdfFileName.value = '';
+    }
+  }
+};
+
+const removePdf = () => {
+  formData.value.FILE_PDF = null;
+  pdfFileName.value = '';
+  if (pdfInput.value) {
+    pdfInput.value.value = '';
   }
 };
 
@@ -495,20 +570,14 @@ const handleProfileImage = (event) => {
   const file = event.target.files[0];
   if (file) {
     formData.value.PROFILE_IMAGE = file;
-    // สร้าง URL สำหรับ preview
     profileImagePreview.value = URL.createObjectURL(file);
-  } else {
-    formData.value.PROFILE_IMAGE = null;
-    profileImagePreview.value = null;
   }
 };
 
-// แก้ไข method handleDetailImages
 const handleDetailImages = (event) => {
   const files = event.target.files;
   if (!files || files.length === 0) return;
 
-  // คำนวณจำนวนรูปภาพที่สามารถเพิ่มได้ (ไม่เกิน 6 รูป)
   const remainingSlots = 6 - formData.value.DETAILS_IMAGE.length;
   if (remainingSlots <= 0) {
     alert('ທ່ານເລືອກຮູບຄົບ 6 ຮູບແລ້ວ');
@@ -516,21 +585,15 @@ const handleDetailImages = (event) => {
     return;
   }
 
-  // เลือกไฟล์ที่สามารถเพิ่มได้ (ไม่เกิน remainingSlots)
   const filesToAdd = Array.from(files).slice(0, remainingSlots);
-
-  // เพิ่มไฟล์ใหม่เข้าไปใน array เดิม
   formData.value.DETAILS_IMAGE = [...formData.value.DETAILS_IMAGE, ...filesToAdd];
 
-  // สร้าง URLs สำหรับ preview ภาพใหม่
   const newPreviews = filesToAdd.map(file => URL.createObjectURL(file));
   detailImagesPreviews.value = [...detailImagesPreviews.value, ...newPreviews];
 
-  // รีเซ็ต input file
   event.target.value = '';
 };
 
-// เพิ่ม method สำหรับลบรูปภาพ
 const removeProfileImage = () => {
   formData.value.PROFILE_IMAGE = null;
   profileImagePreview.value = null;
@@ -540,19 +603,15 @@ const removeProfileImage = () => {
 };
 
 const removeDetailImage = (index) => {
-  // ลบรูปภาพออกจาก array
   formData.value.DETAILS_IMAGE.splice(index, 1);
   
-  // ลบ preview ออกและ revoke URL
   const removedPreview = detailImagesPreviews.value.splice(index, 1)[0];
   URL.revokeObjectURL(removedPreview);
   
-  // รีเซ็ต input ถ้าไม่มีรูปภาพเหลืออยู่
   if (formData.value.DETAILS_IMAGE.length === 0 && detailImagesInput.value) {
     detailImagesInput.value.value = '';
   }
 };
-
 
 const close = () => {
   emit('close')
@@ -560,21 +619,60 @@ const close = () => {
 
 const save = async () => {
   try {
+    // Validation
+    if (!formData.value.VILLAGE || !formData.value.PROVINCE || !formData.value.DISTRICT) {
+      await modal.open({
+        title: 'ຜິດພາດ',
+        message: 'ກະລຸນາປ້ອນຂໍ້ມູນບ້ານ, ແຂວງ ແລະ ເມືອງ',
+        type: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    if (!formData.value.TYPE) {
+      await modal.open({
+        title: 'ຜິດພາດ',
+        message: 'ກະລຸນາເລືອກປະເພດ',
+        type: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
+    if (!formData.value.VISIBILITY) {
+      await modal.open({
+        title: 'ຜິດພາດ',
+        message: 'ກະລຸນາເລືອກການເຜີຍແຜ່',
+        type: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+
     const formDataToSend = new FormData();
 
+    // ส่งข้อมูลทั่วไป
+    const fieldsToSend = [
+      'VILLAGE', 'DISTRICT', 'PROVINCE', 'AREA', 'PRICE', 
+      'PRICE_STRING', 'CURRENCY', 'TYPE', 'DESCRIPTION', 
+      'MAP_LOCATION', 'TEL', 'EMAIL', 'CREATED_BY', 'VISIBILITY'
+    ];
 
-    Object.keys(formData.value).forEach(key => {
-      if (
-        key !== 'PROFILE_IMAGE' &&
-        key !== 'DETAILS_IMAGE' &&
-        key !== 'IMAGES' &&
-        key !== '_id' &&
-        key !== 'ID' &&
-        key !== 'id'
-      ) {
-        formDataToSend.append(key, formData.value[key]);
+    fieldsToSend.forEach(key => {
+      const value = formData.value[key];
+      if (value !== null && value !== undefined && value !== '') {
+        formDataToSend.append(key, value);
       }
     });
+
+    // จัดการ PDF - ส่งเฉพาะถ้ามีการเลือกไฟล์ใหม่
+    if (formData.value.FILE_PDF instanceof File) {
+      formDataToSend.append('FILE_PDF', formData.value.FILE_PDF);
+    } else if (props.mode === 'edit' && formData.value.FILE_PDF && typeof formData.value.FILE_PDF === 'string') {
+      // ถ้าเป็น edit mode และมี PDF เดิม ส่ง path เดิมไป
+      formDataToSend.append('FILE_PDF_PATH', formData.value.FILE_PDF);
+    }
 
     // จัดการรูปภาพโปรไฟล์ - ส่งเฉพาะถ้ามีการเลือกรูปใหม่
     if (formData.value.PROFILE_IMAGE instanceof File) {
@@ -583,13 +681,25 @@ const save = async () => {
 
     // จัดการรูปภาพรายละเอียด - ส่งเฉพาะถ้ามีการเลือกรูปใหม่
     if (formData.value.DETAILS_IMAGE.length > 0) {
-      formData.value.DETAILS_IMAGE.forEach(file => {
-        formDataToSend.append('DETAILS_IMAGE', file);
-      });
+      const newImages = formData.value.DETAILS_IMAGE.filter(img => img instanceof File);
+      if (newImages.length > 0) {
+        newImages.forEach(file => {
+          formDataToSend.append('DETAILS_IMAGE', file);
+        });
+      }
+    }
+
+    // Log FormData for debugging
+    console.log('=== FormData Contents ===');
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(`${key}:`, value);
     }
 
     if (props.mode === 'edit') {
-      const postId = formData.value._id || formData.value.ID;
+      const postId = formData.value._id || formData.value.ID || formData.value.id;
+      if (!postId) {
+        throw new Error('ບໍ່ພົບ ID ຂອງໂພສ');
+      }
       formDataToSend.append('ID', postId);
       await postStore.updatePost(postId, formDataToSend);
       await modal.open({
@@ -599,6 +709,17 @@ const save = async () => {
         confirmButtonText: 'OK'
       });
     } else {
+      // สำหรับ create mode ต้องมีรูปภาพอย่างน้อย 1 รูป
+      if (!formData.value.PROFILE_IMAGE) {
+        await modal.open({
+          title: 'ຜິດພາດ',
+          message: 'ກະລຸນາເລືອກຮູບພາບຫຼັກ',
+          type: 'warning',
+          confirmButtonText: 'OK'
+        });
+        return;
+      }
+
       await postStore.createPost(formDataToSend);
       await modal.open({
         title: 'ສຳເລັດ',
@@ -625,9 +746,7 @@ const filteredDistricts = computed(() => {
   return districts.value
 })
 
-// Method to load districts when province changes
 const loadDistricts = async () => {
-  // ไม่รีเซ็ตค่า DISTRICT ถ้าผู้ใช้ไม่ได้เลือกจังหวัดใหม่
   if (!formData.value.PROVINCE) {
     districts.value = [];
     return;
@@ -638,7 +757,6 @@ const loadDistricts = async () => {
     districts.value = await mockLaosApi.getDistrictsByProvinceId(province.id);
   }
   
-  // ถ้าค่า DISTRICT เดิมไม่อยู่ในรายการอำเภอของจังหวัดที่เลือกใหม่ ให้รีเซ็ต
   if (formData.value.DISTRICT) {
     const districtExists = districts.value.some(d => d.name === formData.value.DISTRICT);
     if (!districtExists) {
@@ -648,7 +766,6 @@ const loadDistricts = async () => {
 };
 
 onMounted(async () => {
-  // provinces.value = await mockLaosApi.getProvinces()
   if (locationStore.provincesList.length === 0) {
     await locationStore.fetchProvincesList();
   }
@@ -656,20 +773,16 @@ onMounted(async () => {
 
 const handleProvinceChange = async () => {
   if (selectedProvince.value) {
-    // โหลด districts
     await locationStore.fetchDistrictsByProvince(selectedProvince.value);
     
-    // ค้นหาชื่อจังหวัดจาก ID
     const province = locationStore.provincesList.find(p => p.id === selectedProvince.value);
     if (province) {
       formData.value.PROVINCE = province.name;
     }
     
-    // รีเซ็ต district
     selectedDistrict.value = "";
     formData.value.DISTRICT = "";
   } else {
-    // รีเซ็ตทั้งหมดถ้าไม่เลือกจังหวัด
     selectedDistrict.value = "";
     formData.value.PROVINCE = "";
     formData.value.DISTRICT = "";
@@ -679,7 +792,6 @@ const handleProvinceChange = async () => {
 
 const handleDistrictChange = () => {
   if (selectedDistrict.value) {
-    // ค้นหาชื่ออำเภอจาก ID
     const district = locationStore.districtsList.find(d => d.id === selectedDistrict.value);
     if (district) {
       formData.value.DISTRICT = district.name;

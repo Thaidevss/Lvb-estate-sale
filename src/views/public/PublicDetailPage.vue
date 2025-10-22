@@ -20,16 +20,6 @@
           </div>
           
           <div class="flex items-center space-x-1 sm:space-x-3">
-            <!-- <button class="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
-              </svg>
-            </button>
-            <button class="p-1.5 sm:p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <svg class="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            </button> -->
           </div>
         </div>
       </div>
@@ -49,15 +39,20 @@
         <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden">
           <div class="flex flex-col lg:grid lg:grid-cols-5 gap-0">
             <!-- Image Gallery -->
-            <div class="lg:col-span-3 relative">
+            <!-- <div class="lg:col-span-3 relative">
               <ImageGallery :detailImages="propertyImages" class="h-[300px] sm:h-[400px] lg:h-[600px]" />
+            </div> -->
+            <div class="lg:col-span-3 relative">
+              <div class="h-[300px] sm:h-[400px] lg:h-[600px]">
+                <ImageGallery :detailImages="propertyImages" />
+              </div>
             </div>
 
             <!-- Property Info -->
-            <div class="lg:col-span-2 p-4 sm:p-6 lg:p-8">
+            <div class="lg:col-span-2 p-4 sm:p-2 lg:p-4">
               <!-- Property Type & Status -->
-              <div class="flex items-center justify-between mb-4 sm:mb-6">
-                <span class="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium bg-blue-100 text-blue-800">
+              <div class="flex items-center justify-between mb-2 sm:mb-3">
+                <span class="inline-flex items-center px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full md:text-lg sm:text-sm font-medium bg-blue-100 text-blue-800">
                   {{ property.TYPE || 'Property' }}
                 </span>
                 <div class="flex items-center text-xs sm:text-sm text-green-500">
@@ -70,62 +65,118 @@
               </div>
 
               <!-- Price Section -->
-              <div class="mb-6 sm:mb-8">
+              <div class="mb-3 sm:mb-4">
                 <div class="flex items-center mb-1 sm:mb-2">
                   <CurrencyDollarIcon class="w-4 h-4 sm:w-8 sm:h-8 text-blue-600 mr-2 sm:mr-3" />
-                  <span class="text-xl sm:text-md lg:text-xl font-bold text-gray-900">{{ formatPrice(property.PRICE) }}</span>
-                  <span class="text-base sm:text-md lg:text-lg text-gray-600 ml-1 sm:ml-2">{{ property.CURRENCY }}</span>
+                  <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
+                    <div v-if="property.PRICE">
+                      <span class="text-md sm:text-md lg:text-md font-bold text-gray-900">{{ formatPrice(property.PRICE) }}</span>
+                      <span class="text-base sm:text-md lg:text-md text-gray-600 ml-1 sm:ml-2">{{ property.CURRENCY }}</span>
+                    </div>
+                    <div v-if="property.PRICE_STRING">
+                      <span class="text-base sm:text-md lg:text-md text-gray-600">({{ property.PRICE_STRING }})</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="text-md sm:text-md text-gray-600 flex items-center">
+                <div class="text-md sm:text-md text-gray-600 flex items-center" v-if="calculatedPricePerSqm">
                   <CalculatorIcon class="w-4 h-4 sm:w-6 sm:h-6 text-blue-600 mr-2 ms-1 sm:mr-3" />
-                  {{ pricePerSqm }} / m²
+                  {{ calculatedPricePerSqm }}
                 </div>
               </div>
 
               <!-- Location -->
-              <div class="mb-6 sm:mb-8">
-                <div class="flex items-start mb-2 sm:mb-3">
-                  <MapPinIcon class="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mr-2 sm:mr-3 mt-0.5 sm:mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 class="font-semibold text-gray-900 mb-1 text-sm sm:text-base">{{ $t('content.location') }}</h3>
-                    <p class="text-gray-700 text-sm sm:text-base">
-                      {{ property.VILLAGE }}, {{ property.DISTRICT }}
-                      {{ property.PROVINCE }}
+              <div class="bg-white rounded-xl p-4 sm:p-2 border border-gray-200 hover:border-blue-300 transition-colors">
+                <div class="flex items-start gap-3">
+                  <div class="p-2 bg-red-50 rounded-lg">
+                    <MapPinIcon class="w-5 h-5 text-red-500 flex-shrink-0" />
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <h3 class="font-semibold text-gray-900 mb-1.5 text-sm sm:text-base">
+                      {{ $t('content.location') }}
+                    </h3>
+                    <p class="text-gray-700 text-sm sm:text-base leading-relaxed">
+                      {{ property.VILLAGE }}, {{ property.DISTRICT }}, {{ property.PROVINCE }}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <!-- Key Features -->
-              <div class="mb-6 sm:mb-8">
-                <h3 class="font-semibold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">{{ $t('content.key_feature') }}</h3>
-                <div class="space-y-2 sm:space-y-3">
-                  <div class="flex items-center">
-                    <Square3Stack3DIcon class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 mr-2 sm:mr-3" />
-                    <span class="text-gray-700 text-sm sm:text-base">{{ property.AREA }} m² total area</span>
+              <!-- PDF + Call contact -->
+              <div class="bg-blue-50 rounded-xl p-4 sm:p-3 my-3 border border-blue-100">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  
+                  <!-- PDF Section -->
+                  <div class="bg-white rounded-xl p-4 border border-gray-200 hover:border-blue-300 transition-colors">
+                    <div class="flex items-start gap-3">
+                      <div class="p-2 bg-red-50 rounded-lg">
+                        <DocumentIcon class="w-5 h-5 text-red-500 flex-shrink-0" />
+                      </div>
+                      <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-gray-900 mb-2 text-sm">PDF Document</h3>
+                        <button 
+                          v-if="pdfUrl"
+                          @click="openPDF"
+                          class="w-full cursor-pointer sm:w-auto inline-flex items-center justify-center gap-2 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium shadow-sm"
+                        >
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                          </svg>
+                          View PDF
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="flex items-center">
-                    <CurrencyDollarIcon class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 mr-2 sm:mr-3" />
-                    <span class="text-gray-700 text-sm sm:text-base">{{ pricePerSqm }} / m²</span>
+
+                  <!-- Contact Section -->
+                  <div class="bg-white rounded-xl p-4 border border-green-100 flex flex-col justify-center">
+                    <a 
+                      :href="`https://wa.me/${formatTel(property.CONTACT.TEL)}`"
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="w-full sm:w-auto border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center text-sm"
+                    >
+                      <PhoneIcon class="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                      {{ $t('common.contact_officer') }}
+                    </a>
                   </div>
+
                 </div>
               </div>
 
-              <!-- Contact CTA -->
-              <div class="space-y-2 sm:space-y-3">
-                <a 
-                    :href="`https://wa.me/${formatTel(property.CONTACT.TEL)}`"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-lg transition-colors flex items-center justify-center text-sm sm:text-base"
-                    >
-                    <PhoneIcon class="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
-                    {{ $t('common.contact_officer') }}
-                </a>
 
-                <!-- <button class="w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-colors text-sm sm:text-base">
-                  Schedule Viewing
-                </button> -->
+              <!-- Key Features -->
+              <div class="bg-blue-50 rounded-xl p-4 sm:p-2 my-3 sm:mb-2 border border-blue-100">
+                <h3 class="font-bold text-gray-900 ms-3 mb-4 text-base sm:text-md flex items-center gap-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                  {{ $t('content.key_feature') }}
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div class="flex items-center gap-3 bg-white rounded-lg p-3 border border-blue-100">
+                    <div class="p-2 bg-blue-100 rounded-lg">
+                      <Square3Stack3DIcon class="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <div class="text-xs text-gray-500 mb-0.5">Total Area</div>
+                      <div class="font-semibold text-gray-900 text-sm sm:text-base">
+                        {{ property.AREA }} m²
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 bg-white rounded-lg p-3 border border-green-100">
+                    <div class="p-2 bg-green-100 rounded-lg">
+                      <CurrencyDollarIcon class="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <div class="text-xs text-gray-500 mb-0.5">Price per m²</div>
+                      <div class="font-semibold text-gray-900 text-sm sm:text-base">
+                        {{ calculatedPricePerSqm || 'N/A' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -179,7 +230,7 @@
                     </div>
                     <div class="flex">
                       <dt class="text-gray-600 text-sm me-5">{{ $t('content.price_per') }}</dt>
-                      <dd class="font-medium text-gray-900 text-sm">{{ pricePerSqm }}</dd>
+                      <dd class="font-medium text-gray-900 text-sm">{{ calculatedPricePerSqm || 'N/A' }}</dd>
                     </div>
                   </dl>
                 </div>
@@ -354,13 +405,16 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
   MapIcon,
   ChartBarSquareIcon,
-  CalculatorIcon
+  CalculatorIcon,
+  DocumentIcon
 } from "@heroicons/vue/24/outline";
 import { usePostStore } from "../../stores/indexStore";
 import ImageGallery from "../../components/ImageGallery.vue";
 import { getDetailImages } from "../../utils/getImage";
 import LoadingSpinner from "../../components/common/Loading.vue";
 import { useI18n } from 'vue-i18n';
+import { getPDFUrl } from '../../utils/getPDF';
+
 
 const { locale, t } = useI18n();
 const postStore = usePostStore();
@@ -377,28 +431,60 @@ const tabs = ref([
   { id: 'contact', name: 'Contact', icon: ChatBubbleOvalLeftEllipsisIcon }
 ]);
 
-const pricePerSqm = computed(() => {
-  if (!property.value || property.value.PRICE === null || property.value.PRICE === undefined || 
-      property.value.AREA === null || property.value.AREA === undefined) {
-    return 'N/A';
+// แก้ไข computed property สำหรับ pricePerSqm
+const calculatedPricePerSqm = computed(() => {
+  if (!property.value) {
+    console.log('No property data');
+    return null;
   }
   
-  const priceNum = typeof property.value.PRICE === 'string' 
-    ? Number(property.value.PRICE.replace(/[^\d.]/g, '')) 
-    : Number(property.value.PRICE);
+  // ตรวจสอบค่า PRICE และ AREA
+  const price = property.value.PRICE;
+  const area = property.value.AREA;
   
-  const areaNum = Number(property.value.AREA);
+  // console.log('Price:', price, 'Area:', area);
   
-  if (isNaN(priceNum) || isNaN(areaNum) || areaNum === 0) return 'N/A';
+  if (price === null || price === undefined || area === null || area === undefined || area === 0) {
+    return null;
+  }
   
-  const pricePerSqm = Math.round(priceNum / areaNum);
-  return pricePerSqm.toLocaleString() + ' ' + (property.value.CURRENCY || '');
+  // แปลงค่าเป็นตัวเลข
+  let priceNum = 0;
+  if (typeof price === 'string') {
+    priceNum = Number(price.replace(/[^\d.]/g, ''));
+  } else {
+    priceNum = Number(price);
+  }
+  
+  const areaNum = Number(area);
+  
+  // console.log('Price number:', priceNum, 'Area number:', areaNum);
+  
+  if (isNaN(priceNum) || isNaN(areaNum) || areaNum === 0) {
+    return null;
+  }
+  
+  const result = Math.round(priceNum / areaNum);
+  const currency = property.value.CURRENCY || '';
+  
+  return `${result.toLocaleString()} ${currency}`.trim();
 });
 
 const propertyImages = computed(() => {
   if (!property.value || !property.value.IMAGES) return [];
   return getDetailImages(property.value.IMAGES);
 });
+
+const pdfUrl = computed(() => {
+  if (!property.value || !property.value.FILE_PDF) return null;
+  return getPDFUrl(property.value.FILE_PDF);
+});
+
+const openPDF = () => {
+  if (pdfUrl.value) {
+    window.open(pdfUrl.value, '_blank');
+  }
+};
 
 const formatPrice = (price) => {
   if (!price) return '0';
@@ -457,13 +543,8 @@ function formatTel(tel) {
     return cleanTel;
   }
 
-  if (cleanTel.startsWith("856")) {
-    return cleanTel;
-  }
-
   return "";
 }
-
 
 onMounted(async () => {
   try {
@@ -472,6 +553,14 @@ onMounted(async () => {
     property.value = postStore.posts.find(
       (post) => String(post.id) === String(postId)
     );
+    
+    // Debug: แสดงข้อมูล property
+    if (property.value) {
+      // console.log('Property loaded:', property.value);
+      // console.log('PRICE:', property.value.PRICE);
+      // console.log('AREA:', property.value.AREA);
+      // console.log('CURRENCY:', property.value.CURRENCY);
+    }
   } catch (error) {
     console.error('Error loading property:', error);
   }

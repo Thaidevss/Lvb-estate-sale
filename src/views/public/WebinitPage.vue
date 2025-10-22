@@ -274,22 +274,22 @@
             <p class="text-sm text-gray-500">Try adjusting your search or filters</p>
           </div>
 
-        <!-- Property Cards -->
+          <!-- Property Cards -->
           <div v-else class="space-y-4">
             <div
               v-for="item in paginatedListings"
               :key="item.id"
-              class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+              class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 h-64"
             >
-              <div class="flex flex-col sm:flex-row">
+              <div class="flex flex-col sm:flex-row h-full">
                 <!-- Image Section -->
-                <div class="sm:w-72 w-full relative group">
+                <div class="sm:w-72 w-full h-full relative group overflow-hidden flex-shrink-0">
                   <img
                     v-if="item.IMAGES && item.IMAGES.PROFILE_IMAGE"
                     :src="item?.IMAGES?.PROFILE_IMAGE ? getProfileImageUrl(item.IMAGES) : defaultImage"
                     @error="handleImageError"
                     alt="Property"
-                    class="w-full h-56 sm:h-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-300"
+                    class="w-full h-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-300"
                     @click="viewDetails(item.id)"
                   />
 
@@ -303,10 +303,10 @@
                 </div>
 
                 <!-- Content Section -->
-                <div class="flex-1 p-5">
+                <div class="flex-1 p-5 overflow-hidden">
                   <div class="flex flex-col h-full">
                     <!-- Header -->
-                    <div class="mb-3">
+                    <div class="mb-3 flex-shrink-0">
                       <!-- Type + Status + Last Update -->
                       <div class="flex items-center justify-between">
                         <h3 class="text-lg font-bold text-blue-900 line-clamp-1">
@@ -356,7 +356,7 @@
                     </div>
 
                     <!-- Property Details -->
-                    <div class="space-y-2 mb-4">
+                    <div class="space-y-2 mb-3 flex-shrink-0">
                       <div class="flex items-center text-sm text-gray-700">
                         <Square3Stack3DIcon
                           class="h-5 w-5 text-blue-600 mr-2 flex-shrink-0"
@@ -369,19 +369,19 @@
                         <MapPinIcon
                           class="h-5 w-5 text-red-500 mr-2 flex-shrink-0 mt-0.5"
                         />
-                        <span class="line-clamp-2">
+                        <span class="line-clamp-1">
                           {{ item.VILLAGE }}, {{ item.DISTRICT }}, {{ item.PROVINCE }}
                         </span>
                       </div>
                     </div>
 
                     <!-- Description -->
-                    <p class="text-sm text-gray-600 line-clamp-3 mb-4 flex-grow">
+                    <p class="text-sm text-gray-600 line-clamp-2 mb-3 flex-grow overflow-hidden">
                       {{ item.DESCRIPTION || "ບໍ່ມີລາຍລະອຽດ" }}
                     </p>
 
                     <!-- Action Button + Price -->
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center flex-shrink-0">
                       <button
                         @click="viewDetails(item.id)"
                         class="w-full sm:w-auto inline-flex items-center justify-center px-3 py-2 bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-lg font-medium hover:from-blue-800 hover:to-blue-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
@@ -403,11 +403,18 @@
                       </button>
 
                       <!-- Price -->
-                      <span
-                        class="text-md font-bold text-red-600 font-english ml-4 whitespace-nowrap"
-                      >
-                        {{ formatPrice(item.PRICE) }} {{ item.CURRENCY }}
-                      </span>
+                      <div>
+                        <span v-if="item.PRICE"
+                          class="text-sm font-bold text-red-600 font-english ml-4 whitespace-nowrap"
+                        >
+                          {{ formatPrice(item.PRICE) }} {{ item.CURRENCY }}
+                        </span>
+                        <span v-if="item.PRICE_STRING"
+                          class="text-sm font-bold text-red-600 font-english ml-2 whitespace-nowrap"
+                        >
+                          ({{ formatPrice(item.PRICE_STRING) }})
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -541,9 +548,8 @@ const filteredListings = ref([]);
 const baseFilter = (items) => {
   return items.filter(
     (i) =>
-      (i.STATUS?.AUTHORIZATION_LEVEL === 1 ||
-        i.STATUS?.AUTHORIZATION_LEVEL === 2) &&
-      i.STATUS?.VISIBILITY === "PRIVATE"
+      (i.STATUS?.AUTHORIZATION_LEVEL === 1 ) &&
+      (i.STATUS?.VISIBILITY === "PRIVATE" || i.STATUS?.VISIBILITY === "ALL")
   );
 };
 
